@@ -24,6 +24,8 @@ import javax.imageio.stream.*;
 import java.awt.*;  
 import java.awt.image.BufferedImage; 
 
+import com.picserver.picture.ScaleImageUtils;
+
 /**
  * 读取图片
  * @author Jet-Muffin

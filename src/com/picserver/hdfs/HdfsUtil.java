@@ -1,6 +1,9 @@
 package com.picserver.hdfs;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,6 +12,8 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
@@ -171,4 +176,25 @@ public class HdfsUtil {
         }
     }
 	
+    
+    public BufferedImage readImage(String hdfsPath) throws Exception{
+        Configuration conf = new Configuration();
+        Path path = new Path(hdfsPath);
+        if ( fs.exists(path) )
+        {
+            FSDataInputStream in = fs.open(path);
+            FileStatus stat = fs.getFileStatus(path);       
+            byte[] buffer = new byte[Integer.parseInt(String.valueOf(stat.getLen()))];
+            in.readFully(0, buffer);
+            in.close();
+            fs.close();    
+            ByteArrayInputStream bin = new ByteArrayInputStream(buffer); 
+            BufferedImage image = ImageIO.read(bin);  
+            return image;
+        }
+        else
+        {
+            throw new Exception("the file is not found .");
+        }
+    }
 }
