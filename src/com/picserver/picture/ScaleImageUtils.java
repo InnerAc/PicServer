@@ -75,37 +75,25 @@ public abstract class ScaleImageUtils {
         }
         return Math.min(widthScaling, heightScaling);
     }
-   
+    
     /**
-     * 将Image的宽度、高度缩放到指定width、height，并保存在savePath目录
-     * @author hoojo
+     * 将Image的宽度、高度缩放到指定width、height
+     * @author Jet-Muffin
      * @param width 缩放的宽度
      * @param height 缩放的高度
      * @param savePath 保存目录
      * @param targetImage 即将缩放的目标图片
-     * @return 图片保存路径、名称
+     * @return BufferedImage
      * @throws ImageFormatException
      * @throws IOException
      */
-    public static String resize(int width, int height, String savePath, Image targetImage) throws ImageFormatException, IOException {
+    public static BufferedImage resize(int width, int height, Image targetImage) throws ImageFormatException, IOException {
         width = Math.max(width, 1);
         height = Math.max(height, 1);
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         image.getGraphics().drawImage(targetImage, 0, 0, width, height, null);
        
-        if (savePath == null || "".equals(savePath)) {
-            savePath = DEFAULT_FILE_PATH + System.currentTimeMillis() + DEFAULT_IMAGE_FORMAT;
-        }
-       
-        FileOutputStream fos = new FileOutputStream(new File(savePath));
-        JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(fos);
-        encoder.encode(image);
- 
-        image.flush();
-        fos.flush();
-        fos.close();
-       
-        return savePath;
+        return image;
     }
    
     /**
@@ -194,79 +182,23 @@ public abstract class ScaleImageUtils {
         long width = Math.round((targetWidth * height) / (targetHeight * 1.00f));
         return new int[] { Integer.parseInt(String.valueOf(width)), height };
     }
-   
-    /**
-     *
-     * 将指定的targetFile图片文件的宽度、高度大于指定width、height的图片缩小，并保存在savePath目录
-     * @author hoojo
-     * @param width 缩小的宽度
-     * @param height 缩小的高度
-     * @param savePath 保存目录
-     * @param targetImage 改变的目标图片
-     * @return 图片保存路径、名称
-     * @throws ImageFormatException
-     * @throws IOException
-     */
-    public static String resize(int width, int height, String savePath, File targetFile) throws ImageFormatException, IOException {
-        image = ImageIO.read(targetFile);
-        int[] size = getSize(width, height, image);
-        return resize(size[0], size[1], savePath, image);
-    }
-   
-    /**
-     *
-     * 将指定的targetURL网络图片文件的宽度、高度大于指定width、height的图片缩小，并保存在savePath目录
-     * @author hoojo
-     * @param width 缩小的宽度
-     * @param height 缩小的高度
-     * @param savePath 保存目录
-     * @param targetImage 改变的目标图片
-     * @return 图片保存路径、名称
-     * @throws ImageFormatException
-     * @throws IOException
-     */
-    public static String resize(int width, int height, String savePath, URL targetURL) throws ImageFormatException, IOException {
-        image = ImageIO.read(targetURL);
-        int[] size = getSize(width, height, image);
-        return resize(size[0], size[1], savePath, image);
-    }
-   
-    /**
-     * 将一个本地的图片文件按照指定的比例进行缩放
-     * @author hoojo
-     * @param scale 缩放比例
-     * @param savePath 保存文件路径、名称
-     * @param targetFile 本地图片文件
-     * @return 新的文件名称
-     * @throws ImageFormatException
-     * @throws IOException
-     */
-    public static String resize(float scale, String savePath, File targetFile) throws ImageFormatException, IOException {
-        image = ImageIO.read(targetFile);
+  
+	/**
+	 * 将图片按比例缩放
+	 * @param scale
+	 * @param targetFile
+	 * @return BufferedImage
+	 * @throws ImageFormatException
+	 * @throws IOException
+	 */
+    public static BufferedImage resizeByScale(float scale, Image image) throws ImageFormatException, IOException {
         int[] size = getSize(scale, image);
-        return resize(size[0], size[1], savePath, image);
-    }
-   
-    /**
-     * 将一个网络图片文件按照指定的比例进行缩放
-     * @author hoojo
-     * @createDate 2012-2-7 上午10:30:56
-     * @param scale 缩放比例
-     * @param savePath 保存文件路径、名称
-     * @param targetFile 本地图片文件
-     * @return 新的文件名称
-     * @throws ImageFormatException
-     * @throws IOException
-     */
-    public static String resize(float scale, String savePath, URL targetURL) throws ImageFormatException, IOException {
-        image = ImageIO.read(targetURL);
-        int[] size = getSize(scale, image);
-        return resize(size[0], size[1], savePath, image);
+        return resize(size[0], size[1], image);
     }
    
     /**
      * 按照固定宽度进行等比缩放本地图片
-     * @author hoojo
+     * @author Jet-Muffin
      * @param width 固定宽度
      * @param savePath 保存路径、名称
      * @param targetFile 本地目标文件
@@ -274,32 +206,15 @@ public abstract class ScaleImageUtils {
      * @throws ImageFormatException
      * @throws IOException
      */
-    public static String resize(int width, String savePath, File targetFile) throws ImageFormatException, IOException {
-        image = ImageIO.read(targetFile);
+    public static BufferedImage resizeByWidth(int width, Image image) throws ImageFormatException, IOException {
         int[] size = getSize(width, image);
-        return resize(size[0], size[1], savePath, image);
-    }
-   
-    /**
-     * 按照固定宽度进行等比缩放网络图片
-     * @author hoojo
-     * @param width 固定宽度
-     * @param savePath 保存路径、名称
-     * @param targetFile 本地目标文件
-     * @return 返回保存路径
-     * @throws ImageFormatException
-     * @throws IOException
-     */
-    public static String resize(int width, String savePath, URL targetURL) throws ImageFormatException, IOException {
-        image = ImageIO.read(targetURL);
-        int[] size = getSize(width, image);
-        return resize(size[0], size[1], savePath, image);
+        return resize(size[0], size[1],  image);
     }
    
     /**
      *
      * 按照固定高度进行等比缩放本地图片
-     * @author hoojo
+     * @author Jet-Muffin
      * @param height 固定高度
      * @param savePath 保存路径、名称
      * @param targetFile 本地目标文件
@@ -307,38 +222,8 @@ public abstract class ScaleImageUtils {
      * @throws ImageFormatException
      * @throws IOException
      */
-    public static String resizeByHeight(int height, String savePath, File targetFile) throws ImageFormatException, IOException {
-        image = ImageIO.read(targetFile);
+    public static BufferedImage resizeByHeight(int height, Image image) throws ImageFormatException, IOException {
         int[] size = getSizeByHeight(height, image);
-        return resize(size[0], size[1], savePath, image);
-    }
-   
-    /**
-     * 按照固定高度进行等比缩放网络图片
-     * @author hoojo
-     * @param height 固定高度
-     * @param savePath 保存路径、名称
-     * @param targetFile 本地目标文件
-     * @return 返回保存路径
-     * @throws ImageFormatException
-     * @throws IOException
-     */
-    public static String resizeByHeight(int height, String savePath, URL targetURL) throws ImageFormatException, IOException {
-        image = ImageIO.read(targetURL);
-        int[] size = getSizeByHeight(height, image);
-        return resize(size[0], size[1], savePath, image);
-    }
-   
-    /**
-     * @author hoojo
-     * @param args
-     * @throws IOException
-     * @throws MalformedURLException
-     * @throws ImageFormatException
-     */
-    public static void main(String[] args) throws ImageFormatException, MalformedURLException, IOException {
-       
-        System.out.println(ScaleImageUtils.resize(140, 140, null, new URL("http://up.2cto.com/2012/0209/20120209091237572.jpg")));
-        ScaleImageUtils.resize(100, 100, ImageQuality.high.getQuality(), null, ImageIO.read(new URL("http://up.2cto.com/2012/0209/20120209091237572.jpg")));
+        return resize(size[0], size[1], image);
     }
 }
