@@ -41,7 +41,7 @@ public class ScaleImage extends HttpServlet {
 		int height = Integer.parseInt(request.getParameter("height"));
 	
 		HdfsUtil hdfs = new HdfsUtil();	    
-	    String hdfsPath = com.picserver.hdfs.HDFSConfig.getHDFSPath();
+	    String hdfsPath = com.picserver.hdfs.HdfsConfig.getHDFSPath();
 	    String RealPath = hdfsPath + FilePath;
 		try{
 		    	byte [] buffer = hdfs.readFile(RealPath);

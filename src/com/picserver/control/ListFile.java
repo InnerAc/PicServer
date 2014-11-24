@@ -40,7 +40,7 @@ public class ListFile extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 	    HdfsUtil hdfs = new HdfsUtil();	    
-	    String hdfsPath = com.picserver.hdfs.HDFSConfig.getHDFSPath();
+	    String hdfsPath = com.picserver.hdfs.HdfsConfig.getHDFSPath();
 	    ArrayList<FileBean> fileList = hdfs.getFileList(hdfsPath);
 	    for(int i =0;i<fileList.size();i++){
 	    	System.out.println(fileList.get(i));

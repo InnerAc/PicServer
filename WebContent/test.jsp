@@ -8,6 +8,6 @@
 </head>
 <body>
 	
-	 <img src="http://localhost:8080/PicServer/ScaleImage"/>
+	 <img src="http://localhost:8080/PicServer/ScaleImage?path=43433.jpg&width=200&height=200"/>
 </body>
 </html>

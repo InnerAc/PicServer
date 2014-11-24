@@ -42,7 +42,7 @@ public class HdfsUtil {
 	 */
 	public HdfsUtil() throws IOException{
 		conf = new Configuration();
-		String hdfsPath = com.picserver.hdfs.HDFSConfig.getHDFSUrl();
+		String hdfsPath = com.picserver.hdfs.HdfsConfig.getHDFSUrl();
 		fs = FileSystem.newInstance(URI.create(hdfsPath),conf);
 	}
 	

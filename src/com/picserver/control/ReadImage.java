@@ -30,7 +30,7 @@ public class ReadImage extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String FilePath = request.getParameter("path");
 		HdfsUtil hdfs = new HdfsUtil();	    
-	    String hdfsPath = com.picserver.hdfs.HDFSConfig.getHDFSPath();
+	    String hdfsPath = com.picserver.hdfs.HdfsConfig.getHDFSPath();
 	    String RealPath = hdfsPath + FilePath;
         
 	    System.out.println(RealPath);
