@@ -57,9 +57,9 @@ public class Upload extends HttpServlet {
 					    long sizeInBytes = item.getSize();
 					    
 					    InputStream uploadedStream = item.getInputStream();
-					    HdfsUtil hdfsOperation = new HdfsUtil();
+					    HdfsUtil hdfs = new HdfsUtil();
 					    String hdfsPath = com.picserver.hdfs.HdfsConfig.getHDFSPath() + fileName;
-					    boolean flag = hdfsOperation.upLoad(uploadedStream, hdfsPath);	
+					    boolean flag = hdfs.upLoad(uploadedStream, hdfsPath);	
 					    if(flag){
 					    	response.sendRedirect("success.jsp");
 					    }else{

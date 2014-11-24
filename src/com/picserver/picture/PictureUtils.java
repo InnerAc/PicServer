@@ -73,6 +73,15 @@ public class PictureUtils {
 			return blobout;
 	}
 	
+	/**
+	 * 水印（文字）
+	 * @param text  文字内容
+	 * @param fontsize  字体大小
+	 * @param offsetX  偏移位置X
+	 * @param offsetY   偏移位置Y
+	 * @return  byte[] 图片字节流
+	 * @throws MagickException
+	 */
 	public byte[] textWaterMask(String text, int fontsize,int offsetX, int offsetY) throws MagickException{
 		DrawInfo textInfo = new DrawInfo(info);
 
