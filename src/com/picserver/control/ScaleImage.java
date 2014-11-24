@@ -1,7 +1,11 @@
 package com.picserver.control;
 
-import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
@@ -11,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.picserver.hdfs.HdfsUtil;
-import com.picserver.picture.ScaleImageUtils;
+import com.picserver.picture.PictureUtils;;
 
 /**
  * Servlet implementation class ScaleImage
@@ -33,63 +37,37 @@ public class ScaleImage extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String FilePath = request.getParameter("path");
-		String WidthStr = request.getParameter("width");
-		String HeightStr = request.getParameter("height");
-		String ScaleStr = request.getParameter("height");
+		int width = Integer.parseInt(request.getParameter("width"));
+		int height = Integer.parseInt(request.getParameter("height"));
 	
 		HdfsUtil hdfs = new HdfsUtil();	    
 	    String hdfsPath = com.picserver.hdfs.HDFSConfig.getHDFSPath();
 	    String RealPath = hdfsPath + FilePath;
-	    
-		if(ScaleStr != null){
-			float scale = Float.parseFloat(ScaleStr);
-		    try{
-		    	BufferedImage image = hdfs.readImage(RealPath);
-		    	image = ScaleImageUtils.resizeByScale(scale, image);
-		    	ImageIO.write(image, "JPEG", response.getOutputStream());
+		try{
+		    	byte [] buffer = hdfs.readFile(RealPath);
+		    	PictureUtils image = new PictureUtils(buffer);
+		    	byte [] outbuffer = image.scaleImage(width, height);
 		    	
-		    }catch(Exception e){
-		    	e.printStackTrace();
-		    }			
-		} else if (WidthStr == null){
-				int height  = Integer.parseInt(request.getParameter(HeightStr));
-			    try{
-			    	BufferedImage image = hdfs.readImage(RealPath);
-			    	image = ScaleImageUtils.resizeByHeight(height, image);
-			    	ImageIO.write(image, "JPEG", response.getOutputStream());
-			    	
-			    }catch(Exception e){
-			    	e.printStackTrace();
-			    }			
-		} else if (HeightStr == null){
-				int width  = Integer.parseInt(request.getParameter(WidthStr));
-			    try{
-			    	BufferedImage image = hdfs.readImage(RealPath);
-			    	image = ScaleImageUtils.resizeByWidth(width, image);
-			    	ImageIO.write(image, "JPEG", response.getOutputStream());
-			    	
-			    }catch(Exception e){
-			    	e.printStackTrace();
-			    }		
-		} else {
-			int width  = Integer.parseInt(request.getParameter(WidthStr));
-			int height  = Integer.parseInt(request.getParameter(HeightStr));	
-		    try{
-		    	BufferedImage image = hdfs.readImage(RealPath);
-		    	image = ScaleImageUtils.resize(width, height,image);
-		    	ImageIO.write(image, "JPEG", response.getOutputStream());
-		    	
+				OutputStream output = response.getOutputStream();// 得到输出流  
+	            InputStream imageIn = new ByteArrayInputStream(outbuffer); 
+	            BufferedInputStream bis = new BufferedInputStream(imageIn);// 输入缓冲流  
+	            BufferedOutputStream bos = new BufferedOutputStream(output);// 输出缓冲流  
+	            byte data[] = new byte[4096];// 缓冲字节数  
+	            int size = 0;            
+	            size = bis.read(data);  
+	            while (size != -1) {  
+	                bos.write(data, 0, size);  
+	                size = bis.read(data);  
+	            }  
+	            bis.close();  
+	            bos.flush();// 清空输出缓冲流  
+	            bos.close();  
+	            output.close();
+	            
 		    }catch(Exception e){
 		    	e.printStackTrace();
 		    }		
 		}
-		
-
-		
-
-	    
-
-	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

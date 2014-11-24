@@ -92,7 +92,6 @@ public abstract class ScaleImageUtils {
         height = Math.max(height, 1);
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         image.getGraphics().drawImage(targetImage, 0, 0, width, height, null);
-       
         return image;
     }
    

@@ -7,8 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<img src="http://localhost:8080/PicServer/ScaleImage?path=43433.jpg&width=200&height=200"/>
-	<!--  <img src="http://localhost:8080/PicServer/ReadFile?path=aa.gif"/>
-		<img src="http://localhost:8080/PicServer/ReadFile?path=1.png"/> -->
+	
+	 <img src="http://localhost:8080/PicServer/ScaleImage"/>
 </body>
 </html>
