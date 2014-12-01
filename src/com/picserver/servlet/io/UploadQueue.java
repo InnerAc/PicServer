@@ -66,7 +66,7 @@ public class UploadQueue extends HttpServlet {
 					flag = FileUtils.uploadToLocal(items, LocalPath);
 				}
 				
-				//检查线程
+				//检查同步线程
 				Thread t=new Thread(){
 				    public void run(){
 				    	try {
@@ -89,5 +89,4 @@ public class UploadQueue extends HttpServlet {
 			}
 		}		
 	}
-
 }

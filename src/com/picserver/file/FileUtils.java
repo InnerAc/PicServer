@@ -10,7 +10,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.hadoop.io.SequenceFile;
 
 import com.picserver.hdfs.HdfsUtil;
-import com.picserver.hdfs.SequencefileWrite;
+import com.picserver.hdfs.SequencefileUtils;
 
 public class FileUtils {
 	private static double MAX_SYNC_SIZE = 2.0;
@@ -95,10 +95,12 @@ public class FileUtils {
 		double DirSize = getDirSize(LocalDir);
 		//System.out.println(LocalPath);
 		if(DirSize > MAX_SYNC_SIZE) {
-            File[] items = LocalDir.listFiles();     
-            SequencefileWrite.packageToHdfs(items);
+            File[] items = LocalDir.listFiles();    
+            String filePath =  "/test/seq/test.seq";
+            SequencefileUtils.packageToHdfs(items,filePath);     
             deleteFile(LocalDir);
             System.out.println("同步成功！");
+            SequencefileUtils.getSyncPosition(filePath);
 		}
 		System.out.println(DirSize);
 	}
