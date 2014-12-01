@@ -33,7 +33,7 @@ import com.picserver.hdfs.WriteFile;
  * @author Jet-Muffin
  *
  */
-@WebServlet("/Upload")
+@WebServlet("/Up")
 public class Up extends HttpServlet {
 	private static final long serialVersionUID = 1L;
      private static final long MAX_FILE=1000000;  
@@ -57,10 +57,10 @@ public class Up extends HttpServlet {
 				for(FileItem item:items){
 					System.out.println(item.getName());
 					if(item.getSize()<MAX_FILE){    //判断大小，小文件存入SequenceFile中,大文件直接存入
-						WriteFile.writeSF(item);
+						WriteFile.writeSmallFile(item);
 					}
 					else {
-						WriteFile.writeBF(item);
+						WriteFile.writeLargeFile(item);
 					}
 				}		
 				}			
