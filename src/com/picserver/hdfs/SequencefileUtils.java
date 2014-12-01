@@ -98,7 +98,6 @@ public class SequencefileUtils {
 			while(reader.next(key,value)){
 				System.out.println(key + "======" + position);// 打印已读取键值对
 				position = reader.getPosition();
-				List.add(position); 
 				//TODO 将position信息保存到hbase里
 			}
 		}		
