@@ -3,6 +3,8 @@ package com.picserver.file;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,10 +12,11 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.hadoop.io.SequenceFile;
 
 import com.picserver.hdfs.HdfsUtil;
+import com.picserver.hdfs.MapfileUtils;
 import com.picserver.hdfs.SequencefileUtils;
 
 public class FileUtils {
-	private static double MAX_SYNC_SIZE = 2.0;
+	private static double MAX_SYNC_SIZE = 1.0;
 	/**
 	 * 获取文件集合大小
 	 * @author Jet-Muffin
@@ -96,11 +99,18 @@ public class FileUtils {
 		//System.out.println(LocalPath);
 		if(DirSize > MAX_SYNC_SIZE) {
             File[] items = LocalDir.listFiles();    
-            String filePath =  "/test/seq/test.seq";
-            SequencefileUtils.packageToHdfs(items,filePath);     
+            Arrays.sort(items,new Comparator<File>() {
+                @Override
+                public int compare(File o1, File o2) {
+                    return o1.getName().compareTo(o2.getName());
+                }
+            });
+            String filePath =  "/test/seq/test.map";
+            //暂时用Mapfile处理
+            MapfileUtils.packageToHdfs(items,filePath);     
             deleteFile(LocalDir);
             System.out.println("同步成功！");
-            SequencefileUtils.getSyncPosition(filePath);
+            //SequencefileUtils.getSyncPosition(filePath);
 		}
 		System.out.println(DirSize);
 	}
@@ -151,3 +161,5 @@ public class FileUtils {
         }     
     }     
 }
+
+
