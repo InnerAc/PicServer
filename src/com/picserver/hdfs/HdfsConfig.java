@@ -1,4 +1,3 @@
-
 package com.picserver.hdfs;
 
 import java.io.IOException;
@@ -9,20 +8,20 @@ import java.io.IOException;
  *
  */
 public class HdfsConfig {
-	
+
 	/**
-	 *HDFS路径
-	 * @return String	
+	 * HDFS路径
+	 * @return String
 	 */
-	public static String getHDFSUrl(){
+	public static String getHDFSUrl() {
 		return "hdfs://localhost:9000";
 	}
-	
+
 	/**
 	 * 用户的HDFS分路径
 	 * @return String
 	 */
-	public static String  getHDFSPath(){
-		return "hdfs://localhost:9000/test/";		
+	public static String getHDFSPath() {
+		return "hdfs://localhost:9000/test/";
 	}
 }

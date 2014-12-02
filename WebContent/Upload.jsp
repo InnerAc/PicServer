@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="/HdfsFile">
+	<form action="/UploadQueue">
 			上传文件：<input type="file" />
 			<input type="submit"  value="提交"/>
 	</form>

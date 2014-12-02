@@ -68,11 +68,11 @@ public class HdfsUtil {
 			FSDataOutputStream out = fs.create(p,progress);
 			IOUtils.copyBytes(in, out, conf);
 			
-			byte[] buffer = new byte[400];
-			int length = 0;
-			while ((length = in.read(buffer)) > 0) {
-				out.write(buffer, 0, length);
-			}
+//			byte[] buffer = new byte[400];
+//			int length = 0;
+//			while ((length = in.read(buffer)) > 0) {
+//				out.write(buffer, 0, length);
+//			}
 			out.flush();
 			out.close();
 			in.close();		
@@ -80,7 +80,6 @@ public class HdfsUtil {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-
 		return true;
 	}
 	
