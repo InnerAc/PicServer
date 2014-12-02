@@ -55,7 +55,7 @@ public class Upload extends HttpServlet {
 					    String contentType = item.getContentType();
 					    boolean isInMemory = item.isInMemory();
 					    long sizeInBytes = item.getSize();
-					    
+					    //String flag = flase;
 					    InputStream uploadedStream = item.getInputStream();
 					    HdfsUtil hdfs = new HdfsUtil();
 					    String hdfsPath = com.picserver.hdfs.HdfsConfig.getHDFSPath() + fileName;
