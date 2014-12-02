@@ -72,11 +72,13 @@ public class FileUtils {
 				String fileName=item.getName(); 
                 File file=new File(LocalPath, fileName); 
                 System.out.println(file.getPath());
+                System.out.println("---");
                 if(file.exists()) {
                 	System.out.println("文件已存在！（本地）");
                 	return false;
                 } else {
                 	item.write(file);
+                	System.out.println("已写入本地缓存");
                 }
 				//TODO hdfs操作
 			}

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.picserver.hdfs.HdfsUtil;
+import com.picserver.hdfs.MapfileUtils;
 import com.picserver.picture.PictureUtils;
 
 /**
@@ -36,6 +37,7 @@ public class WaterMask extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String FilePath = request.getParameter("image");
+		System.out.println(FilePath);
 		int offsetX = Integer.parseInt(request.getParameter("offsetX"));
 		int offsetY = Integer.parseInt(request.getParameter("offsetY"));			
 		String MaskType = request.getParameter("type");
@@ -55,6 +57,10 @@ public class WaterMask extends HttpServlet {
 			    
 		    	byte [] buffer = hdfs.readFile(RealPath);
 		    	byte [] mbyte = hdfss.readFile(MaskPath);
+//			    byte [] buffer = MapfileUtils.readFromHdfs("/test/seq/test.map",
+//						FilePath);
+//			    byte [] mbyte = MapfileUtils.readFromHdfs("/test/seq/test.map",
+//						LogoPath);
 		    	PictureUtils image = new PictureUtils(buffer);
 		    	outbuffer  = image.imgWaterMask(mbyte,width, height, offsetX, offsetY);				
 			} 

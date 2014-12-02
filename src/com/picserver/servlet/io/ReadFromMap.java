@@ -39,8 +39,9 @@ public class ReadFromMap extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//TODO 从hbase中查找出mapfile的地址
+		String fileName = request.getParameter("image");
 		byte[] data = MapfileUtils.readFromHdfs("/test/seq/test.map",
-				"4343.jpg");
+				fileName);
 		if(data != null) {
 			OutputStream output = response.getOutputStream();// 得到输出流
 			response.setContentType(GIF);
