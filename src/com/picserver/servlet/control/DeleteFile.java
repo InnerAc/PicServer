@@ -1,5 +1,6 @@
 package com.picserver.servlet.control;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -32,21 +33,32 @@ public class DeleteFile extends HttpServlet {
     }
 
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String image = request.getParameter("image");
+		String fileDir = "/home/had/jspworkspace/tmp/test";
+		String filePath = fileDir + '/' + image;
+		System.out.println(filePath);
+		File file = new File(filePath);
+		boolean flag = false;
+
+		if (!file.exists()) {
+			System.out.println("文件不存在！");
+		} else {
+			file.delete();
+			flag = true;
+		}
+
+		if (flag) {
+			response.sendRedirect("success.jsp");
+		} else {
+			response.sendRedirect("failure.jsp");
+		}
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-			String hdfsPath = request.getParameter("hdfsPath");
-			HdfsUtil hdfsOperation = new HdfsUtil();
-			boolean flag = hdfsOperation.deletePath(hdfsPath);
-			
-		    if(flag){
-		    	response.sendRedirect("success.jsp");
-		    }else{
-		    	response.sendRedirect("failure.jsp");
-		    }
+
 	}
 
 }

@@ -29,10 +29,10 @@ public class MapfileUtils {
 	 * @param filePath	map文件地址
 	 * @throws IOException
 	 */
-	public static void packageToHdfs(File[] items,String filePath) throws IOException {
+	public static void packageToHdfs(File[] items,String hdfsDir) throws IOException {
 		Configuration conf = new Configuration();
 		FileSystem fs = FileSystem.get(URI.create(hdfsUrl), conf);
-		Path path = new Path(fs.getHomeDirectory(), filePath);
+		Path path = new Path(fs.getHomeDirectory(), hdfsDir);
 
 		BytesWritable value = new BytesWritable();
 		Text key = new Text();
@@ -61,11 +61,12 @@ public class MapfileUtils {
 	 * @return bytep[] 图片byte数组
 	 * @throws IOException
 	 */
-	public static byte[] readFromHdfs(String filePath, String fileName) throws IOException {
+	public static byte[] readFromHdfs(String hdfsDir, String image) throws IOException {
 		Configuration conf = new Configuration();
 		FileSystem fs = FileSystem.get(URI.create(hdfsUrl), conf);
-		Path path = new Path(fs.getHomeDirectory(), filePath);
-		Text key = new Text(fileName);
+		Path path = new Path(fs.getHomeDirectory(), hdfsDir);
+		System.out.println(path.toString());
+		Text key = new Text(image);
 		BytesWritable value = new BytesWritable();
 		byte[] data = null;
 		try{
