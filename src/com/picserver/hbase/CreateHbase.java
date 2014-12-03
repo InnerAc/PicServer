@@ -43,7 +43,7 @@ public class CreateHbase {
 			HBaseAdmin hBaseAdmin = new HBaseAdmin(configuration);
 			// 如果存在要创建的表，不做操作
 			if (hBaseAdmin.tableExists(tableName)) {
-				System.out.println(tableName + " is exist....");
+				//System.out.println(tableName + " is exist....");
 			} else {
 				// 建列族
 				HTableDescriptor tableDescriptor = new HTableDescriptor(tableName);

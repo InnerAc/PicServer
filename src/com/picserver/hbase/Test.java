@@ -29,32 +29,84 @@ public class Test {
 //			}
 //		}
 		
+/*-------------------------------------------------------------------------------------------------------------------------------*/		
+		
 		
 //		PictureBean pb = new PictureBean();
-//		System.out.print(pb.getIsCloud());
+//		pb.setName("ha");
+//		pb.setCreateTime("ssss");
+//		pb.setIsCloud("fa");
+//		pb.setSize("ss");
+//		pb.setSpace("ss");
+//		pb.setType("sdf");
+//		pb.setUpdateTime("sdfff");
+//		pb.setUsr("sdddd");
+//		pb.setVisitCount("ss");
+//		pb.setVisitFlow("ss");
+//		HbaseWriter hw = new HbaseWriter();
+//		hw.putPictureBean(pb);
+//		
+//		HbaseReader hr = new HbaseReader();
+//		PictureBean p = hr.getPictureBean("haha");
+//		System.out.println(p.getCreateTime());
+//		System.out.println(p.getIsCloud());
+//		System.out.println(p.getSize());
+//		System.out.println(p.getSpace());
+//		System.out.println(p.getType());
+//		System.out.println(p.getUpdateTime());
+//		System.out.println(p.getUsr());
+//		System.out.println(p.getVisitCount());
+//		System.out.println(p.getVisitFlow());
+
+		
+		/*-------------------------------------------------------------------------------------------------------------------------------*/		
+//		HbaseReader hr = new HbaseReader();
+//		try {
+//			List<PictureBean> list = hr.getPictureBean("attr", "size", "ss");
+//			System.out.print(list.size());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+		
+		/*-------------------------------------------------------------------------------------------------------------------------------*/		
+		
+//		HbaseOperation ho = new HbaseOperation();
+//		ho.dropTable("cloud_space");
+		
+		/*-------------------------------------------------------------------------------------------------------------------------------*/		
+		
+		
 //		SpaceBean sb = new SpaceBean();
-//		sb.setCover("ss");
-//		sb.setDesc("ss");
-//		sb.setFlow("sss");
-//		sb.setName("ss");
-//		sb.setNumber("sss");
-//		sb.setStorage("sss");
+//		sb.setCover("a");
+//		sb.setDesc("b");
+//		sb.setFlow("c");
+//		sb.setName("d");
+//		sb.setNumber("e");
+//		sb.setStorage("f");
 //		HbaseWriter hw = new HbaseWriter();
 //		hw.putSpaceBean(sb);
 //		System.out.println("hahahahahha");
 		
 //		HbaseReader hr = new HbaseReader();
-//     SpaceBean sb1 = hr.getSpaceBean("ss");
+//     SpaceBean sb1 = hr.getSpaceBean("d");
 //		System.out.println(sb1.getDesc());
+//		System.out.println(sb1.getCover());
+//		System.out.println(sb1.getFlow());
+//		System.out.println(sb1.getNumber());
+//		System.out.println(sb1.getStorage());
 		
-		HbaseReader hr = new HbaseReader();
-		try {
-			List<SpaceBean> list = hr.getSpaceBean("cover", "ss");
-			System.out.print(list.size());
-			System.out.print(list.get(0).getNumber());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		/*-------------------------------------------------------------------------------------------------------------------------------*/		
+		
+//		HbaseReader hr = new HbaseReader();
+//		try {
+//			List<SpaceBean> list = hr.getSpaceBean("attr","cover", "as");
+//			System.out.print(list);
+////			System.out.print(list.get(0).getNumber());
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
         
 	}
 

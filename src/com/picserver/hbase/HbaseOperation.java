@@ -6,8 +6,11 @@ import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.KeyValue;
+import org.apache.hadoop.hbase.MasterNotRunningException;
+import org.apache.hadoop.hbase.ZooKeeperConnectionException;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Get;
+import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.HTablePool;
 import org.apache.hadoop.hbase.client.Put;
@@ -90,11 +93,11 @@ public class HbaseOperation {
 	      * @param val
 	      * @return
 	      */
-	     public  ResultScanner QueryByColumn(String tableName,String column, String val) { 
+	     public  ResultScanner QueryByColumn(String tableName,String family, String column, String val) { 
 	         try { 
 	             HTablePool pool = new HTablePool(configuration, 1000); 
 	            // 当列colunm的值为val时进行查询 
-	             Filter filter = new SingleColumnValueFilter(null,Bytes 
+	             Filter filter = new SingleColumnValueFilter(Bytes.toBytes(family),Bytes 
 	                     .toBytes(column), CompareOp.EQUAL, Bytes 
 	                     .toBytes(val)); 
 	             Scan s = new Scan(); 
@@ -105,6 +108,23 @@ public class HbaseOperation {
 	             e.printStackTrace(); 
 	             return null;
 	         } 
-	  
 	     } 
+	     
+	     /**
+	      * 删除表
+	      * @param tableName
+	      */
+	     public void dropTable(String tableName) { 
+	         try { 
+	             HBaseAdmin admin = new HBaseAdmin(configuration); 
+	             admin.disableTable(tableName); 
+	             admin.deleteTable(tableName); 
+	         } catch (MasterNotRunningException e) { 
+	             e.printStackTrace(); 
+	         } catch (ZooKeeperConnectionException e) { 
+	             e.printStackTrace(); 
+	         } catch (IOException e) { 
+	             e.printStackTrace(); 
+	         } 
+	     }
 }

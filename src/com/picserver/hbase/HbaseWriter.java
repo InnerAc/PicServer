@@ -24,7 +24,7 @@ public class HbaseWriter {
 		ho.insertData("cloud_picture", pb.getName(), "attr", "size", pb.getSize());
 		ho.insertData("cloud_picture", pb.getName(), "attr", "type", pb.getType());
 		ho.insertData("cloud_picture", pb.getName(), "attr", "space", pb.getSpace());
-		ho.insertData("cloud_picture", pb.getName(), "attr", "createtime", pb.getCreateTime());
+		ho.insertData("cloud_picture", pb.getName(), "attr", "createTime", pb.getCreateTime());
 		ho.insertData("cloud_picture", pb.getName(), "attr", "usr", pb.getUsr());
 		ho.insertData("cloud_picture", pb.getName(), "var", "isCloud", pb.getIsCloud());
 		ho.insertData("cloud_picture", pb.getName(), "var", "updateTime", pb.getUpdateTime());
