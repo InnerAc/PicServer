@@ -33,11 +33,14 @@ public class UploadQueue extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		System.out.println("不支持GET");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("!");
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+		System.out.println("upload");
 		if(!isMultipart){
 			response.getWriter().println("没有文件域");
 		}else{			

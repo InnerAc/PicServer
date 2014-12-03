@@ -40,32 +40,34 @@ public class ReadFromMap extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//TODO 从hbase中查找出mapfile的地址
 		String fileName = request.getParameter("image");
-		byte[] data = MapfileUtils.readFromHdfs("/test/seq/test.map",
-				fileName);
-		if(data != null) {
-			OutputStream output = response.getOutputStream();// 得到输出流
-			response.setContentType(GIF);
-			InputStream imageIn = new ByteArrayInputStream(data);
-			BufferedInputStream bis = new BufferedInputStream(imageIn);// 输入缓冲流
-			BufferedOutputStream bos = new BufferedOutputStream(output);// 输出缓冲流
-			byte buffer[] = new byte[4096];// 缓冲字节数
-			int size = 0;
-			size = bis.read(buffer);
-			while (size != -1) {
-				bos.write(data, 0, size);
-				size = bis.read(data);
-			}
-			bis.close();
-			bos.flush();// 清空输出缓冲流
-			bos.close();			
-			output.close();
-		}else{
+		if(fileName == null){
 			PrintWriter out = response.getWriter();
-			out.print("cannot found the image!");
+			out.print("Input the right image path!");		
+		} else{
+			byte[] data = MapfileUtils.readFromHdfs("/test/seq/test.map",
+					fileName);
+			if(data != null) {
+				OutputStream output = response.getOutputStream();// 得到输出流
+				response.setContentType(GIF);
+				InputStream imageIn = new ByteArrayInputStream(data);
+				BufferedInputStream bis = new BufferedInputStream(imageIn);// 输入缓冲流
+				BufferedOutputStream bos = new BufferedOutputStream(output);// 输出缓冲流
+				byte buffer[] = new byte[4096];// 缓冲字节数
+				int size = 0;
+				size = bis.read(buffer);
+				while (size != -1) {
+					bos.write(data, 0, size);
+					size = bis.read(data);
+				}
+				bis.close();
+				bos.flush();// 清空输出缓冲流
+				bos.close();			
+				output.close();
+			}else{
+				PrintWriter out = response.getWriter();
+				out.print("cannot found the image!");
+			}			
 		}
-
-
-		
 	}
 
 	/**
