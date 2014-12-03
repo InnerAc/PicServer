@@ -21,7 +21,7 @@ public class HbaseReader {
 	HbaseOperation ho = new HbaseOperation();
 
 	/**
-	 * 根据rowkey读取数据保存在PictureBean
+	 * 根据rowkey 图片名 读取数据保存在PictureBean
 	 * @param rowkey,图片名
 	 * @return 存在则返回Bean，不存在返回null
 	 */
@@ -124,9 +124,9 @@ public class HbaseReader {
 	}
 
 	/**
-	 * 根据rowkey读取数据保存在SpaceBean
-	 * @param rowkey 
-	 * @return 存在则返回Bean，不存在返回null
+	 * 根据rowkey 空间名 读取数据保存在SpaceBean
+	 * @param rowkey  空间名
+	 * @return 存在则返回SpaceBean，不存在返回null
 	 */
 	public SpaceBean getSpaceBean(String rowkey) {
 		SpaceBean sb = new SpaceBean();
@@ -160,11 +160,11 @@ public class HbaseReader {
 	}
 
 	/**
-	 * 根据空间列值检索表cloud_picture
+	 * 根据空间列值检索表cloud_space
 	 * @param family 列族
 	 * @param column 列
 	 * @param value 值
-	 * @return 根据图片列值检索表cloud_picture
+	 * @return 如果检索到，则返回SpaceBean的list，没有则返回null
 	 * @throws IOException
 	 */
 	public List<SpaceBean> getSpaceBean(String family, String column,

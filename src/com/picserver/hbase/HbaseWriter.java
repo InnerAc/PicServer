@@ -13,8 +13,8 @@ public class HbaseWriter {
 	HbaseOperation ho = new HbaseOperation();
 	
 	/**
-	 * 将图片信息写入hbase
-	 * @param pb 图片信息Bean
+	 * 将图片信息写入表cloud_picture
+	 * @param pb 图片信息PictureBean
 	 */
 	public void putPictureBean(PictureBean pb){
 		if(pb.getName()==null){
@@ -33,8 +33,8 @@ public class HbaseWriter {
 	}
 	
 	/**
-	 * 将空间信息写入hbase
-	 * @param sb 空间Bean
+	 * 将空间信息写入表cloud_space
+	 * @param sb 空间信息SpaceBean
 	 */
 	public void putSpaceBean(SpaceBean sb){
 		if(sb.getName()==null){

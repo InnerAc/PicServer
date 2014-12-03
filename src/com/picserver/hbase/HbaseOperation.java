@@ -22,6 +22,12 @@ import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp;
 import org.apache.hadoop.hbase.util.Bytes;
 
+/**
+ * hbase的操作，一般来说，删除数据和删除表使用该类
+ * 写入、查询等操作使用HbaseReader或HbaseWriter
+ * @author hadoop
+ *
+ */
 public class HbaseOperation {
 		HbaseConf hbaseConf = new HbaseConf();
 		Configuration configuration = hbaseConf.hbaseConf();
@@ -69,8 +75,8 @@ public class HbaseOperation {
 	     
 	     /**
 	      * 根据主键查询信息
-	      * @param tableName
-	      * @param rowkey
+	      * @param tableName 表名
+	      * @param rowkey 主键
 	      * @return
 	      */
 	     public Result QueryByRowKey(String tableName, String rowkey) { 
@@ -87,10 +93,11 @@ public class HbaseOperation {
 	     } 
 	     
 	     /**
-	      * 根据column和val检索hbase
-	      * @param tableName
-	      * @param column
-	      * @param val
+	      * 根据列和值检索表
+	      * @param tableName 表名
+	      * @param family 列族
+	      * @param column 列
+	      * @param val 值
 	      * @return
 	      */
 	     public  ResultScanner QueryByColumn(String tableName,String family, String column, String val) { 
@@ -112,7 +119,7 @@ public class HbaseOperation {
 	     
 	     /**
 	      * 删除表
-	      * @param tableName
+	      * @param tableName 表名
 	      */
 	     public void dropTable(String tableName) { 
 	         try { 
