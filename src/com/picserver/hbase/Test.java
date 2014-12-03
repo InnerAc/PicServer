@@ -8,6 +8,7 @@ import org.apache.hadoop.hbase.client.Result;
 
 import com.picserver.bean.PictureBean;
 import com.picserver.bean.SpaceBean;
+import com.picserver.hbase.HbaseReader;
 
 public class Test {
 
@@ -48,9 +49,9 @@ public class Test {
 		
 		HbaseReader hr = new HbaseReader();
 		try {
-			List<SpaceBean> list = hr.getSpaceBean("covr", "ss");
+			List<SpaceBean> list = hr.getSpaceBean("cover", "ss");
 			System.out.print(list.size());
-			System.out.print(list.get(0).getDesc());
+			System.out.print(list.get(0).getNumber());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
