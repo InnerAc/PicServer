@@ -49,7 +49,7 @@ public class UploadQueue extends HttpServlet {
 			
 			String FileName = "/test";
 			//String LocalPath = this.getServletContext().getRealPath("/test");
-			final String LocalPath = "/home/had/jspworkspace/tmp/test";
+			final String LocalPath = "/home/jeff/workspace/java/tmp/test";
 			//System.out.println(LocalPath);
 		    File LocalDir = new File(LocalPath);
             if(!LocalDir.exists()){

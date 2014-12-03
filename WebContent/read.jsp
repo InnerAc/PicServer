@@ -7,8 +7,20 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="ReadFile">
-		<input type="text"  name="path"/>
+	<form action="WaterMask">
+		<input type="text"  name="image"/>
+		<br/>
+		<input type="text"  name="logo"/>
+		<br/>
+		<input type="text" name="type"/>
+		<br/>
+		<input type="text" name="width"/>
+		<br/>
+		<input type="text" name="height"/>
+		<br/>
+		<input type="text" name="offsetX"/>
+		<br/>
+		<input type="text" name="offsetY"/>
 		<input type="submit" value="提交">
 	</form>
 </body>

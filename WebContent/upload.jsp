@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=GB18030"
     pageEncoding="GB18030"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -8,7 +9,7 @@
 </head>
 <body>
 	<h1>File Upload </h1>
-	<form action="UploadQueue" method="POST" enctype="multipart/form-data">
+	<form action="Upload" method="POST" enctype="multipart/form-data">
 		<div align="left">
 			<pre>选择上传的文件:<input type="file" size="40" name="upl-file"> </BR>
 			<input type="submit" value="submit"> <input type="reset" value="reset"></pre>
