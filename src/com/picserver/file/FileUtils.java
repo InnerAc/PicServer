@@ -16,7 +16,7 @@ import com.picserver.hdfs.MapfileUtils;
 import com.picserver.hdfs.SequencefileUtils;
 
 public class FileUtils {
-	private static double MAX_SYNC_SIZE = 1.0;
+	private static double MAX_SYNC_SIZE = 2.0;
 	/**
 	 * 获取文件集合大小
 	 * @author Jet-Muffin
@@ -33,26 +33,26 @@ public class FileUtils {
 	
 	/**
 	 * 直接将文件集合传到HDFS
+	 * 
 	 * @author Jet-Muffin
-	 * @param List <FileItem> items 文件集合
-	 * @param fileName HDFS中文件夹名
+	 * @param List
+	 *            <FileItem> items 文件集合
+	 * @param fileName
+	 *            HDFS中文件夹名
 	 * @return
 	 */
-	public static  boolean uploadToHdfs(List<FileItem> items, String FileName) {
-		try {	
-			Iterator<FileItem> iter = items.iterator();
-			boolean flag = false;
-			while(iter.hasNext()) {
-				FileItem item = (FileItem)iter.next();   
-				InputStream uploadedStream = item.getInputStream();
-				HdfsUtil hdfs = new HdfsUtil();
-				String hdfsPath = com.picserver.hdfs.HdfsConfig.getHDFSPath() + item.getName();
-				System.out.println(hdfsPath);
-				flag = hdfs.upLoad(uploadedStream, hdfsPath);	
-				//TODO hbase操作
-				}
+	public static boolean uploadToHdfs(FileItem item, String FileName) {
+		try {
+			boolean flag;
+			InputStream uploadedStream = item.getInputStream();
+			HdfsUtil hdfs = new HdfsUtil();
+			String hdfsPath = com.picserver.hdfs.HdfsConfig.getHDFSPath()
+					+ item.getName();
+			System.out.println(hdfsPath);
+			flag = hdfs.upLoad(uploadedStream, hdfsPath);
+			// TODO hbase操作
 			return flag;
-		} catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -64,28 +64,28 @@ public class FileUtils {
 	 * @param File 本地文件对象
 	 * @return
 	 */
-	public static boolean uploadToLocal(List<FileItem> items, String LocalPath) {
+	public static boolean uploadToLocal(FileItem  item, String LocalPath) {
 		try {	
-			Iterator<FileItem> iter = items.iterator();
-			while(iter.hasNext()) {
-				FileItem item = (FileItem)iter.next();   
-				String fileName=item.getName(); 
-                File file=new File(LocalPath, fileName); 
-                System.out.println(file.getPath());
-                System.out.println("---");
-                if(file.exists()) {
-                	System.out.println("文件已存在！（本地）");
-                	return false;
-                } else {
-                	item.write(file);
-                	System.out.println("已写入本地缓存");
-                }
-				//TODO hdfs操作
+			if (item.isFormField()) {
+				String name = item.getFieldName();
+				System.out.println(name);
+			} else {
+				String fileName = item.getName();
+				File file = new File(LocalPath, fileName);
+				System.out.println(file.getPath());
+				if (file.exists()) {
+					System.out.println("文件已存在！（本地）");
+					return false;
+				} else {
+					item.write(file);
+					System.out.println("已写入本地缓存");
+				}
+				// TODO hdfs操作
 			}
 			return true;
-		} catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-			return false;	
+			return false;
 		}
 	}
 	

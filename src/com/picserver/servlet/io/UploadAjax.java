@@ -2,6 +2,8 @@ package com.picserver.servlet.io;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,40 +15,37 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-import com.picserver.hdfs.WriteFile;
-import com.picserver.file.FileUtils;;
+import com.picserver.file.FileUtils;
+import com.picserver.hdfs.HdfsUtil;
 
 /**
- * Servlet implementation class UploadQueue
+ * Servlet implementation class UploadAjax
  */
-@WebServlet("/UploadQueue")
-public class UploadQueue extends HttpServlet {
+@WebServlet("/UploadAjax")
+public class UploadAjax extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final long MAX_FILE=1000000;      
 
-    public UploadQueue() {
+	
+    public UploadAjax() {
         super();
         // TODO Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("不支持GET");
+		// TODO Auto-generated method stub
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("!");
 		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-		System.out.println("upload");
 		if(!isMultipart){
 			response.getWriter().println("没有文件域");
 		}else{			
 			FileItemFactory factory = new DiskFileItemFactory();
 			ServletFileUpload upload = new ServletFileUpload(factory);
-           
 			try {
 				List items = upload.parseRequest(request);			
 				Iterator iter = items.iterator();
@@ -54,9 +53,9 @@ public class UploadQueue extends HttpServlet {
 				//TODO 获取图片空间
 					
 				long ListLength = FileUtils.fileListLength(items);
+				String FileName = "/test";
 				String ServerPath = this.getServletConfig().getServletContext()
 						.getRealPath("/");
-				String FileName = "/test";
 				final String LocalPath = ServerPath + "test";
 				boolean flag = false;
 				
@@ -89,15 +88,23 @@ public class UploadQueue extends HttpServlet {
 				};
 				t.start();
 				
-				if (flag) {
-					response.sendRedirect("success.jsp");
+				if(flag){
+					response.setContentType("text/html;charset=gb2312");
+					PrintWriter out = response.getWriter();
+					out.println("上传成功!");
+					response.setStatus(200);
+					System.out.println("Upload success!");
 				} else {
-					response.sendRedirect("failure.jsp");
+					response.setContentType("text/html;charset=gb2312");
+					PrintWriter out = response.getWriter();
+					out.println("上传失败,文件已存在!");					
+					response.setStatus(302);
+					System.out.println("Upload failed");
 				}
-			} catch (FileUploadException e) {
+			} catch(Exception e) {
 				e.printStackTrace();
-				response.sendRedirect("failure.jsp");
 			}
-		}		
+		}
 	}
+
 }

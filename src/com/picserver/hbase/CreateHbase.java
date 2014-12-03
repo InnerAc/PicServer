@@ -22,7 +22,7 @@ public class CreateHbase {
 		
 		// 创建云图片表
 		String name1 = "cloud_picture";
-		String[] column = { "attr", "val" };
+		String[] column = { "attr", "var" };
 		createTable(name1, column);
 
 		// 创建云空间表

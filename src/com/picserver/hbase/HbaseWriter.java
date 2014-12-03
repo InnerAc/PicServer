@@ -26,10 +26,10 @@ public class HbaseWriter {
 		ho.insertData("cloud_picture", pb.getName(), "attr", "space", pb.getSpace());
 		ho.insertData("cloud_picture", pb.getName(), "attr", "createtime", pb.getCreateTime());
 		ho.insertData("cloud_picture", pb.getName(), "attr", "usr", pb.getUsr());
-		ho.insertData("cloud_picture", pb.getName(), "val", "isCloud", pb.getIsCloud());
-		ho.insertData("cloud_picture", pb.getName(), "val", "updateTime", pb.getUpdateTime());
-		ho.insertData("cloud_picture", pb.getName(), "val", "visitCount", pb.getVisitCount());
-		ho.insertData("cloud_picture", pb.getName(), "val", "visitFlow", pb.getVisitFlow());
+		ho.insertData("cloud_picture", pb.getName(), "var", "isCloud", pb.getIsCloud());
+		ho.insertData("cloud_picture", pb.getName(), "var", "updateTime", pb.getUpdateTime());
+		ho.insertData("cloud_picture", pb.getName(), "var", "visitCount", pb.getVisitCount());
+		ho.insertData("cloud_picture", pb.getName(), "var", "visitFlow", pb.getVisitFlow());
 	}
 	
 	/**
@@ -43,9 +43,9 @@ public class HbaseWriter {
 		}
 		ho.insertData("cloud_space",sb.getName(), "attr", "desc", sb.getDesc());
 		ho.insertData("cloud_space",sb.getName(), "attr", "cover", sb.getCover());
-		ho.insertData("cloud_space",sb.getName(), "val", "storage", sb.getStorage());
-		ho.insertData("cloud_space",sb.getName(), "val", "number", sb.getNumber());
-		ho.insertData("cloud_space",sb.getName(), "val", "flow", sb.getFlow());
+		ho.insertData("cloud_space",sb.getName(), "var", "storage", sb.getStorage());
+		ho.insertData("cloud_space",sb.getName(), "var", "number", sb.getNumber());
+		ho.insertData("cloud_space",sb.getName(), "var", "flow", sb.getFlow());
 	}
 
 }
