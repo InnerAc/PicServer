@@ -11,12 +11,27 @@ import java.util.List;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.hadoop.io.SequenceFile;
 
+import com.picserver.bean.PictureBean;
+import com.picserver.hbase.HbaseReader;
+import com.picserver.hbase.HbaseWriter;
 import com.picserver.hdfs.HdfsUtil;
 import com.picserver.hdfs.MapfileUtils;
 import com.picserver.hdfs.SequencefileUtils;
 
 public class FileUtils {
 	private static double MAX_SYNC_SIZE = 2.0;
+	
+	public static PictureBean searchFile(FileItem item) {
+		HbaseReader hr = new HbaseReader();
+		String imageName = item.getName();
+		PictureBean image = hr.getPictureBean(imageName);
+		if(image != null){
+			return image;
+		} else {
+			return null;
+		}
+	}
+	
 	/**
 	 * 获取文件集合大小
 	 * @author Jet-Muffin
@@ -36,7 +51,7 @@ public class FileUtils {
 	 * 
 	 * @author Jet-Muffin
 	 * @param List
-	 *            <FileItem> items 文件集合
+	 * @param items 文件集合
 	 * @param fileName
 	 *            HDFS中文件夹名
 	 * @return
@@ -50,7 +65,12 @@ public class FileUtils {
 					+ item.getName();
 			System.out.println(hdfsPath);
 			flag = hdfs.upLoad(uploadedStream, hdfsPath);
-			// TODO hbase操作
+			// hbase操作
+			PictureBean image = new PictureBean(item);
+			HbaseWriter writer = new HbaseWriter();
+			image.setIsCloud("true");
+			writer.putPictureBean(image);
+			
 			return flag;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -60,16 +80,12 @@ public class FileUtils {
 	
 	/**
 	 *  将图片缓存至本地
-	 * @param List <FileItem> items 文件集合
+	 * @param FileItem item 文件集合
 	 * @param File 本地文件对象
 	 * @return
 	 */
 	public static boolean uploadToLocal(FileItem  item, String LocalPath) {
-		try {	
-			if (item.isFormField()) {
-				String name = item.getFieldName();
-				System.out.println(name);
-			} else {
+		try {		
 				String fileName = item.getName();
 				File file = new File(LocalPath, fileName);
 				System.out.println(file.getPath());
@@ -80,8 +96,12 @@ public class FileUtils {
 					item.write(file);
 					System.out.println("已写入本地缓存");
 				}
-				// TODO hdfs操作
-			}
+				// Hbase操作
+				PictureBean image = new PictureBean(item);
+				HbaseWriter writer = new HbaseWriter();
+				image.setIsCloud("false");
+				writer.putPictureBean(image);
+				
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,29 +1,53 @@
 package com.picserver.bean;
 
+import java.io.File;
+import java.util.Date;
+
+import org.apache.commons.fileupload.FileItem;
+
 public class PictureBean {
 	//图片名称，也就是hbase的rowkey
-	String name = null;
+	String name = "";
 	//图片尺寸
-	String size = null;
+	String size = "";
 	//图片类型
-	String type = null;
+	String type = "";
 	//所属图片空间
-	String space = null;
+	String space = "";
 	//所属用户
-	String usr = null;
+	String usr = "";
 	//创建时间
-	String createTime = null;
+	String createTime = "";
 	
 
 	//是否已经上传到云端
-	String isCloud = null;
+	String isCloud = "";
 	//上次修改时间
-	String updateTime = null;
+	String updateTime = "";
 	//访问次数
-	String visitCount = null;
+	String visitCount = "";
 	//访问流量
-	String visitFlow = null;
+	String visitFlow = "";
 	
+	public PictureBean() {
+		
+	}
+	
+	//构造方法 FileItem
+	public PictureBean(FileItem item) {
+		this.name = item.getName();
+		this.size = Double.toString((double) item.getSize() /1024 /1024);
+		this.type = this.name.substring(this.name.lastIndexOf(".")+1);
+		this.createTime = Double.toString(new Date().getTime());
+	}
+	
+	//构造方法 File
+	public PictureBean(File file) {
+		this.name = file.getName();
+		this.size = Double.toString((double)  file.length() /1024 /1024);
+		this.type = this.name.substring(this.name.lastIndexOf(".")+1);
+		this.createTime = Double.toString(new Date().getTime());	
+	}
 	
 	public String getName() {
 		return name;

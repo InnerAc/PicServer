@@ -26,8 +26,8 @@ public class CreateHbase {
 		createTable(name1, column);
 
 		// 创建云空间表
-		String name2 = "cloud_space";
-		createTable(name2, column);
+//		String name2 = "cloud_space";
+//		createTable(name2, column);
 		
 		//创建其他表
 		

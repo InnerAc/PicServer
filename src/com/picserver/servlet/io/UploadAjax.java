@@ -18,6 +18,7 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.picserver.bean.PictureBean;
 import com.picserver.file.FileUtils;
 import com.picserver.hdfs.HdfsUtil;
 
@@ -62,16 +63,29 @@ public class UploadAjax extends HttpServlet {
 			    File LocalDir = new File(LocalPath);
 	            if(!LocalDir.exists()){
 	            	LocalDir.mkdir();
-	            }
+	            }	            
 	            
 				while(iter.hasNext()) {
-					FileItem item = (FileItem)iter.next();   
-					long fileLength = item.getSize();
-					//文件大小判断
-					if(fileLength > MAX_FILE) {
-						flag =  FileUtils.uploadToHdfs(item, FileName);
+					FileItem item = (FileItem)iter.next();			
+					
+					if (item.isFormField()) {  		//若为普通表单
+						String name = item.getFieldName();
+//						System.out.println(name);
 					} else {
-						flag =  FileUtils.uploadToLocal(item, LocalPath);
+						//查询图片是否已存在
+						PictureBean image = FileUtils.searchFile(item);
+						if(image != null) {
+							flag = false;
+							continue;
+						}
+						
+						long fileLength = item.getSize();
+						//文件大小判断
+						if(fileLength > MAX_FILE) {
+							flag =  FileUtils.uploadToHdfs(item, FileName);
+						} else {
+							flag =  FileUtils.uploadToLocal(item, LocalPath);
+						}
 					}
 						//TODO hdfs操作
 				}

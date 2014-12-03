@@ -19,6 +19,9 @@ import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.io.MapFile;
 import org.apache.hadoop.io.Text;
 
+import com.picserver.bean.PictureBean;
+import com.picserver.hbase.HbaseWriter;
+
 public class MapfileUtils {
 	public static String hdfsUrl = "hdfs://localhost:9000";
 	
@@ -46,6 +49,12 @@ public class MapfileUtils {
 				String filename = item.getName();
 				byte buffer[] = getBytes(item);
 				writer.append(new Text(filename), new BytesWritable(buffer));
+				
+				PictureBean image = new PictureBean(item);
+				HbaseWriter hwriter = new HbaseWriter();
+				image.setIsCloud("true");
+				hwriter.putPictureBean(image);
+				
 			} catch (Exception e) {
 				System.out.println("Exception MESSAGES = " + e.getMessage());
 				e.printStackTrace();
