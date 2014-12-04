@@ -18,7 +18,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.picserver.hdfs.WriteFile;
-import com.picserver.file.FileUtils;;
+import com.picserver.picture.PictureWriter;
 
 /**
  * Servlet implementation class UploadQueue
@@ -51,10 +51,10 @@ public class UploadQueue extends HttpServlet {
 				List items = upload.parseRequest(request);			
 				Iterator iter = items.iterator();
 				String uid = "test";
-				FileUtils fileutil = new FileUtils();
+				PictureWriter fileutil = new PictureWriter();
 				//TODO 获取图片空间
 					
-				long ListLength = FileUtils.fileListLength(items);
+				long ListLength = PictureWriter.fileListLength(items);
 				String ServerPath = this.getServletConfig().getServletContext()
 						.getRealPath("/");
 				String FileName = "/test";
