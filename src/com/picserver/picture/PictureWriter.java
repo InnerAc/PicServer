@@ -1,4 +1,4 @@
-package com.picserver.file;
+package com.picserver.picture;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,11 +20,44 @@ import com.picserver.hdfs.HdfsUtil;
 import com.picserver.hdfs.MapfileUtils;
 import com.picserver.hdfs.SequencefileUtils;
 
-public class FileUtils {
-	private static double MAX_SYNC_SIZE = 1.0;
-	private static String LOCAL_UPLOAD_ROOT  =  "/upload";
-	private static String HDFS_UPLOAD_ROOT = "/upload";
+public class PictureWriter {
+	private static final double MAX_SYNC_SIZE = 1.0;
+	private static final double MAX_FILE_SIZE = 5.0;     
+	private static final String LOCAL_UPLOAD_ROOT  =  "/upload";
+	private static final String HDFS_UPLOAD_ROOT = "/upload";
 	//TODO 全局变量设置
+	
+	public boolean writePicture(FileItem item, final String uid) {
+		PictureBean image = searchFile(item);
+		boolean flag;
+		if (image != null) {
+			return false;
+		}
+		double fileLength = (double) item.getSize() / 1024 / 1024;
+		// 文件大小判断
+		if (fileLength > MAX_FILE_SIZE) {
+			flag = uploadToHdfs(item, uid);
+		} else {
+			flag = uploadToLocal(item, uid);
+		}
+
+		SystemConfig sc = new SystemConfig();
+		final String LocalPath = sc.getSystemPath() + LOCAL_UPLOAD_ROOT + "/"
+				+ uid;
+
+		// 同步线程
+		Thread t = new Thread() {
+			public void run() {
+				try {
+					localDirSync(LocalPath, uid);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		t.start();
+		return flag;
+	}
 	
 	public static PictureBean searchFile(FileItem item) {
 		HbaseReader hr = new HbaseReader();
