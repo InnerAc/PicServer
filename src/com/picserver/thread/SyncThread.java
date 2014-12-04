@@ -17,7 +17,8 @@ public class SyncThread extends Thread {
 		PictureWriter PWriter = new PictureWriter();
 		try {
 			PWriter.localDirSync(LocalPath, uid ,space);
-		} catch (IOException e) {
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	} 
