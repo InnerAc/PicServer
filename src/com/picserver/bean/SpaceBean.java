@@ -2,18 +2,19 @@ package com.picserver.bean;
 
 public class SpaceBean {
 	//空间名称，也就是hbase的rowkey
-	String name = null;
+	String name = "";
 	//空间描述
-	String desc = null;
+	String desc = "";
 	//空间封面
-	String cover = null;
+	String cover = "";
 	
 	//已用容量
-	String storage  = null;
+	String storage  = "";
 	//图片数量
-	String number = null;
+	String number = "";
 	//访问流量
-	String flow = null;
+	String flow = "";
+	
 	public String getName() {
 		return name;
 	}

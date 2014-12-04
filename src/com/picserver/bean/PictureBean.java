@@ -21,8 +21,9 @@ public class PictureBean {
 	//图片所在路径
 	String path="";
 	
-	//当前状态
+	//当前状态，三种状态分别用 ....  表示
 	String status = "";
+	
 	//上次修改时间
 	String updateTime = "";
 	//访问次数
@@ -86,18 +87,12 @@ public class PictureBean {
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
-	public String getIsCloud() {
-		return isCloud;
+	public String getStatus() {
+		return status;
 	}
-	public void setIsCloud(String isCloud) {
-		this.isCloud = isCloud;
+	public void setStatus(String status) {
+		this.status = status;
 	}
-	public String getIsPackaged() {
-		return isPackaged;
-	}
-	public void setIsPackaged(String isPackaged) {
-		this.isPackaged = isPackaged;
-	}	
 	public String getUpdateTime() {
 		return updateTime;
 	}
@@ -122,5 +117,6 @@ public class PictureBean {
 	public void setPath(String path) {
 		this.path = path;
 	}
+	
 	
 }

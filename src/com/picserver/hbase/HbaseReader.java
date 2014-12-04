@@ -10,6 +10,7 @@ import org.apache.hadoop.hbase.client.ResultScanner;
 
 import com.picserver.bean.PictureBean;
 import com.picserver.bean.SpaceBean;
+import com.picserver.bean.UserBean;
 
 /**
  * 读取hbase内容封装到Bean中
@@ -51,8 +52,11 @@ public class HbaseReader {
 				if (v.equals("createTime")) {
 					pb.setCreateTime(val);
 				}
-				if (v.equals("isCloud")) {
-					pb.setIsCloud(val);
+				if (v.equals("path")) {
+					pb.setPath(val);
+				}
+				if (v.equals("status")) {
+					pb.setStatus(val);
 				}
 				if (v.equals("updateTime")) {
 					pb.setUpdateTime(val);
@@ -79,10 +83,10 @@ public class HbaseReader {
 	public List<PictureBean> getPictureBean(String family, String column,
 			String value) throws IOException {
 		List<PictureBean> list = new ArrayList<PictureBean>();
-		PictureBean pb = new PictureBean();
 		ResultScanner rs = ho.QueryByColumn("cloud_picture", family, column,
 				value);
 		for (Result r : rs) {
+			PictureBean pb = new PictureBean();
 			pb.setName(new String(r.getRow()));
 			for (KeyValue keyValue : r.raw()) {
 				String v = new String(keyValue.getQualifier());
@@ -102,8 +106,11 @@ public class HbaseReader {
 				if (v.equals("createTime")) {
 					pb.setCreateTime(val);
 				}
-				if (v.equals("isCloud")) {
-					pb.setIsCloud(val);
+				if (v.equals("path")) {
+					pb.setPath(val);
+				}
+				if (v.equals("status")) {
+					pb.setStatus(val);
 				}
 				if (v.equals("updateTime")) {
 					pb.setUpdateTime(val);
@@ -170,10 +177,10 @@ public class HbaseReader {
 	public List<SpaceBean> getSpaceBean(String family, String column,
 			String value) throws IOException {
 		List<SpaceBean> list = new ArrayList<SpaceBean>();
-		SpaceBean sb = new SpaceBean();
 		ResultScanner rs = ho.QueryByColumn("cloud_space", family, column,
 				value);
 		for (Result r : rs) {
+			SpaceBean sb = new SpaceBean();
 			sb.setName(new String(r.getRow()));
 			for (KeyValue keyValue : r.raw()) {
 				String v = new String(keyValue.getQualifier());
@@ -195,6 +202,102 @@ public class HbaseReader {
 				}
 			}
 			list.add(sb);
+		}
+		if (list.size() == 0) {
+			return null;
+		}
+		return list;
+	}
+	
+	/**
+	 * 根据rowkey 用户名 读取数据保存在UserBean
+	 * @param rowkey 用户名uid
+	 * @return 如果存在则返回UserBean，不存在返回null
+	 */
+	public UserBean getUserBean(String rowkey){
+		UserBean ub = new UserBean();
+		Result rs = ho.QueryByRowKey("cloud_user", rowkey);
+		if (rs.isEmpty()) {
+			// 没有检索到，说明数据库中没有该图片，返回错误信息
+			return null;
+		} else {
+			ub.setUid(rowkey);
+			for (KeyValue keyValue : rs.raw()) {
+				String v = new String(keyValue.getQualifier());
+				String val = new String(keyValue.getValue());
+				if (v.equals("accType")) {
+					ub.setAccType(val);
+				}
+				if (v.equals("email")) {
+					ub.setEmail(val);
+				}
+				if (v.equals("lastLogin")) {
+					ub.setLastLogin(val);
+				}
+				if (v.equals("website")) {
+					ub.setWebsite(val);
+				}
+				if (v.equals("nickname")) {
+					ub.setNickname(val);
+				}
+				if (v.equals("pwd")) {
+					ub.setPwd(val);
+				}
+				if (v.equals("picNum")) {
+					ub.setPicNum(val);
+				}
+				if (v.equals("totSize")) {
+					ub.setTotSize(val);
+				}
+				if (v.equals("spaceNum")) {
+					ub.setSpaceNum(val);
+				}
+			}
+		}
+		return ub;
+	}
+	
+	
+	public List<UserBean> getUserBean(String family, String column,
+			String value) throws IOException {
+		List<UserBean> list = new ArrayList<UserBean>();
+		ResultScanner rs = ho.QueryByColumn("cloud_user", family, column,
+				value);
+		for (Result r : rs) {
+			UserBean ub = new UserBean();
+			ub.setUid(new String(r.getRow()));
+			for (KeyValue keyValue : r.raw()) {
+				String v = new String(keyValue.getQualifier());
+				String val = new String(keyValue.getValue());
+				if (v.equals("accType")) {
+					ub.setAccType(val);
+				}
+				if (v.equals("email")) {
+					ub.setEmail(val);
+				}
+				if (v.equals("lastLogin")) {
+					ub.setLastLogin(val);
+				}
+				if (v.equals("website")) {
+					ub.setWebsite(val);
+				}
+				if (v.equals("nickname")) {
+					ub.setNickname(val);
+				}
+				if (v.equals("pwd")) {
+					ub.setPwd(val);
+				}
+				if (v.equals("picNum")) {
+					ub.setPicNum(val);
+				}
+				if (v.equals("totSize")) {
+					ub.setTotSize(val);
+				}
+				if (v.equals("spaceNum")) {
+					ub.setSpaceNum(val);
+				}
+			}
+			list.add(ub);
 		}
 		if (list.size() == 0) {
 			return null;
