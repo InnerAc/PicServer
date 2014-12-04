@@ -18,13 +18,11 @@ public class PictureBean {
 	String usr = "";
 	//创建时间
 	String createTime = "";
-	//图片所在路径嗯
+	//图片所在路径
 	String path="";
 	
-	//是否已经上传到云端
-	String isCloud = "";
-	//是否压缩
-	String isPackaged = "";
+	//当前状态
+	String status = "";
 	//上次修改时间
 	String updateTime = "";
 	//访问次数

@@ -40,7 +40,7 @@ public class HbaseOperation {
 		 * @param row 列
 		 * @param data 数据
 		 */
-	    public void insertData(String tableName, String rowkey, 
+	    public void  insertData(String tableName, String rowkey, 
 	    		String rowfamily, String row,  String data) { 
 	    		HTablePool pool = new HTablePool(configuration, 1000); 
 	    		// 一个put代表一行数据，再new一个put表示第二行数据,每行一个唯一的rowkey
