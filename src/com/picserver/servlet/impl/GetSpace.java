@@ -2,7 +2,6 @@ package com.picserver.servlet.impl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,34 +15,32 @@ import com.picserver.hbase.HbaseReader;
 import com.picserver.utils.JsonUtil;
 
 /**
- * 查询某uid的所有space
+ * 根据space name获取space信息
  */
-@WebServlet("/ListSpace")
-public class ListSpace extends HttpServlet {
+@WebServlet("/GetSpace")
+public class GetSpace extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public ListSpace() {
+    public GetSpace() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		String uid = request.getParameter("uid");
+		String name = request.getParameter("name");
 		HbaseReader hr = new HbaseReader();
 		try {
-			List<SpaceBean> list = hr.getSpaceBean("attr","uid", uid);
-			String res = JsonUtil.createJsonString("Spaces", list);
+			SpaceBean sb = hr.getSpaceBean(name);
+			String res = JsonUtil.createJsonString("Space", sb);
 			PrintWriter out = response.getWriter();
 			out.write(res);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 }
