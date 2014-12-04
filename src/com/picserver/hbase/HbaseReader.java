@@ -345,8 +345,6 @@ public class HbaseReader {
 		if (list.size() == 0) {
 			return null;
 		}
-		LogListSort lls = new LogListSort();
-		Collections.sort(list, lls);
 		return list;
 	}
 	
@@ -382,8 +380,6 @@ public class HbaseReader {
 		if (list.size() == 0) {
 			return null;
 		}
-		LogListSort lls = new LogListSort();
-		Collections.sort(list, lls);
 		return list;
 	}
 

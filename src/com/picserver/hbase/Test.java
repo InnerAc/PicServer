@@ -181,16 +181,16 @@ public class Test {
 //		LogBean lb = new LogBean("w", "oooo");
 //		hw.putLogBean(lb);
 		
-//		HbaseReader hr = new HbaseReader();
-//		try {
-//			List<LogBean> list  = hr.getLogBean("wo","20141204162803","20141204163206");
-//			for(int i = 0; i < list.size(); i++){
-//				System.out.println(list.get(i).getUser()+list.get(i).getTime());
-//			}
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		HbaseReader hr = new HbaseReader();
+		try {
+			List<LogBean> list  = hr.getLogBean("wo","20141204162803","20141204163206");
+			for(int i = 0; i < list.size(); i++){
+				System.out.println(list.get(i).getUser()+list.get(i).getTime());
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
