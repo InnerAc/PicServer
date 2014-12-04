@@ -22,6 +22,7 @@ import com.picserver.bean.PictureBean;
 import com.picserver.config.SystemConfig;
 import com.picserver.hdfs.HdfsUtil;
 import com.picserver.picture.PictureWriter;
+import com.picserver.thread.SyncThread;
 
 /**
  * Servlet implementation class UploadAjax
@@ -29,6 +30,8 @@ import com.picserver.picture.PictureWriter;
 @WebServlet("/UploadAjax")
 public class UploadAjax extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String LOCAL_UPLOAD_ROOT  =  "/upload";
+	private static final String HDFS_UPLOAD_ROOT = "/upload";
 	
     public UploadAjax() {
         super();
@@ -49,23 +52,38 @@ public class UploadAjax extends HttpServlet {
 			try {
 				List items = upload.parseRequest(request);			
 				Iterator iter = items.iterator();
-				final PictureWriter PWriter = new PictureWriter();
-				final String uid = "test";
+				PictureWriter PWriter = new PictureWriter();
+				String uid = null;
+				String space = null;
 				//TODO 获取图片空间
 					
-				long ListLength = PictureWriter.fileListLength(items);
 	            boolean flag = false;
 				while(iter.hasNext()) {
 					FileItem item = (FileItem)iter.next();			
 					
 					if (item.isFormField()) {  		//若为普通表单
+					
 						String name = item.getFieldName();
-//						System.out.println(name);
+						if(name.equals("uid")) {
+							uid = item.getString();
+						} else if(name.equals("space")) {
+							space = item.getString();
+							space =  new String(space.getBytes("iso8859-1"),"utf-8");
+						}
+
 					} else {
-						flag = PWriter.writePicture(item, uid);
+						flag = PWriter.writePicture(item, uid , space);
 					}
 				}
 				
+			    SystemConfig sc = new SystemConfig();
+			    final String LocalPath = sc.getSystemPath() + LOCAL_UPLOAD_ROOT + "/"
+			        + uid;
+
+			    // 同步线程
+			    SyncThread st = new SyncThread(LocalPath,uid , space);
+			    st.start();
+			    
 				if(flag){
 					response.setContentType("text/html;charset=gb2312");
 					PrintWriter out = response.getWriter();

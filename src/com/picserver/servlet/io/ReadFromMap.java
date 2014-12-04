@@ -44,7 +44,8 @@ public class ReadFromMap extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			out.print("Input the right image path!");		
 		} else{
-			byte[] data = MapfileUtils.readFromHdfs("/test/seq/test.map",
+			MapfileUtils mu = new MapfileUtils();
+			byte[] data = mu.readFromHdfs("/test/seq/test.map",
 					fileName);
 			if(data != null) {
 				OutputStream output = response.getOutputStream();// 得到输出流

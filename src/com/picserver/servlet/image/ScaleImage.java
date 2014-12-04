@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.picserver.hdfs.HdfsUtil;
+import com.picserver.picture.PictureReader;
 import com.picserver.picture.PictureUtils;;
 
 /**
@@ -29,15 +30,12 @@ public class ScaleImage extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String FilePath = request.getParameter("image");
+		String imageName = request.getParameter("image");
 		int width = Integer.parseInt(request.getParameter("width"));
 		int height = Integer.parseInt(request.getParameter("height"));
-	
-		HdfsUtil hdfs = new HdfsUtil();	    
-	    String hdfsPath = com.picserver.hdfs.HdfsConfig.getHDFSPath();
-	    String RealPath = hdfsPath + FilePath;
+		PictureReader PReader = new PictureReader();
 		try{
-		    	byte [] buffer = hdfs.readFile(RealPath);
+		    	byte [] buffer = PReader.readPicture(imageName);
 		    	PictureUtils image = new PictureUtils(buffer);
 		    	byte [] outbuffer = image.scaleImage(width, height);
 		    	
