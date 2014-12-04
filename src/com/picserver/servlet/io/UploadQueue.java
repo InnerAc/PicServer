@@ -71,9 +71,9 @@ public class UploadQueue extends HttpServlet {
 					long fileLength = item.getSize();
 					//文件大小判断
 					if(fileLength > MAX_FILE) {
-						flag =  fileutil.uploadToHdfs(item, uid);
+//						flag =  fileutil.uploadToHdfs(item, uid,space);
 					} else {
-						flag =  fileutil.uploadToLocal(item, uid);
+//						flag =  fileutil.uploadToLocal(item, uid,space);
 					}
 						//TODO hdfs操作
 				}
