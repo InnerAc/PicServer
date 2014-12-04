@@ -77,7 +77,7 @@ public class HbaseReader {
 	}
 
 	/**
-	 * 根据图片列值检索表cloud_picture
+	 * 根据图片某一个列值检索表cloud_picture
 	 * @param family 列族
 	 * @param column 列
 	 * @param value 值
@@ -134,6 +134,62 @@ public class HbaseReader {
 		return list;
 	}
 
+	/**
+	 * 根据space和usr检索表cloud_space
+	 * @param usr
+	 * @param space
+	 * @return
+	 * @throws IOException
+	 */
+	public List<PictureBean> getPictureBean(String usr, String space) throws IOException {
+		List<PictureBean> list = new ArrayList<PictureBean>();
+		ResultScanner rs = ho.QueryPic(usr, space);
+		for (Result r : rs) {
+			PictureBean pb = new PictureBean();
+			pb.setName(new String(r.getRow()));
+			for (KeyValue keyValue : r.raw()) {
+				String v = new String(keyValue.getQualifier());
+				String val = new String(keyValue.getValue());
+				if (v.equals("size")) {
+					pb.setSize(val);
+				}
+				if (v.equals("type")) {
+					pb.setType(val);
+				}
+				if (v.equals("space")) {
+					pb.setSpace(val);
+				}
+				if (v.equals("usr")) {
+					pb.setUsr(val);
+				}
+				if (v.equals("createTime")) {
+					pb.setCreateTime(val);
+				}
+				if (v.equals("path")) {
+					pb.setPath(val);
+				}
+				if (v.equals("status")) {
+					pb.setStatus(val);
+				}
+				if (v.equals("updateTime")) {
+					pb.setUpdateTime(val);
+				}
+				if (v.equals("visitCount")) {
+					pb.setVisitCount(val);
+				}
+				if (v.equals("visitFlow")) {
+					pb.setVisitFlow(val);
+				}
+			}
+			list.add(pb);
+		}
+		if (list.size() == 0) {
+			return null;
+		}
+		return list;
+	}
+
+	
 	/**
 	 * 根据rowkey 空间名 读取数据保存在SpaceBean
 	 * @param rowkey 空间名
@@ -218,6 +274,7 @@ public class HbaseReader {
 		}
 		return list;
 	}
+	
 
 	/**
 	 * 根据rowkey 用户名 读取数据保存在UserBean

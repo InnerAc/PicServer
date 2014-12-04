@@ -12,6 +12,7 @@ import com.picserver.bean.PictureBean;
 import com.picserver.bean.SpaceBean;
 import com.picserver.bean.UserBean;
 import com.picserver.hbase.HbaseReader;
+import com.picserver.utils.DateUtil;
 import com.picserver.utils.JsonUtil;
 
 public class Test {
@@ -37,15 +38,15 @@ public class Test {
 		
 		
 //		PictureBean pb = new PictureBean();
-//		pb.setName("ha");
+//		pb.setName("hffss");
 //		pb.setCreateTime("ssss");
 //		pb.setPath("dd");
 //		pb.setStatus("dd");
 //		pb.setSize("ss");
-//		pb.setSpace("ss");
+//		pb.setSpace("space1");
 //		pb.setType("sdf");
 //		pb.setUpdateTime("sdfff");
-//		pb.setUsr("sdddd");
+//		pb.setUsr("admin1");
 //		pb.setVisitCount("ss");
 //		pb.setVisitFlow("ss");
 //		HbaseWriter hw = new HbaseWriter();
@@ -68,13 +69,20 @@ public class Test {
 		/*-------------------------------------------------------------------------------------------------------------------------------*/		
 //		HbaseReader hr = new HbaseReader();
 //		try {
-//			List<PictureBean> list = hr.getPictureBean("attr", "size", "ss");
+//			List<PictureBean> list = hr.getPictureBean("admin", "space");
 //			System.out.print(list.size());
 //		} catch (IOException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 //		
+		
+//		try {
+//			System.out.print(DateUtil.getCurrentDateStr());
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		/*-------------------------------------------------------------------------------------------------------------------------------*/		
 //		
@@ -102,9 +110,9 @@ public class Test {
 //		SpaceBean sb = new SpaceBean();
 //		sb.setCover("a");
 //		sb.setDesc("b");
-//		sb.setUid("uid");
+//		sb.setUid("id");
 //		sb.setFlow("c");
-//		sb.setName("d");
+//		sb.setName("图片");
 //		sb.setNumber("e1");
 //		sb.setStorage("f");
 //		HbaseWriter hw = new HbaseWriter();
@@ -112,26 +120,26 @@ public class Test {
 //		System.out.println("hahahahahha");
 		
 		
-//		HbaseReader hr = new HbaseReader();
-//        SpaceBean sb1 = hr.getSpaceBean("d1");
-//		System.out.println(sb1.getDesc());
-//		System.out.println(sb1.getCover());
-//		System.out.println(sb1.getFlow());
-//		System.out.println(sb1.getNumber());
-//		System.out.println(sb1.getStorage());
+		HbaseReader hr = new HbaseReader();
+        SpaceBean sb1 = hr.getSpaceBean("图片");
+		System.out.println(sb1.getDesc());
+		System.out.println(sb1.getCover());
+		System.out.println(sb1.getFlow());
+		System.out.println(sb1.getNumber());
+		System.out.println(sb1.getStorage());
 //		
 		/*-------------------------------------------------------------------------------------------------------------------------------*/		
 		
-		HbaseReader hr = new HbaseReader();
-		try {
-			List<SpaceBean> list = hr.getSpaceBean("attr","uid", "uid");
-			System.out.println(JsonUtil.createJsonString("space", list));
-//			System.out.println(list.get(0).getDesc());
-//			System.out.println(list.get(1).getDesc());
-//			System.out.print(list.get(0).getNumber());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		HbaseReader hr = new HbaseReader();
+//		try {
+//			List<SpaceBean> list = hr.getSpaceBean("attr","uid", "id");
+//			System.out.println(JsonUtil.createJsonString("space", list));
+////			System.out.println(list.get(0).getDesc());
+////			System.out.println(list.get(1).getDesc());
+////			System.out.print(list.get(0).getNumber());
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		
 		/*-------------------------------------------------------------------------------------------------------------------------------*/		
 		
