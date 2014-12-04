@@ -172,6 +172,37 @@ public class HbaseOperation {
 	             e.printStackTrace(); 
 	             return null;
 	         } 
+	     } 
+	     
+	     /**
+	      * 根据space和usr检索图片
+	      * @param uid
+	      * @param space
+	      * @return
+	      */
+	     public  ResultScanner QueryPic(String usr, String space) { 
+	         try { 
+	             HTablePool pool = new HTablePool(configuration, 1000); 
+	             List<Filter> filters = new ArrayList<Filter>(); 
 	  
+	             Filter filter1 = new SingleColumnValueFilter(Bytes 
+	                     .toBytes("attr"), Bytes .toBytes("usr"), 
+	                     CompareOp.EQUAL, Bytes .toBytes(usr)); 
+	             filters.add(filter1); 
+	             
+	             Filter filter2 = new SingleColumnValueFilter(Bytes 
+	                     .toBytes("attr"), Bytes .toBytes("space"), 
+	                     CompareOp.EQUAL, Bytes .toBytes(space)); 
+	             filters.add(filter2); 
+	             
+	             FilterList filterList = new FilterList(filters); 
+	             Scan scan = new Scan(); 
+	             scan.setFilter(filterList); 
+	             ResultScanner rs = pool.getTable("cloud_picture").getScanner(scan); 
+	           return rs;
+	         } catch (Exception e) { 
+	             e.printStackTrace(); 
+	             return null;
+	         } 
 	     } 
 }
