@@ -19,6 +19,7 @@ import com.picserver.hbase.HbaseWriter;
 import com.picserver.hdfs.HdfsUtil;
 import com.picserver.hdfs.MapfileUtils;
 import com.picserver.hdfs.SequencefileUtils;
+import com.picserver.utils.DateUtil;
 
 public class PictureWriter {
 	private static final double MAX_SYNC_SIZE = 1.0;
@@ -154,12 +155,12 @@ public class PictureWriter {
 	 * 本地与云端同步操作（线程）
 	 * @author Jet-Muffin
 	 * @param LocalPath
-	 * @throws IOException
+	 * @throws Exception 
 	 */
-	public  void  localDirSync(String LocalPath, String uid , String space) throws IOException {
+	public  void  localDirSync(String LocalPath, String uid , String space) throws Exception {
 		File LocalDir = new File(LocalPath);
 		double DirSize = getDirSize(LocalDir);
-		String filePath =  HDFS_UPLOAD_ROOT + "/" + uid + "/SmallFile/" + getSecNum();
+		String filePath =  HDFS_UPLOAD_ROOT + "/" + uid + "/SmallFile/" + DateUtil.getCurrentDateStr();
 		
 		if(DirSize > MAX_SYNC_SIZE) {
             File[] items = LocalDir.listFiles();    
