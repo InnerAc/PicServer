@@ -156,6 +156,9 @@ public class HbaseReader {
 				if (v.equals("cover")) {
 					sb.setCover(val);
 				}
+				if (v.equals("uid")) {
+					sb.setUid(val);
+				}
 				if (v.equals("storage")) {
 					sb.setStorage(val);
 				}
@@ -194,6 +197,9 @@ public class HbaseReader {
 				}
 				if (v.equals("cover")) {
 					sb.setCover(val);
+				}
+				if (v.equals("uid")) {
+					sb.setUid(val);
 				}
 				if (v.equals("storage")) {
 					sb.setStorage(val);

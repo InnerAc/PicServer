@@ -1,6 +1,8 @@
 package com.picserver.bean;
 
-import com.picserver.hbase.DateUtil;
+import com.picserver.utils.DateUtil;
+
+
 
 /**
  * 日志Bean

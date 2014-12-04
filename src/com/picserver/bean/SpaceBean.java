@@ -7,6 +7,8 @@ public class SpaceBean {
 	String desc = "";
 	//空间封面
 	String cover = "";
+	//所属用户
+	String uid = "";
 	
 	//已用容量
 	String storage  = "";
@@ -15,6 +17,12 @@ public class SpaceBean {
 	//访问流量
 	String flow = "";
 	
+	public String getUid() {
+		return uid;
+	}
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
 	public String getName() {
 		return name;
 	}

@@ -1,4 +1,4 @@
-package com.picserver.hbase;
+package com.picserver.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

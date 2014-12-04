@@ -12,6 +12,7 @@ import com.picserver.bean.PictureBean;
 import com.picserver.bean.SpaceBean;
 import com.picserver.bean.UserBean;
 import com.picserver.hbase.HbaseReader;
+import com.picserver.utils.JsonUtil;
 
 public class Test {
 
@@ -81,7 +82,7 @@ public class Test {
 //		ho.dropTable("cloud_log");
 		
 //		HbaseOperation ho = new HbaseOperation();
-//		ho.dropTable("cloud_picture");
+//		ho.dropTable("cloud_space");
 //		
 //		
 //		CreateHbase ch = new CreateHbase();
@@ -97,38 +98,40 @@ public class Test {
 
 		/*-------------------------------------------------------------------------------------------------------------------------------*/		
 		
-		
+//		
 //		SpaceBean sb = new SpaceBean();
 //		sb.setCover("a");
-//		sb.setDesc("b1");
-//		sb.setFlow("c1");
-//		sb.setName("d1");
+//		sb.setDesc("b");
+//		sb.setUid("uid");
+//		sb.setFlow("c");
+//		sb.setName("d");
 //		sb.setNumber("e1");
-//		sb.setStorage("f1");
+//		sb.setStorage("f");
 //		HbaseWriter hw = new HbaseWriter();
 //		hw.putSpaceBean(sb);
 //		System.out.println("hahahahahha");
 		
+		
 //		HbaseReader hr = new HbaseReader();
-//     SpaceBean sb1 = hr.getSpaceBean("d");
+//        SpaceBean sb1 = hr.getSpaceBean("d1");
 //		System.out.println(sb1.getDesc());
 //		System.out.println(sb1.getCover());
 //		System.out.println(sb1.getFlow());
 //		System.out.println(sb1.getNumber());
 //		System.out.println(sb1.getStorage());
-		
+//		
 		/*-------------------------------------------------------------------------------------------------------------------------------*/		
 		
-//		HbaseReader hr = new HbaseReader();
-//		try {
-//			List<SpaceBean> list = hr.getSpaceBean("attr","cover", "aa");
-//			System.out.println(list);
-////			System.out.println(list.get(0).getDesc());
-////			System.out.println(list.get(1).getDesc());
-////			System.out.print(list.get(0).getNumber());
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		HbaseReader hr = new HbaseReader();
+		try {
+			List<SpaceBean> list = hr.getSpaceBean("attr","uid", "uid");
+			System.out.println(JsonUtil.createJsonString("space", list));
+//			System.out.println(list.get(0).getDesc());
+//			System.out.println(list.get(1).getDesc());
+//			System.out.print(list.get(0).getNumber());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		/*-------------------------------------------------------------------------------------------------------------------------------*/		
 		
@@ -184,16 +187,16 @@ public class Test {
 //		LogBean lb = new LogBean("w", "oooo");
 //		hw.putLogBean(lb);
 		
-		HbaseReader hr = new HbaseReader();
-		try {
-			List<LogBean> list  = hr.getLogBean("wo","20141204162803","20141204163206");
-			for(int i = 0; i < list.size(); i++){
-				System.out.println(list.get(i).getUser()+list.get(i).getTime());
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		HbaseReader hr = new HbaseReader();
+//		try {
+//			List<LogBean> list  = hr.getLogBean("wo","20141204162803","20141204163206");
+//			for(int i = 0; i < list.size(); i++){
+//				System.out.println(list.get(i).getUser()+list.get(i).getTime());
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 	}
 

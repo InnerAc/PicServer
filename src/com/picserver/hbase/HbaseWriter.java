@@ -47,6 +47,7 @@ public class HbaseWriter {
 		}
 		ho.insertData("cloud_space",sb.getName(), "attr", "desc", sb.getDesc());
 		ho.insertData("cloud_space",sb.getName(), "attr", "cover", sb.getCover());
+		ho.insertData("cloud_space",sb.getName(), "attr", "uid", sb.getUid());
 		ho.insertData("cloud_space",sb.getName(), "var", "storage", sb.getStorage());
 		ho.insertData("cloud_space",sb.getName(), "var", "number", sb.getNumber());
 		ho.insertData("cloud_space",sb.getName(), "var", "flow", sb.getFlow());
