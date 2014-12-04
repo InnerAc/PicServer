@@ -22,9 +22,13 @@ public class PictureReader {
 	public byte[] readPicture(String imageName) throws Exception {
 		HbaseReader HReader = new HbaseReader();
 		PictureBean image = HReader.getPictureBean(imageName);
-		byte[] buffer = null;
-		buffer = readPicture(image);
-		return buffer;
+		if(image != null) {
+			byte[] buffer = null;
+			buffer = readPicture(image);
+			return buffer;			
+		} else {
+			return null;
+		}
 	}
 	
 	/**
@@ -35,14 +39,14 @@ public class PictureReader {
 	 */
 	public byte[] readPicture(PictureBean image) throws Exception {
 		byte[] buffer = null;
-		if (image.getIsCloud() == "Local") {
+		if (image.getStatus().equals("LocalFile")) {
 			buffer =readLocalPicture(image.getPath(),
 					image.getName());
-		} else if (image.getIsCloud() == "HdfsLargeFile") {
-			buffer = readHdfsPicture(image.getPath(),
+		} else if (image.getStatus().equals("HdfsSmallFile")) {
+			buffer = readMapfilePicture(image.getPath(),
 					image.getName());
 		} else {
-			buffer = readMapfilePicture(image.getPath(),
+			buffer = readHdfsPicture(image.getPath(),
 					image.getName());
 		}
 		return buffer;
@@ -96,7 +100,8 @@ public class PictureReader {
 	 * @throws Exception
 	 */
 	public byte[] readMapfilePicture(String path,String fileName) throws Exception {
-		byte[] content = MapfileUtils.readFromHdfs(path,fileName);
+		MapfileUtils mu = new MapfileUtils();
+		byte[] content = mu.readFromHdfs(path,fileName);
 		return content;
 	}
 }

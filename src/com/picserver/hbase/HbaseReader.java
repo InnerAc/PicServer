@@ -30,6 +30,7 @@ public class HbaseReader {
 	 * @return 存在则返回Bean，不存在返回null
 	 */
 	public PictureBean getPictureBean(String rowkey) {
+		if(rowkey == null) return null;
 		PictureBean pb = new PictureBean();
 		Result rs = ho.QueryByRowKey("cloud_picture", rowkey);
 		if (rs.isEmpty()) {

@@ -1,6 +1,5 @@
 package com.picserver.servlet.image;
 
-import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -9,24 +8,23 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
-import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.picserver.hdfs.HdfsUtil;
+import com.picserver.bean.PictureBean;
+import com.picserver.hbase.HbaseReader;
+import com.picserver.picture.PictureReader;
 
 /**
- * Servlet implementation class ReadImage
+ * Servlet implementation class ReadImageDemo
  */
-@WebServlet("/ReadImage")
+@WebServlet("/ReadImageDemo")
 public class ReadImage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String GIF = "image/gif;charset=GB2312";// 设定输出的类型  
-    private static final String  JPG = "image/jpeg;charset=GB2312";         
-    private static final String PNG = "image/png;charset=GB2312";   
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -35,56 +33,51 @@ public class ReadImage extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String imageName = request.getParameter("image");
+		PictureReader PReader = new PictureReader();
+		byte[] buffer = null;
+		
+		try {
+			// TODO
+			buffer = PReader.readPicture(imageName);
 
-		String FilePath = request.getParameter("image");
-		HdfsUtil hdfs = new HdfsUtil();	    
-	    String hdfsPath = com.picserver.hdfs.HdfsConfig.getHDFSPath();
-	    String RealPath = hdfsPath + FilePath;
-        
-	    try{
-	    		byte[] picbyte = hdfs.readFile(RealPath);
-	    		response.reset(); 
-	    		OutputStream output = response.getOutputStream();// 得到输出流  
-	    		
-	        	if (RealPath.toLowerCase().endsWith(".png")){
-	        		response.setContentType(PNG);  
-	        	}
-	         	
-	        	if(RealPath.toLowerCase().endsWith(".gif")){
-	        		response.setContentType(GIF);  
-	        	}
-	        	
-	        	if(RealPath.toLowerCase().endsWith(".jpg")){
-	        		response.setContentType(JPG);  
-	        	}	
-	        	
-	              InputStream imageIn = new ByteArrayInputStream(picbyte); 
-	              BufferedInputStream bis = new BufferedInputStream(imageIn);// 输入缓冲流  
-	              BufferedOutputStream bos = new BufferedOutputStream(output);// 输出缓冲流  
-	              byte data[] = new byte[4096];// 缓冲字节数  
-	              int size = 0;  
-	              size = bis.read(data);  
-	              while (size != -1) {  
-	                  bos.write(data, 0, size);  
-	                  size = bis.read(data);  
-	              }  
-	              bis.close();  
-	              bos.flush();// 清空输出缓冲流  
-	              bos.close();  
-	              
-	              output.close(); 
-	    	
-	    }catch(Exception e){
-	    	PrintWriter out = response.getWriter();
-	    	out.println("cannot find the file!");
-	    	out.close();
-	    	e.printStackTrace();
-	    }
+			if (buffer != null) {
+				// 输出byte为图片
+				InputStream imageIn = new ByteArrayInputStream(buffer);
+				BufferedInputStream bis = new BufferedInputStream(imageIn);// 输入缓冲流
+				OutputStream output = response.getOutputStream();
+				BufferedOutputStream bos = new BufferedOutputStream(output);// 输出缓冲流
+				byte data[] = new byte[4096];// 缓冲字节数
+				int size = 0;
+				size = bis.read(data);
+				while (size != -1) {
+					bos.write(data, 0, size);
+					size = bis.read(data);
+				}
+				bis.close();
+				bos.flush();// 清空输出缓冲流
+				bos.close();
+
+				output.close();
+			} else {
+				PrintWriter out = response.getWriter();
+				out.println("Please input the correct image name.");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request,response);
+		// TODO Auto-generated method stub
 	}
 
 }

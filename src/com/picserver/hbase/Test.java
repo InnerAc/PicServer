@@ -80,7 +80,10 @@ public class Test {
 //		HbaseOperation ho = new HbaseOperation();
 //		ho.dropTable("cloud_log");
 		
-		
+//		HbaseOperation ho = new HbaseOperation();
+//		ho.dropTable("cloud_picture");
+//		
+//		
 //		CreateHbase ch = new CreateHbase();
 //		String name1 = "cloud_picture";
 //		String[] column = { "attr", "var" };

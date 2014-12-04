@@ -32,7 +32,7 @@ public class MapfileUtils {
 	 * @param filePath	map文件地址
 	 * @throws IOException
 	 */
-	public static void packageToHdfs(File[] items,String hdfsDir) throws IOException {
+	public  void packageToHdfs(File[] items,String hdfsDir,String uid , String space) throws IOException {
 		Configuration conf = new Configuration();
 		FileSystem fs = FileSystem.get(URI.create(hdfsUrl), conf);
 		Path path = new Path(fs.getHomeDirectory(), hdfsDir);
@@ -52,13 +52,13 @@ public class MapfileUtils {
 				
 				PictureBean image = new PictureBean(item);
 				HbaseWriter hwriter = new HbaseWriter();
-				image.setIsCloud("true");
-				image.setIsPackaged("true");
+				image.setStatus("HdfsSmallFile");
 				image.setPath(path.toString());
+				image.setUsr(uid);
+				image.setSpace(space);
 				hwriter.putPictureBean(image);
 				
 			} catch (Exception e) {
-				System.out.println("Exception MESSAGES = " + e.getMessage());
 				e.printStackTrace();
 			}
 		}
@@ -72,11 +72,10 @@ public class MapfileUtils {
 	 * @return bytep[] 图片byte数组
 	 * @throws IOException
 	 */
-	public static byte[] readFromHdfs(String hdfsDir, String image) throws IOException {
+	public  byte[] readFromHdfs(String hdfsDir, String image) throws IOException {
 		Configuration conf = new Configuration();
 		FileSystem fs = FileSystem.get(URI.create(hdfsUrl), conf);
 		Path path = new Path(fs.getHomeDirectory(), hdfsDir);
-		System.out.println(path.toString());
 		Text key = new Text(image);
 		BytesWritable value = new BytesWritable();
 		byte[] data = null;
@@ -100,7 +99,7 @@ public class MapfileUtils {
 	 * @param file
 	 * @return
 	 */
-	private static byte[] getBytes(File file){  
+	private  byte[] getBytes(File file){  
         byte[] buffer = null;  
         try {  
             FileInputStream fis = new FileInputStream(file);  

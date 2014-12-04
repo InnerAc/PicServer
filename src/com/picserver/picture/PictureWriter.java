@@ -22,12 +22,12 @@ import com.picserver.hdfs.SequencefileUtils;
 
 public class PictureWriter {
 	private static final double MAX_SYNC_SIZE = 1.0;
-	private static final double MAX_FILE_SIZE = 5.0;     
+	private static final double MAX_FILE_SIZE = 2.0;     
 	private static final String LOCAL_UPLOAD_ROOT  =  "/upload";
 	private static final String HDFS_UPLOAD_ROOT = "/upload";
 	//TODO 全局变量设置
 	
-	public boolean writePicture(FileItem item, final String uid) {
+	public boolean writePicture(FileItem item,  String uid ,String space) {
 		PictureBean image = searchFile(item);
 		boolean flag;
 		if (image != null) {
@@ -36,26 +36,10 @@ public class PictureWriter {
 		double fileLength = (double) item.getSize() / 1024 / 1024;
 		// 文件大小判断
 		if (fileLength > MAX_FILE_SIZE) {
-			flag = uploadToHdfs(item, uid);
+			flag = uploadToHdfs(item, uid , space);
 		} else {
-			flag = uploadToLocal(item, uid);
+			flag = uploadToLocal(item, uid,space);
 		}
-
-		SystemConfig sc = new SystemConfig();
-		final String LocalPath = sc.getSystemPath() + LOCAL_UPLOAD_ROOT + "/"
-				+ uid;
-
-		// 同步线程
-		Thread t = new Thread() {
-			public void run() {
-				try {
-					localDirSync(LocalPath, uid);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		};
-		t.start();
 		return flag;
 	}
 	
@@ -94,23 +78,24 @@ public class PictureWriter {
 	 *            HDFS中文件夹名
 	 * @return
 	 */
-	public  boolean uploadToHdfs(FileItem item, String uid) {
+	public  boolean uploadToHdfs(FileItem item, String uid , String space) {
 		try {
 			boolean flag;
 			
 			//HDFS文件名
-			final String hdfsPath = HDFS_UPLOAD_ROOT + "/" + uid + "/LargeFile/" +  getDateNum();
+			final String hdfsPath = HDFS_UPLOAD_ROOT + "/" + uid + "/LargeFile/";
 			String filePath = hdfsPath + item.getName();
-			
+			System.out.println(item.getName());
 			InputStream uploadedStream = item.getInputStream();
 			HdfsUtil hdfs = new HdfsUtil();	
-			System.out.println(hdfsPath);
-			flag = hdfs.upLoad(uploadedStream, hdfsPath);
+			flag = hdfs.upLoad(uploadedStream, filePath);
 			// hbase操作
 			PictureBean image = new PictureBean(item);
 			HbaseWriter writer = new HbaseWriter();
-			image.setIsCloud("true");
+			image.setStatus("HdfsLargeFile");
 			image.setPath(hdfsPath);
+			image.setUsr(uid);
+			image.setSpace(space);
 			writer.putPictureBean(image);
 			
 			return flag;
@@ -126,7 +111,7 @@ public class PictureWriter {
 	 * @param File 本地文件对象
 	 * @return
 	 */
-	public  boolean uploadToLocal(FileItem  item,  final String uid) {
+	public  boolean uploadToLocal(FileItem  item,  String uid , String space) {
 		try {		
 				
 				//本地目录为“根目录/用户名/时间戳"
@@ -147,14 +132,15 @@ public class PictureWriter {
 					return false;
 				} else {
 					item.write(file);
-					System.out.println("Local file write success!");
 				}
 				
 				// Hbase操作
 				PictureBean image = new PictureBean(item);
 				HbaseWriter writer = new HbaseWriter();
-				image.setIsCloud("false");
+				image.setStatus("LocalFile");
 				image.setPath(LocalPath);
+				image.setUsr(uid);
+				image.setSpace(space);
 				writer.putPictureBean(image);
 				
 			return true;
@@ -170,7 +156,7 @@ public class PictureWriter {
 	 * @param LocalPath
 	 * @throws IOException
 	 */
-	public  void  localDirSync(String LocalPath, String uid) throws IOException {
+	public  void  localDirSync(String LocalPath, String uid , String space) throws IOException {
 		File LocalDir = new File(LocalPath);
 		double DirSize = getDirSize(LocalDir);
 		String filePath =  HDFS_UPLOAD_ROOT + "/" + uid + "/SmallFile/" + getSecNum();
@@ -186,10 +172,10 @@ public class PictureWriter {
             });
             
             //暂时用Mapfile处理
-            MapfileUtils.packageToHdfs(items,filePath);     
+            MapfileUtils mu = new MapfileUtils();
+            mu.packageToHdfs(items,filePath,uid,space);     
             deleteFile(LocalDir);
             System.out.println("同步成功！");
-            //SequencefileUtils.getSyncPosition(filePath);
 		}
 		System.out.println(DirSize);
 	}
@@ -209,7 +195,6 @@ public class PictureWriter {
 				for (int i = 0; i < files.length; i++) {
 					deleteFile(files[i]);
 				}
-				file.delete();
 			}
 		} else {
 			System.out.println("所删除的文件不存在");

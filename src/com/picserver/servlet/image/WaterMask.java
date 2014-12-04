@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.picserver.hdfs.HdfsUtil;
 import com.picserver.hdfs.MapfileUtils;
+import com.picserver.picture.PictureReader;
 import com.picserver.picture.PictureUtils;
 
 /**
@@ -36,31 +37,23 @@ public class WaterMask extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String FilePath = request.getParameter("image");
-		System.out.println(FilePath);
+		String imageName = request.getParameter("image");
 		int offsetX = Integer.parseInt(request.getParameter("offsetX"));
 		int offsetY = Integer.parseInt(request.getParameter("offsetY"));			
 		String MaskType = request.getParameter("type");
+		PictureReader PReader = new PictureReader();
 		
 	    try{
-	    	HdfsUtil hdfs = new HdfsUtil();	   
-		    String hdfsPath = com.picserver.hdfs.HdfsConfig.getHDFSPath();
-		    String RealPath = hdfsPath + FilePath;
 		    
 			if(MaskType.equals("image")){
 		    	int width = Integer.parseInt(request.getParameter("width"));
 				int height = Integer.parseInt(request.getParameter("height"));
-				String LogoPath = request.getParameter("logo");	
+				String LogoName = request.getParameter("logo");	
 				
-				HdfsUtil hdfss = new HdfsUtil();	    
-			    String MaskPath = hdfsPath + LogoPath;
 			    
-		    	byte [] buffer = hdfs.readFile(RealPath);
-		    	byte [] mbyte = hdfss.readFile(MaskPath);
-//			    byte [] buffer = MapfileUtils.readFromHdfs("/test/seq/test.map",
-//						FilePath);
-//			    byte [] mbyte = MapfileUtils.readFromHdfs("/test/seq/test.map",
-//						LogoPath);
+			    byte [] buffer = PReader.readPicture(imageName);
+		    	byte [] mbyte = PReader.readPicture(LogoName);
+
 		    	PictureUtils image = new PictureUtils(buffer);
 		    	outbuffer  = image.imgWaterMask(mbyte,width, height, offsetX, offsetY);				
 			} 
@@ -68,7 +61,7 @@ public class WaterMask extends HttpServlet {
 			if(MaskType.equals("text")){
 				String text = request.getParameter("text");
 				int fontsize = Integer.parseInt(request.getParameter("fontsize"));
-				byte [] buffer = hdfs.readFile(RealPath);
+				byte [] buffer = PReader.readPicture(imageName);
 				PictureUtils image = new PictureUtils(buffer);
 				outbuffer  = image.textWaterMask(text, fontsize,offsetX, offsetY);
 			}
