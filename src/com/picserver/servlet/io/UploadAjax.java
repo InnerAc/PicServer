@@ -19,6 +19,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.picserver.bean.PictureBean;
+import com.picserver.config.SystemConfig;
 import com.picserver.file.FileUtils;
 import com.picserver.hdfs.HdfsUtil;
 
@@ -29,7 +30,8 @@ import com.picserver.hdfs.HdfsUtil;
 public class UploadAjax extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final long MAX_FILE=1000000;      
-
+	private static String LOCAL_UPLOAD_ROOT  =  "/upload";
+	private static String HDFS_UPLOAD_ROOT = "/upload";
 	
     public UploadAjax() {
         super();
@@ -50,21 +52,12 @@ public class UploadAjax extends HttpServlet {
 			try {
 				List items = upload.parseRequest(request);			
 				Iterator iter = items.iterator();
-				
+				final FileUtils fileutil = new FileUtils();
+				final String uid = "test";
 				//TODO 获取图片空间
 					
 				long ListLength = FileUtils.fileListLength(items);
-				String FileName = "/test";
-				String ServerPath = this.getServletConfig().getServletContext()
-						.getRealPath("/");
-				final String LocalPath = ServerPath + "test";
-				boolean flag = false;
-				
-			    File LocalDir = new File(LocalPath);
-	            if(!LocalDir.exists()){
-	            	LocalDir.mkdir();
-	            }	            
-	            
+	            boolean flag = false;
 				while(iter.hasNext()) {
 					FileItem item = (FileItem)iter.next();			
 					
@@ -82,19 +75,21 @@ public class UploadAjax extends HttpServlet {
 						long fileLength = item.getSize();
 						//文件大小判断
 						if(fileLength > MAX_FILE) {
-							flag =  FileUtils.uploadToHdfs(item, FileName);
+							flag =  fileutil.uploadToHdfs(item, uid);
 						} else {
-							flag =  FileUtils.uploadToLocal(item, LocalPath);
+							flag =  fileutil.uploadToLocal(item, uid);
 						}
 					}
-						//TODO hdfs操作
 				}
-	            
+				
+				final String LocalPath = SystemConfig.getSystemPath()
+						+ LOCAL_UPLOAD_ROOT + "/" + uid;
+				
 				//同步线程
 				Thread t=new Thread(){
 				    public void run(){
 				    	try {
-							FileUtils.localDirSync(LocalPath);
+				    		fileutil.localDirSync(LocalPath , uid);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}

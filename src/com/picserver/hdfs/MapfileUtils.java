@@ -53,6 +53,8 @@ public class MapfileUtils {
 				PictureBean image = new PictureBean(item);
 				HbaseWriter hwriter = new HbaseWriter();
 				image.setIsCloud("true");
+				image.setIsPackaged("true");
+				image.setPath(path.toString());
 				hwriter.putPictureBean(image);
 				
 			} catch (Exception e) {

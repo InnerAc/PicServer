@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.hadoop.io.SequenceFile;
 
 import com.picserver.bean.PictureBean;
+import com.picserver.config.SystemConfig;
 import com.picserver.hbase.HbaseReader;
 import com.picserver.hbase.HbaseWriter;
 import com.picserver.hdfs.HdfsUtil;
@@ -19,7 +21,10 @@ import com.picserver.hdfs.MapfileUtils;
 import com.picserver.hdfs.SequencefileUtils;
 
 public class FileUtils {
-	private static double MAX_SYNC_SIZE = 2.0;
+	private static double MAX_SYNC_SIZE = 1.0;
+	private static String LOCAL_UPLOAD_ROOT  =  "/upload";
+	private static String HDFS_UPLOAD_ROOT = "/upload";
+	//TODO 全局变量设置
 	
 	public static PictureBean searchFile(FileItem item) {
 		HbaseReader hr = new HbaseReader();
@@ -56,19 +61,23 @@ public class FileUtils {
 	 *            HDFS中文件夹名
 	 * @return
 	 */
-	public static boolean uploadToHdfs(FileItem item, String FileName) {
+	public  boolean uploadToHdfs(FileItem item, String uid) {
 		try {
 			boolean flag;
+			
+			//HDFS文件名
+			final String hdfsPath = HDFS_UPLOAD_ROOT + "/" + uid + "/LargeFile/" +  getDateNum();
+			String filePath = hdfsPath + item.getName();
+			
 			InputStream uploadedStream = item.getInputStream();
-			HdfsUtil hdfs = new HdfsUtil();
-			String hdfsPath = com.picserver.hdfs.HdfsConfig.getHDFSPath()
-					+ item.getName();
+			HdfsUtil hdfs = new HdfsUtil();	
 			System.out.println(hdfsPath);
 			flag = hdfs.upLoad(uploadedStream, hdfsPath);
 			// hbase操作
 			PictureBean image = new PictureBean(item);
 			HbaseWriter writer = new HbaseWriter();
 			image.setIsCloud("true");
+			image.setPath(hdfsPath);
 			writer.putPictureBean(image);
 			
 			return flag;
@@ -84,22 +93,35 @@ public class FileUtils {
 	 * @param File 本地文件对象
 	 * @return
 	 */
-	public static boolean uploadToLocal(FileItem  item, String LocalPath) {
+	public  boolean uploadToLocal(FileItem  item,  final String uid) {
 		try {		
+				
+				//本地目录为“根目录/用户名/时间戳"
+			final String LocalPath = SystemConfig.getSystemPath()
+					+ LOCAL_UPLOAD_ROOT + "/" + uid;
+				
+				//文件是否存在
+			    File LocalDir = new File(LocalPath);
+	            if(!LocalDir.exists()){
+	            	LocalDir.mkdir();
+	            }	 
+	            
 				String fileName = item.getName();
 				File file = new File(LocalPath, fileName);
 				System.out.println(file.getPath());
 				if (file.exists()) {
-					System.out.println("文件已存在！（本地）");
+					System.out.println("Local file exists!");
 					return false;
 				} else {
 					item.write(file);
-					System.out.println("已写入本地缓存");
+					System.out.println("Local file write success!");
 				}
+				
 				// Hbase操作
 				PictureBean image = new PictureBean(item);
 				HbaseWriter writer = new HbaseWriter();
 				image.setIsCloud("false");
+				image.setPath(LocalPath);
 				writer.putPictureBean(image);
 				
 			return true;
@@ -115,19 +137,21 @@ public class FileUtils {
 	 * @param LocalPath
 	 * @throws IOException
 	 */
-	public static void  localDirSync(String LocalPath) throws IOException {
+	public  void  localDirSync(String LocalPath, String uid) throws IOException {
 		File LocalDir = new File(LocalPath);
 		double DirSize = getDirSize(LocalDir);
-		//System.out.println(LocalPath);
+		String filePath =  HDFS_UPLOAD_ROOT + "/" + uid + "/SmallFile/" + getSecNum();
+		
 		if(DirSize > MAX_SYNC_SIZE) {
             File[] items = LocalDir.listFiles();    
+            //文件按文件名排序
             Arrays.sort(items,new Comparator<File>() {
                 @Override
                 public int compare(File o1, File o2) {
                     return o1.getName().compareTo(o2.getName());
                 }
             });
-            String filePath =  "/test/seq/test.map";
+            
             //暂时用Mapfile处理
             MapfileUtils.packageToHdfs(items,filePath);     
             deleteFile(LocalDir);
@@ -143,7 +167,7 @@ public class FileUtils {
 	 * @author Jet-Muffin   
 	 * @param file
 	 */
-	private static void deleteFile(File file) {
+	private  void deleteFile(File file) {
 		if (file.exists()) {		// 判断文件是否存在
 			if (file.isFile()) {	// 判断是否是文件
 				file.delete();		// 删除文件
@@ -165,7 +189,7 @@ public class FileUtils {
 	 * @param file
 	 * @return double 文件夹大小
 	 */
-	public static double getDirSize(File file) {     
+	public  double getDirSize(File file) {     
         if (file.exists()) {     
             if (file.isDirectory()) {     
                 File[] children = file.listFiles();     
@@ -182,6 +206,25 @@ public class FileUtils {
             return 0.0;     
         }     
     }     
+	
+	public  String getDateNum() {
+		Calendar c = Calendar.getInstance();
+		String year = Integer.toString(c.get(Calendar.YEAR));
+		String month = Integer.toString(c.get(Calendar.MONTH));
+		String date = Integer.toString(c.get(Calendar.DATE));
+		return year+month+date;
+	}
+	
+	public  String getSecNum() {
+		Calendar c = Calendar.getInstance();
+		String year = Integer.toString(c.get(Calendar.YEAR));
+		String month = Integer.toString(c.get(Calendar.MONTH));
+		String date = Integer.toString(c.get(Calendar.DATE));
+		String hour = Integer.toString(c.get(Calendar.HOUR));
+		String minute = Integer.toString(c.get(Calendar.MINUTE));
+		String second = Integer.toString(c.get(Calendar.SECOND));
+		return year+month+date+hour+minute+second;
+	}
 }
 
 

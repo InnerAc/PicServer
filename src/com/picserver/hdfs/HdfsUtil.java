@@ -24,7 +24,6 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.util.Progressable;
 
-import com.picserver.bean.FileBean;
 
 /**
  * HDFS相关操作API
@@ -130,25 +129,6 @@ public class HdfsUtil {
 		return true;
 	}
 	
-	/**
-	 * 显示所有文件
-	 * @param hdfsPath
-	 * @return ArrayList<FileBean>
-	 */
-	public ArrayList<FileBean> getFileList(String hdfsPath){
-		Path path = new Path(hdfsPath);
-		ArrayList<FileBean> fileList = new ArrayList<FileBean>();
-		FileStatus[] status;
-		try {
-			status = fs.listStatus(path);
-			for(FileStatus fs : status){
-				fileList.add(new FileBean(fs));
-			}
-		} catch (Exception e) {			
-			e.printStackTrace();
-		}
-		return fileList;
-	}
 	
     /**
      * 读取文件于字节缓冲数组

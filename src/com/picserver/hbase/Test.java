@@ -72,12 +72,19 @@ public class Test {
 		
 		/*-------------------------------------------------------------------------------------------------------------------------------*/		
 		
-//		HbaseOperation ho = new HbaseOperation();
-//		ho.dropTable("cloud_picture");
+		HbaseOperation ho = new HbaseOperation();
+		ho.dropTable("cloud_picture");
+		CreateHbase ch = new CreateHbase();
+		String name1 = "cloud_picture";
+		String[] column = { "attr", "var" };
+		ch.createTable(name1, column);
 		
 		/*-------------------------------------------------------------------------------------------------------------------------------*/		
 //		HbaseOperation ho = new HbaseOperation();
 //		ho.deleteRow("cloud_picture", "ha");
+
+
+
 		/*-------------------------------------------------------------------------------------------------------------------------------*/		
 		
 		

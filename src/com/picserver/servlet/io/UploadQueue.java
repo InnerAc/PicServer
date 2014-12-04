@@ -50,7 +50,8 @@ public class UploadQueue extends HttpServlet {
 			try {
 				List items = upload.parseRequest(request);			
 				Iterator iter = items.iterator();
-				
+				String uid = "test";
+				FileUtils fileutil = new FileUtils();
 				//TODO 获取图片空间
 					
 				long ListLength = FileUtils.fileListLength(items);
@@ -70,24 +71,12 @@ public class UploadQueue extends HttpServlet {
 					long fileLength = item.getSize();
 					//文件大小判断
 					if(fileLength > MAX_FILE) {
-						flag =  FileUtils.uploadToHdfs(item, FileName);
+						flag =  fileutil.uploadToHdfs(item, uid);
 					} else {
-						flag =  FileUtils.uploadToLocal(item, LocalPath);
+						flag =  fileutil.uploadToLocal(item, uid);
 					}
 						//TODO hdfs操作
 				}
-	            
-				//同步线程
-				Thread t=new Thread(){
-				    public void run(){
-				    	try {
-							FileUtils.localDirSync(LocalPath);
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-				   }
-				};
-				t.start();
 				
 				if (flag) {
 					response.sendRedirect("success.jsp");
