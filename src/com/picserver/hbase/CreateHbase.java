@@ -30,10 +30,14 @@ public class CreateHbase {
 //		createTable(name2, column);
 		
 		//创建用户表
-		String name3 = "cloud_user";
-		String[] column1 = {"attr", "vldt", "pic", "space"};
-		createTable(name3, column1);
+//		String name3 = "cloud_user";
+//		String[] column1 = {"attr", "vldt", "pic", "space"};
+//		createTable(name3, column1);
 		
+		//创建日志表
+		String name4 = "cloud_log";
+		String[] coloum2 = {"attr"};
+		createTable(name4, coloum2);
 	}
 
 	/**

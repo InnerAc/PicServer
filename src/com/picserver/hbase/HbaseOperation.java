@@ -18,6 +18,7 @@ import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.filter.Filter;
+import org.apache.hadoop.hbase.filter.FilterList;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -134,4 +135,43 @@ public class HbaseOperation {
 	             e.printStackTrace(); 
 	         } 
 	     }
+	     
+	 	/**
+	 	 *  根据用户和时间范围检索日志
+	 	 * @param user 用户
+	 	 * @param min 起始时间
+	 	 * @param max 结束时间
+	 	 * @return 
+	 	 */
+	     public  ResultScanner QueryLog(String user, String min, String max) { 
+	         try { 
+	             HTablePool pool = new HTablePool(configuration, 1000); 
+	             List<Filter> filters = new ArrayList<Filter>(); 
+	  
+	             Filter filter1 = new SingleColumnValueFilter(Bytes 
+	                     .toBytes("attr"), Bytes .toBytes("time"), 
+	                     CompareOp.GREATER_OR_EQUAL, Bytes .toBytes(min)); 
+	             filters.add(filter1); 
+	             
+	             Filter filter2 = new SingleColumnValueFilter(Bytes 
+	                     .toBytes("attr"), Bytes .toBytes("time"), 
+	                     CompareOp.LESS_OR_EQUAL, Bytes .toBytes(max)); 
+	             filters.add(filter2); 
+	             
+	             Filter filter3 = new SingleColumnValueFilter(Bytes 
+	                     .toBytes("attr"), Bytes .toBytes("user"), 
+	                     CompareOp.EQUAL, Bytes .toBytes(user)); 
+	             filters.add(filter3); 
+	             
+	             FilterList filterList = new FilterList(filters); 
+	             Scan scan = new Scan(); 
+	             scan.setFilter(filterList); 
+	             ResultScanner rs = pool.getTable("cloud_log").getScanner(scan); 
+	           return rs;
+	         } catch (Exception e) { 
+	             e.printStackTrace(); 
+	             return null;
+	         } 
+	  
+	     } 
 }

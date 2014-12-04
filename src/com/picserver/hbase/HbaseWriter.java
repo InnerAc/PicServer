@@ -1,5 +1,6 @@
 package com.picserver.hbase;
 
+import com.picserver.bean.LogBean;
 import com.picserver.bean.PictureBean;
 import com.picserver.bean.SpaceBean;
 import com.picserver.bean.UserBean;
@@ -51,6 +52,10 @@ public class HbaseWriter {
 		ho.insertData("cloud_space",sb.getName(), "var", "flow", sb.getFlow());
 	}
 	
+	/**
+	 * 将用户信息写入cloud_user
+	 * @param ub 
+	 */
 	public void putUserBean(UserBean ub){
 		if((ub == null)||(ub.getUid().equals(""))){
 			//传值有问题，处理一下
@@ -65,6 +70,16 @@ public class HbaseWriter {
 		ho.insertData("cloud_user", ub.getUid(), "pic", "picNum", ub.getPicNum());
 		ho.insertData("cloud_user", ub.getUid(), "pic", "totSize", ub.getTotSize());
 		ho.insertData("cloud_user", ub.getUid(), "space", "spaceNum", ub.getSpaceNum());
+	}
+	
+	public void putLogBean(LogBean lb){
+		if((lb == null)||(lb.getLogid().equals(""))){
+			//传值有问题，处理一下
+			return ;
+		}
+		ho.insertData("cloud_log", lb.getLogid(), "attr", "user", lb.getUser());
+		ho.insertData("cloud_log", lb.getLogid(), "attr", "time", lb.getTime());
+		ho.insertData("cloud_log", lb.getLogid(), "attr", "operation", lb.getOperation());
 	}
 
 }

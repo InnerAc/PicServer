@@ -2,12 +2,15 @@ package com.picserver.hbase;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 
+import com.picserver.bean.LogBean;
 import com.picserver.bean.PictureBean;
 import com.picserver.bean.SpaceBean;
 import com.picserver.bean.UserBean;
@@ -23,7 +26,7 @@ public class HbaseReader {
 
 	/**
 	 * 根据rowkey 图片名 读取数据保存在PictureBean
-	 * @param rowkey,图片名
+	 * @param rowkey图片名
 	 * @return 存在则返回Bean，不存在返回null
 	 */
 	public PictureBean getPictureBean(String rowkey) {
@@ -74,7 +77,7 @@ public class HbaseReader {
 
 	/**
 	 * 根据图片列值检索表cloud_picture
-	 * @param family  列族
+	 * @param family 列族
 	 * @param column 列
 	 * @param value 值
 	 * @return 如果检索到，则返回PictureBean的list，没有则返回null
@@ -132,7 +135,7 @@ public class HbaseReader {
 
 	/**
 	 * 根据rowkey 空间名 读取数据保存在SpaceBean
-	 * @param rowkey  空间名
+	 * @param rowkey 空间名
 	 * @return 存在则返回SpaceBean，不存在返回null
 	 */
 	public SpaceBean getSpaceBean(String rowkey) {
@@ -168,8 +171,8 @@ public class HbaseReader {
 
 	/**
 	 * 根据空间列值检索表cloud_space
-	 * @param family 列族
-	 * @param column 列
+	 * @param family   列族
+	 * @param column  列
 	 * @param value 值
 	 * @return 如果检索到，则返回SpaceBean的list，没有则返回null
 	 * @throws IOException
@@ -208,13 +211,13 @@ public class HbaseReader {
 		}
 		return list;
 	}
-	
+
 	/**
 	 * 根据rowkey 用户名 读取数据保存在UserBean
 	 * @param rowkey 用户名uid
 	 * @return 如果存在则返回UserBean，不存在返回null
 	 */
-	public UserBean getUserBean(String rowkey){
+	public UserBean getUserBean(String rowkey) {
 		UserBean ub = new UserBean();
 		Result rs = ho.QueryByRowKey("cloud_user", rowkey);
 		if (rs.isEmpty()) {
@@ -256,13 +259,20 @@ public class HbaseReader {
 		}
 		return ub;
 	}
-	
-	
-	public List<UserBean> getUserBean(String family, String column,
-			String value) throws IOException {
+
+	/**
+	 * 根据用户信息检索cloud_user
+	 * @param family   列族
+	 * @param column 列
+	 * @param value    值
+	 * @return 存在也返回UserBean的List，不存在返回null
+	 * @throws IOException
+	 */
+	public List<UserBean> getUserBean(String family, String column, String value)
+			throws IOException {
 		List<UserBean> list = new ArrayList<UserBean>();
-		ResultScanner rs = ho.QueryByColumn("cloud_user", family, column,
-				value);
+		ResultScanner rs = ho
+				.QueryByColumn("cloud_user", family, column, value);
 		for (Result r : rs) {
 			UserBean ub = new UserBean();
 			ub.setUid(new String(r.getRow()));
@@ -304,4 +314,77 @@ public class HbaseReader {
 		}
 		return list;
 	}
+
+	/**
+	 * 根据用户检索日志
+	 * @param user 用户id
+	 * @return 存在返回LogBean，不存在返回null
+	 * @throws IOException
+	 */
+	public List<LogBean> getLogBean(String user) throws IOException {
+		List<LogBean> list = new ArrayList<LogBean>();
+		ResultScanner rs = ho.QueryByColumn("cloud_log", "attr", "user", user);
+		for (Result r : rs) {
+			LogBean lb = new LogBean();
+			lb.setLogid(new String(r.getRow()));
+			for (KeyValue keyValue : r.raw()) {
+				String v = new String(keyValue.getQualifier());
+				String val = new String(keyValue.getValue());
+				if (v.equals("user")) {
+					lb.setUser(val);
+				}
+				if (v.equals("time")) {
+					lb.setTime(val);
+				}
+				if (v.equals("operation")) {
+					lb.setOperation(val);
+				}
+			}
+			list.add(lb);
+		}
+		if (list.size() == 0) {
+			return null;
+		}
+		LogListSort lls = new LogListSort();
+		Collections.sort(list, lls);
+		return list;
+	}
+	
+	/**
+	 *  根据用户和时间范围检索日志
+	 * @param user 用户
+	 * @param min 起始时间
+	 * @param max 结束时间
+	 * @return 如果有返回List，没有返回null
+	 * @throws IOException
+	 */
+	public List<LogBean> getLogBean(String user, String min, String max) throws IOException {
+		List<LogBean> list = new ArrayList<LogBean>();
+		ResultScanner rs = ho.QueryLog(user, min, max);
+		for (Result r : rs) {
+			LogBean lb = new LogBean();
+			lb.setLogid(new String(r.getRow()));
+			for (KeyValue keyValue : r.raw()) {
+				String v = new String(keyValue.getQualifier());
+				String val = new String(keyValue.getValue());
+				if (v.equals("user")) {
+					lb.setUser(val);
+				}
+				if (v.equals("time")) {
+					lb.setTime(val);
+				}
+				if (v.equals("operation")) {
+					lb.setOperation(val);
+				}
+			}
+			list.add(lb);
+		}
+		if (list.size() == 0) {
+			return null;
+		}
+		LogListSort lls = new LogListSort();
+		Collections.sort(list, lls);
+		return list;
+	}
+
 }

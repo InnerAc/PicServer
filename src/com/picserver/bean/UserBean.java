@@ -46,11 +46,29 @@ public class UserBean {
 	//空间数量
 	String spaceNum = "";
 	
-	/*
-	 * 其他构造方法？
-	 */
+
+	public UserBean() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	
-	
+	public UserBean(String uid, String accType, String email, String lastLogin,
+			String website, String nickname, String pwd, String picNum,
+			String totSize, String spaceNum) {
+		super();
+		this.uid = uid;
+		this.accType = accType;
+		this.email = email;
+		this.lastLogin = lastLogin;
+		this.website = website;
+		this.nickname = nickname;
+		this.pwd = pwd;
+		this.picNum = picNum;
+		this.totSize = totSize;
+		this.spaceNum = spaceNum;
+	}
+
 	public String getUid() {
 		return uid;
 	}

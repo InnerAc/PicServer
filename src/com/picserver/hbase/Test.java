@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.client.Result;
 
+import com.picserver.bean.LogBean;
 import com.picserver.bean.PictureBean;
 import com.picserver.bean.SpaceBean;
 import com.picserver.bean.UserBean;
@@ -75,9 +76,9 @@ public class Test {
 //		
 		
 		/*-------------------------------------------------------------------------------------------------------------------------------*/		
-		
+//		
 //		HbaseOperation ho = new HbaseOperation();
-//		ho.dropTable("cloud_picture");
+//		ho.dropTable("cloud_log");
 		
 		
 //		CreateHbase ch = new CreateHbase();
@@ -117,10 +118,10 @@ public class Test {
 		
 //		HbaseReader hr = new HbaseReader();
 //		try {
-//			List<SpaceBean> list = hr.getSpaceBean("attr","cover", "a");
-//			System.out.println(list.size());
-//			System.out.println(list.get(0).getDesc());
-//			System.out.println(list.get(1).getDesc());
+//			List<SpaceBean> list = hr.getSpaceBean("attr","cover", "aa");
+//			System.out.println(list);
+////			System.out.println(list.get(0).getDesc());
+////			System.out.println(list.get(1).getDesc());
 ////			System.out.print(list.get(0).getNumber());
 //		} catch (IOException e) {
 //			e.printStackTrace();
@@ -155,16 +156,42 @@ public class Test {
 //		System.out.println(ub1.getTotSize());
 //		System.out.println(ub1.getWebsite());
 		
-		HbaseReader hr = new HbaseReader();
+//		HbaseReader hr = new HbaseReader();
+//		
+//		try {
+//			List<UserBean> list = hr.getUserBean("attr", "email", "email");
+//			System.out.print(list.size());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
-		try {
-			List<UserBean> list = hr.getUserBean("", "", "");
-			System.out.print(list.get(1).getAccType());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	
+		/*-------------------------------------------------------------------------------------------------------------------------------*/		
+		
+//		try {
+//			System.out.print(DateUtil.getCurrentDateStr());
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		/*-------------------------------------------------------------------------------------------------------------------------------*/		
+		
+//		HbaseWriter hw = new HbaseWriter();
+//		LogBean lb = new LogBean("w", "oooo");
+//		hw.putLogBean(lb);
+		
+//		HbaseReader hr = new HbaseReader();
+//		try {
+//			List<LogBean> list  = hr.getLogBean("wo","20141204162803","20141204163206");
+//			for(int i = 0; i < list.size(); i++){
+//				System.out.println(list.get(i).getUser()+list.get(i).getTime());
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
 	}
 
 }
