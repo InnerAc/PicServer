@@ -35,6 +35,7 @@ public class ListSpace extends HttpServlet {
 		String uid = request.getParameter("uid");
 		uid =new String(uid.getBytes("iso-8859-1"),"utf-8");
 		HbaseReader hr = new HbaseReader();
+		response.setCharacterEncoding("utf-8");
 		try {
 			List<SpaceBean> list = hr.getSpaceBean("attr","uid", uid);
 			String res = JsonUtil.createJsonString("Spaces", list);

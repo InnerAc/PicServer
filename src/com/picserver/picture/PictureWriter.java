@@ -32,6 +32,7 @@ public class PictureWriter {
 		PictureBean image = searchFile(item);
 		boolean flag;
 		if (image != null) {
+			System.out.println("文件已存在(hbase)");
 			return false;
 		}
 		double fileLength = (double) item.getSize() / 1024 / 1024;
@@ -84,7 +85,7 @@ public class PictureWriter {
 			boolean flag;
 			
 			//HDFS文件名
-			final String hdfsPath = HDFS_UPLOAD_ROOT + "/" + uid + "/LargeFile/";
+			final String hdfsPath = HDFS_UPLOAD_ROOT + "/" + uid + "/LargeFile/" + space + '/';
 			String filePath = hdfsPath + item.getName();
 			System.out.println(item.getName());
 			InputStream uploadedStream = item.getInputStream();
@@ -98,7 +99,7 @@ public class PictureWriter {
 			image.setUsr(uid);
 			image.setSpace(space);
 			writer.putPictureBean(image);
-			
+			//TODO Hbase space操作
 			return flag;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -117,7 +118,7 @@ public class PictureWriter {
 				
 				//本地目录为“根目录/用户名/时间戳"
 			final String LocalPath = SystemConfig.getSystemPath()
-					+ LOCAL_UPLOAD_ROOT + "/" + uid;
+					+ LOCAL_UPLOAD_ROOT + "/" + uid + '/' + space + '/';
 				
 				//文件是否存在
 			    File LocalDir = new File(LocalPath);
@@ -141,8 +142,10 @@ public class PictureWriter {
 				image.setStatus("LocalFile");
 				image.setPath(LocalPath);
 				image.setUsr(uid);
+				System.out.println(space);
 				image.setSpace(space);
 				writer.putPictureBean(image);
+				//TODO Hbase space操作
 				
 			return true;
 		} catch (Exception e) {

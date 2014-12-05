@@ -32,7 +32,7 @@ public class GetSpace extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String name = request.getParameter("name");
 		name = new String(name.getBytes("iso-8859-1"),"utf-8");
-		
+		response.setCharacterEncoding("utf-8");
 		HbaseReader hr = new HbaseReader();
 		try {
 			SpaceBean sb = hr.getSpaceBean(name);

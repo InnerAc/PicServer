@@ -35,6 +35,7 @@ public class ListPicture extends HttpServlet {
 		uid = new String(uid.getBytes("iso-8859-1"),"utf-8");
 		String space = request.getParameter("space");
 		space = new String(space.getBytes("iso-8859-1"),"utf-8");
+		response.setCharacterEncoding("utf-8");
 		
 		HbaseReader hr = new HbaseReader();
 		List<PictureBean> list = hr.getPictureBean(uid, space);

@@ -21,7 +21,7 @@ import com.picserver.hdfs.HdfsUtil;
 /**
  * Servlet implementation class ReadImage
  */
-@WebServlet("/ReadImage")
+@WebServlet("/ReadImageOld")
 public class ReadImageOld extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String GIF = "image/gif;charset=GB2312";// 设定输出的类型  

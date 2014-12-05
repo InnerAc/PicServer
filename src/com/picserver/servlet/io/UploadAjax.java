@@ -78,7 +78,7 @@ public class UploadAjax extends HttpServlet {
 				
 			    SystemConfig sc = new SystemConfig();
 			    final String LocalPath = sc.getSystemPath() + LOCAL_UPLOAD_ROOT + "/"
-			        + uid;
+			        + uid + '/' + space + '/';
 
 			    // 同步线程
 			    SyncThread st = new SyncThread(LocalPath,uid , space);

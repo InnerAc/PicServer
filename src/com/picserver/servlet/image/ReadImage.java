@@ -21,7 +21,7 @@ import com.picserver.picture.PictureReader;
 /**
  * Servlet implementation class ReadImageDemo
  */
-@WebServlet("/ReadImageDemo")
+@WebServlet("/ReadImage")
 public class ReadImage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
