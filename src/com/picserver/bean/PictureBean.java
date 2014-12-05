@@ -5,6 +5,8 @@ import java.util.Date;
 
 import org.apache.commons.fileupload.FileItem;
 
+import com.picserver.utils.DateUtil;
+
 public class PictureBean {
 	//图片名称，也就是hbase的rowkey
 	String name = "";
@@ -36,19 +38,20 @@ public class PictureBean {
 	}
 	
 	//构造方法 FileItem
-	public PictureBean(FileItem item) {
+	public PictureBean(FileItem item) throws Exception {
 		this.name = item.getName();
 		this.size = Double.toString((double) item.getSize() /1024 /1024);
 		this.type = this.name.substring(this.name.lastIndexOf(".")+1);
-		this.createTime = Double.toString(new Date().getTime());
+		this.createTime = DateUtil.getCurrentDateStr();
+
 	}
 	
 	//构造方法 File
-	public PictureBean(File file) {
+	public PictureBean(File file) throws Exception {
 		this.name = file.getName();
 		this.size = Double.toString((double)  file.length() /1024 /1024);
 		this.type = this.name.substring(this.name.lastIndexOf(".")+1);
-		this.createTime = Double.toString(new Date().getTime());	
+		this.createTime = DateUtil.getCurrentDateStr();
 	}
 	
 	public String getName() {
