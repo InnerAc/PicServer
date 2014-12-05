@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.picserver.bean.SpaceBean;
+import com.picserver.hbase.HbaseReader;
 import com.picserver.hbase.HbaseWriter;
 import com.picserver.utils.JsonUtil;
 
@@ -37,20 +38,31 @@ public class CreateSpace extends HttpServlet {
 		String desc = request.getParameter("desc");
 		desc = new String(desc.getBytes("iso-8859-1"),"utf-8");
 		
-		SpaceBean sb= new SpaceBean();
-		sb.setName(name);
-		sb.setDesc(desc);
-		sb.setUid(uid);
-		sb.setFlow("0");
-		sb.setNumber("0");
-		sb.setStorage("0");
+		/*
+		 * 空间名判重
+		 */
+		HbaseReader hr = new HbaseReader();
+		SpaceBean s = hr.getSpaceBean(name);
+		if(s == null){
+			SpaceBean sb= new SpaceBean();
+			sb.setName(name);
+			sb.setDesc(desc);
+			sb.setUid(uid);
+			sb.setFlow("0");
+			sb.setNumber("0");
+			sb.setStorage("0");
+			HbaseWriter hw = new HbaseWriter();
+			hw.putSpaceBean(sb);
+			String res = "success";
+			PrintWriter out = response.getWriter();
+			out.write(res);
+		}else{
+			String res = "The space name is already existed!";
+			PrintWriter out = response.getWriter();
+			out.write(res);
+		}
 		
-		HbaseWriter hw = new HbaseWriter();
-		hw.putSpaceBean(sb);
-		
-		String res = "success";
-		PrintWriter out = response.getWriter();
-		out.write(res);
+
 		
 	}
 
