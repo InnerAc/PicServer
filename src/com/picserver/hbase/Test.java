@@ -38,12 +38,12 @@ public class Test {
 		
 		
 //		PictureBean pb = new PictureBean();
-//		pb.setName("hffss");
-//		pb.setCreateTime("ssss");
+//		pb.setName("tupian");
+//		pb.setCreateTime("");
 //		pb.setPath("dd");
 //		pb.setStatus("dd");
 //		pb.setSize("ss");
-//		pb.setSpace("space1");
+//		pb.setSpace("空间");
 //		pb.setType("sdf");
 //		pb.setUpdateTime("sdfff");
 //		pb.setUsr("admin1");
@@ -120,13 +120,13 @@ public class Test {
 //		System.out.println("hahahahahha");
 		
 		
-		HbaseReader hr = new HbaseReader();
-        SpaceBean sb1 = hr.getSpaceBean("图片");
-		System.out.println(sb1.getDesc());
-		System.out.println(sb1.getCover());
-		System.out.println(sb1.getFlow());
-		System.out.println(sb1.getNumber());
-		System.out.println(sb1.getStorage());
+//		HbaseReader hr = new HbaseReader();
+//        SpaceBean sb1 = hr.getSpaceBean("图片");
+//		System.out.println(sb1.getDesc());
+//		System.out.println(sb1.getCover());
+//		System.out.println(sb1.getFlow());
+//		System.out.println(sb1.getNumber());
+//		System.out.println(sb1.getStorage());
 //		
 		/*-------------------------------------------------------------------------------------------------------------------------------*/		
 		

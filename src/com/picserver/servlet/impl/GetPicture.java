@@ -2,7 +2,6 @@ package com.picserver.servlet.impl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,39 +9,37 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.picserver.bean.SpaceBean;
+import com.picserver.bean.PictureBean;
 import com.picserver.hbase.HbaseReader;
 import com.picserver.utils.JsonUtil;
 
 /**
- * 根据space name获取space信息
+ * 根据图片名得到图片信息
  */
-@WebServlet("/GetSpace")
-public class GetSpace extends HttpServlet {
+@WebServlet("/GetPicture")
+public class GetPicture extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public GetSpace() {
+    public GetPicture() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String name = request.getParameter("name");
 		name = new String(name.getBytes("iso-8859-1"),"utf-8");
 		
+		System.out.print(name);
 		HbaseReader hr = new HbaseReader();
-		try {
-			SpaceBean sb = hr.getSpaceBean(name);
-			String res = JsonUtil.createJsonString("Space", sb);
-			PrintWriter out = response.getWriter();
-			out.write(res);
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		PictureBean pb = hr.getPictureBean(name);
+		String res = JsonUtil.createJsonString("Picture", pb);
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		out.write(res);
 	}
 
 }
