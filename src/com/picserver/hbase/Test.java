@@ -112,9 +112,9 @@ public class Test {
 //		sb.setDesc("b");
 //		sb.setUid("id");
 //		sb.setFlow("c");
-//		sb.setName("图片");
+//		sb.setName("jijij");
 //		sb.setNumber("e1");
-//		sb.setStorage("f");
+//		sb.setStorage("344.34353637");
 //		HbaseWriter hw = new HbaseWriter();
 //		hw.putSpaceBean(sb);
 //		System.out.println("hahahahahha");

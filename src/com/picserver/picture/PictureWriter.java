@@ -261,8 +261,9 @@ public class PictureWriter {
 	 * @param path
 	 * @param usr
 	 * @param space
+	 * @throws Exception 
 	 */
-	public void update(FileItem item,String status, String path, String usr, String space ){
+	public void update(FileItem item,String status, String path, String usr, String space ) throws Exception{
 		PictureBean image = new PictureBean(item);
 		HbaseWriter writer = new HbaseWriter();
 		image.setStatus(status);

@@ -1,5 +1,7 @@
 package com.picserver.bean;
 
+import java.text.DecimalFormat;
+
 public class SpaceBean {
 	//空间名称，也就是hbase的rowkey
 	String name = "";
@@ -45,7 +47,9 @@ public class SpaceBean {
 		return storage;
 	}
 	public void setStorage(String storage) {
-		this.storage = storage;
+		double d = Double.parseDouble(storage);
+		DecimalFormat df  = new DecimalFormat("######0.00");  
+		this.storage = df.format(d);
 	}
 	public String getNumber() {
 		return number;
