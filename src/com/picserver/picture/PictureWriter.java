@@ -13,6 +13,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.hadoop.io.SequenceFile;
 
 import com.picserver.bean.PictureBean;
+import com.picserver.bean.SpaceBean;
 import com.picserver.config.SystemConfig;
 import com.picserver.hbase.HbaseReader;
 import com.picserver.hbase.HbaseWriter;
@@ -92,14 +93,17 @@ public class PictureWriter {
 			HdfsUtil hdfs = new HdfsUtil();	
 			flag = hdfs.upLoad(uploadedStream, filePath);
 			// hbase操作
-			PictureBean image = new PictureBean(item);
-			HbaseWriter writer = new HbaseWriter();
-			image.setStatus("HdfsLargeFile");
-			image.setPath(hdfsPath);
-			image.setUsr(uid);
-			image.setSpace(space);
-			writer.putPictureBean(image);
+//			PictureBean image = new PictureBean(item);
+//			HbaseWriter writer = new HbaseWriter();
+//			image.setStatus("HdfsLargeFile");
+//			image.setPath(hdfsPath);
+//			image.setUsr(uid);
+//			image.setSpace(space);
+//			writer.putPictureBean(image);
 			//TODO Hbase space操作
+			
+			update(item, "HdfsLargeFile", hdfsPath, uid, space);
+			
 			return flag;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -137,15 +141,17 @@ public class PictureWriter {
 				}
 				
 				// Hbase操作
-				PictureBean image = new PictureBean(item);
-				HbaseWriter writer = new HbaseWriter();
-				image.setStatus("LocalFile");
-				image.setPath(LocalPath);
-				image.setUsr(uid);
-				System.out.println(space);
-				image.setSpace(space);
-				writer.putPictureBean(image);
+//				PictureBean image = new PictureBean(item);
+//				HbaseWriter writer = new HbaseWriter();
+//				image.setStatus("LocalFile");
+//				image.setPath(LocalPath);
+//				image.setUsr(uid);
+//				System.out.println(space);
+//				image.setSpace(space);
+//				writer.putPictureBean(image);
 				//TODO Hbase space操作
+				
+				update(item, "LocalFile", LocalPath, uid, space);
 				
 			return true;
 		} catch (Exception e) {
@@ -246,6 +252,38 @@ public class PictureWriter {
 		String minute = Integer.toString(c.get(Calendar.MINUTE));
 		String second = Integer.toString(c.get(Calendar.SECOND));
 		return year+month+date+hour+minute+second;
+	}
+	
+	/**
+	 * 写入图片信息，更新空间信息
+	 * @param item
+	 * @param status
+	 * @param path
+	 * @param usr
+	 * @param space
+	 */
+	public void update(FileItem item,String status, String path, String usr, String space ){
+		PictureBean image = new PictureBean(item);
+		HbaseWriter writer = new HbaseWriter();
+		image.setStatus(status);
+		image.setPath(path);
+		image.setUsr(usr);
+//		System.out.println(space);
+		image.setSpace(space);
+		writer.putPictureBean(image);
+		
+		HbaseReader hr = new HbaseReader();
+		SpaceBean sb = hr.getSpaceBean(space);
+		//空间图片数量增加1
+		int num = Integer.parseInt(sb.getNumber());
+		sb.setNumber(String.valueOf(num++));
+		//空间容量增加
+		double d1 = Double.parseDouble(sb.getStorage());
+		double d2 = Double.parseDouble(image.getSize());
+		sb.setStorage(String.valueOf(d1+d2));
+		
+		writer.putSpaceBean(sb);
+		
 	}
 }
 
