@@ -82,5 +82,8 @@ public class HbaseWriter {
 		ho.insertData("cloud_log", lb.getLogid(), "attr", "time", lb.getTime());
 		ho.insertData("cloud_log", lb.getLogid(), "attr", "operation", lb.getOperation());
 	}
-
+public void deletePictureBean(PictureBean pic){
+	HbaseOperation  operation=new HbaseOperation();
+	operation.deleteRow("cloud_picture", pic.getName());
+}
 }

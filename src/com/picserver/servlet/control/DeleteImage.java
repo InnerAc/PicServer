@@ -14,6 +14,7 @@ import com.picserver.bean.SpaceBean;
 import com.picserver.hbase.HbaseReader;
 import com.picserver.hbase.HbaseWriter;
 import com.picserver.hdfs.HdfsUtil;
+import com.picserver.hdfs.MapfileUtils;
 
 /**
  * Servlet implementation class DeleteImage
@@ -65,9 +66,12 @@ public class DeleteImage extends HttpServlet {
 		if(status.equals(BigFile)){
 			HdfsUtil hd=new HdfsUtil();
 			hd.deletePath(pic.getPath());
+			writer.deletePictureBean(pic);
 			System.out.println("大文件删除成功");
 		}
 		else if(status.equals(SmallFile)){
+//			MapfileUtils mf=new MapfileUtils();
+//			mf.deleteImage(hdfsDir, images);
 			
 		}
 		else if(status.equals(LocalFile)){
@@ -75,6 +79,7 @@ public class DeleteImage extends HttpServlet {
 			if(f.exists())
 			{
 				f.delete();
+				writer.deletePictureBean(pic);
 				System.out.println("本地文件删除成功");
 			}
 				
