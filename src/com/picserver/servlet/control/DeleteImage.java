@@ -21,8 +21,8 @@ import com.picserver.hdfs.HdfsUtil;
 @WebServlet("/DeleteImage")
 public class DeleteImage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private static final String BigFile="BigFile";
-    private static final String SmallFile="SmallFile";
+    private static final String BigFile="HdfsLargeFile";
+    private static final String SmallFile="HdfsSmallFile";
     private static final String LocalFile="LocalFile";
     /**
      * @see HttpServlet#HttpServlet()
@@ -53,27 +53,32 @@ public class DeleteImage extends HttpServlet {
 		SpaceBean space=reader.getSpaceBean(space_key);
 		int number=Integer.parseInt(space.getNumber())-1;
 		space.setNumber(Integer.toString(number));
-		int size=Integer.parseInt(space.getStorage())-Integer.parseInt(pic.getSize());
-		space.setStorage(Integer.toString(size));
+		double size=Double.parseDouble(space.getStorage())-Double.parseDouble(pic.getSize());
+		space.setStorage(Double.toString(size));
 		//将修改后的space更新到数据库
 		HbaseWriter writer=new HbaseWriter();
 		writer.putSpaceBean(space);
 		//根据图片状态的不同采取不同的方式
 		String status=pic.getStatus();
 		
-		if(status==BigFile){
+
+		if(status.equals(BigFile)){
 			HdfsUtil hd=new HdfsUtil();
 			hd.deletePath(pic.getPath());
 			System.out.println("大文件删除成功");
 		}
-		else if(status==SmallFile){
+		else if(status.equals(SmallFile)){
 			
 		}
-		else if(status==LocalFile){
-			File f=new File(pic.getPath());
+		else if(status.equals(LocalFile)){
+			File f=new File(pic.getPath(),pic.getName());
 			if(f.exists())
+			{
 				f.delete();
-			System.out.println("本地文件删除成功");
+				System.out.println("本地文件删除成功");
+			}
+				
+			
 		}
 	}
 

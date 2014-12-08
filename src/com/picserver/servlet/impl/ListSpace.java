@@ -33,7 +33,6 @@ public class ListSpace extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String uid = request.getParameter("uid");
-		uid =new String(uid.getBytes("iso-8859-1"),"utf-8");
 		HbaseReader hr = new HbaseReader();
 		response.setCharacterEncoding("utf-8");
 		try {
