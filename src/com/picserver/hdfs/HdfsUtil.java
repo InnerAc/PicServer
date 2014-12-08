@@ -55,7 +55,7 @@ public class HdfsUtil {
 		Path p = new Path(hdfsPath);
 		try{
 			if(fs.exists(p)){
-				System.out.println("文件已存在！");
+				System.out.println("文件已存在！(HDFS LargeFile)");
 				return false;
 			}
 

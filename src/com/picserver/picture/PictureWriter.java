@@ -113,6 +113,7 @@ public class PictureWriter {
 	}
 	/**
 	 * 将byte型文件写入hdfs中, 代码未测试
+	 * @author mpj
 	 * @param buffer byte数组文件
 	 * @param uid 
 	 * @param space
@@ -123,6 +124,7 @@ public class PictureWriter {
 		try {
 		boolean flag;
 		final String hdfsPath = HDFS_UPLOAD_ROOT + "/" + uid + "/LargeFile/" + space + '/';
+		System.out.println(hdfsPath);
 		String filePath = hdfsPath +name;
 		System.out.println(name);
 		ByteArrayInputStream in = new ByteArrayInputStream(buffer);  

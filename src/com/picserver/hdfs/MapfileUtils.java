@@ -138,7 +138,5 @@ public class MapfileUtils {
 		}
 		IOUtils.closeStream(writer);// 关闭write流
 	}
-	
-	
 }
 	

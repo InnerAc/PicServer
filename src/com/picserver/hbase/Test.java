@@ -89,14 +89,14 @@ public class Test {
 //		HbaseOperation ho = new HbaseOperation();
 //		ho.dropTable("cloud_log");
 		
-//		HbaseOperation ho = new HbaseOperation();
-//		ho.dropTable("cloud_space");
+		HbaseOperation ho = new HbaseOperation();
+		ho.dropTable("cloud_picture");
 //		
 //		
-//		CreateHbase ch = new CreateHbase();
-//		String name1 = "cloud_picture";
-//		String[] column = { "attr", "var" };
-//		ch.createTable(name1, column);
+		CreateHbase ch = new CreateHbase();
+		String name1 = "cloud_picture";
+		String[] column = { "attr", "var" };
+		ch.createTable(name1, column);
 		
 		/*-------------------------------------------------------------------------------------------------------------------------------*/		
 //		HbaseOperation ho = new HbaseOperation();

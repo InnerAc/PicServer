@@ -9,11 +9,14 @@
 </head>
 <body>
 	<h1>File Upload </h1>
-	<form action="Upload" method="POST" enctype="multipart/form-data">
+	<form action="UploadAjax" method="POST" enctype="multipart/form-data">
+			<input name="space"  value="space1" />
+		<input name="uid" value="admin"/> 
 		<div align="left">
 			<pre>选择上传的文件:<input type="file" size="40" name="upl-file"> </BR>
 			<input type="submit" value="submit"> <input type="reset" value="reset"></pre>
 		</div>
+
 	</form>
 </body>
 </html>

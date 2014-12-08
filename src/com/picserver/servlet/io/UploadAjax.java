@@ -66,8 +66,10 @@ public class UploadAjax extends HttpServlet {
 						String name = item.getFieldName();
 						if(name.equals("uid")) {
 							uid = item.getString();
+							System.out.println(uid);
 						} else if(name.equals("space")) {
 							space = item.getString();
+							System.out.println(space);
 							space =  new String(space.getBytes("iso8859-1"),"utf-8");
 						}
 
