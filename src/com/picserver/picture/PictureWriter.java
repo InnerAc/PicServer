@@ -1,5 +1,6 @@
 package com.picserver.picture;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -110,7 +111,32 @@ public class PictureWriter {
 			return false;
 		}
 	}
+	/**
+	 * 将byte型文件写入hdfs中, 代码未测试
+	 * @author mpj
+	 * @param buffer byte数组文件
+	 * @param uid 
+	 * @param space
+	 * @param name 文件名
+	 * @return
+	 */
+	public boolean uploadToHdfs(byte buffer [],String uid,String space,String name){
+		try {
+		boolean flag;
+		final String hdfsPath = HDFS_UPLOAD_ROOT + "/" + uid + "/LargeFile/" + space + '/';
+		System.out.println(hdfsPath);
+		String filePath = hdfsPath +name;
+		System.out.println(name);
+		ByteArrayInputStream in = new ByteArrayInputStream(buffer);  
+		HdfsUtil hdfs = new HdfsUtil();	
+		flag = hdfs.upLoad(in, filePath);
+		return flag;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	
+	}
 	/**
 	 *  将图片缓存至本地
 	 * @param FileItem item 文件集合
