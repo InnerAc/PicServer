@@ -117,5 +117,28 @@ public class MapfileUtils {
         }
         return buffer;  
     }
+	/**
+	 * 删除文件，代码未测试
+	 * @param hdfsDir map 文件地址
+	 * @param images 图片文件名字
+	 * @throws IOException
+	 */
+	public void deleteImage(String hdfsDir, List<String>images) throws IOException{
+		Configuration conf = new Configuration();
+		FileSystem fs = FileSystem.get(URI.create(hdfsUrl), conf);
+		Path path = new Path(fs.getHomeDirectory(), hdfsDir);
+		BytesWritable value = new BytesWritable();
+		Text key = new Text();
+		MapFile.Writer writer = new MapFile.Writer(conf, fs, path.toString(),
+				key.getClass(), value.getClass());
+		
+		for(String image:images){
+			byte[] data = readFromHdfs(hdfsDir,image);
+			writer.append(new Text(image), new BytesWritable(data));
+		}
+		IOUtils.closeStream(writer);// 关闭write流
+	}
+	
+	
 }
 	

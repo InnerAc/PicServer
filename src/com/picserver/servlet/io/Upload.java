@@ -1,6 +1,7 @@
 package com.picserver.servlet.io;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
@@ -15,7 +16,10 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.picserver.config.SystemConfig;
 import com.picserver.hdfs.HdfsUtil;
+import com.picserver.picture.PictureWriter;
+import com.picserver.thread.SyncThread;
 
 /**
  * 上传图片
@@ -25,6 +29,7 @@ import com.picserver.hdfs.HdfsUtil;
 @WebServlet("/Upload")
 public class Upload extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String LOCAL_UPLOAD_ROOT  =  "/upload";
        
     public Upload() {
         super();
@@ -44,33 +49,52 @@ public class Upload extends HttpServlet {
 			try {
 				List items = upload.parseRequest(request);			
 				Iterator iter = items.iterator();
-				while(iter.hasNext()){
-					FileItem item = (FileItem)iter.next();
-					if(item.isFormField()){
+				PictureWriter PWriter = new PictureWriter();
+				String uid = null;
+				String space = null;
+				//TODO 获取图片空间
+					
+	            boolean flag = false;
+				while(iter.hasNext()) {
+					FileItem item = (FileItem)iter.next();			
+					
+					if (item.isFormField()) {  		//若为普通表单
+					
 						String name = item.getFieldName();
-						System.out.println(name);
-					}else{
-					    String fieldName = item.getFieldName();
-					    String fileName = item.getName();
-					    String contentType = item.getContentType();
-					    boolean isInMemory = item.isInMemory();
-					    long sizeInBytes = item.getSize();
-					    
-					    
-					    System.out.print("");
-					    InputStream uploadedStream = item.getInputStream();
-					    HdfsUtil hdfs = new HdfsUtil();
-					    String hdfsPath = com.picserver.hdfs.HdfsConfig.getHDFSPath() + '/' + fileName;
-					    boolean flag = hdfs.upLoad(uploadedStream, hdfsPath);	
-					    if(flag){
-					    	response.sendRedirect("success.jsp");
-					    }else{
-					    	response.sendRedirect("failure.jsp");
-					    }
+						if(name.equals("uid")) {
+							uid = item.getString();
+						} else if(name.equals("space")) {
+							space = item.getString();
+							space =  new String(space.getBytes("iso8859-1"),"utf-8");
+						}
+
+					} else {
+						flag = PWriter.writePicture(item, uid , space);
 					}
 				}
 				
-			} catch (Exception e) {				
+			    SystemConfig sc = new SystemConfig();
+			    final String LocalPath = sc.getSystemPath() + LOCAL_UPLOAD_ROOT + "/"
+			        + uid + '/' + space + '/';
+
+			    // 同步线程
+			    SyncThread st = new SyncThread(LocalPath,uid , space);
+			    st.start();
+			    
+				if(flag){
+					response.setContentType("text/html;charset=gb2312");
+					PrintWriter out = response.getWriter();
+					out.println("上传成功!");
+					response.setStatus(200);
+					System.out.println("Upload success!");
+				} else {
+					response.setContentType("text/html;charset=gb2312");
+					PrintWriter out = response.getWriter();
+					out.println("上传失败,文件已存在!");					
+					response.setStatus(302);
+					System.out.println("Upload failed");
+				}
+			} catch(Exception e) {
 				e.printStackTrace();
 			}
 		}		
