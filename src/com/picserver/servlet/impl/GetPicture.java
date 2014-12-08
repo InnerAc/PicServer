@@ -33,7 +33,6 @@ public class GetPicture extends HttpServlet {
 		String name = request.getParameter("name");
 		name = new String(name.getBytes("iso-8859-1"),"utf-8");
 		
-		System.out.print(name);
 		HbaseReader hr = new HbaseReader();
 		PictureBean pb = hr.getPictureBean(name);
 		String res = JsonUtil.createJsonString("Picture", pb);

@@ -26,17 +26,14 @@ public class CreateSpace extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+	//	doPost(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String uid = request.getParameter("uid");
-		uid  = new String(uid.getBytes("iso-8859-1"),"utf-8");
 		String name = request.getParameter("name");
-		name = new String(name.getBytes("iso-8859-1"),"utf-8");
 		String desc = request.getParameter("desc");
-		desc = new String(desc.getBytes("iso-8859-1"),"utf-8");
 		
 		/*
 		 * 空间名判重

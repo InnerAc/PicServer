@@ -40,13 +40,14 @@ public class CutImage {
 		 	        		infoS = new ImageInfo(imgPath);    
 		 	        		image = new MagickImage(infoS);    
 		 	        		scaled = image.scaleImage(wide,high);
-		 	        		scaled.setFileName(toPath+"_"+i_lev);    
-		 	        		scaled.writeImage(infoS);    
+//		 	        		scaled.setFileName(toPath+"_"+i_lev);    
+//		 	        		scaled.writeImage(infoS);    
 		 	        		for(int i=0;i<n;i++){
 		 	        			for(int j=0;j<n;j++){
 		 	        				rect = new Rectangle(j*i_w, i*i_h,i_w, i_h);    
 		 	        				cropped = scaled.cropImage(rect);    
-		 	        				cropped.setFileName(toPath+fileName+"_"+i_lev+"_"+i+"_"+j);    
+		 	        				System.out.println(toPath+(i_lev+8) +"/"+ j +"_"+i+".jpg");
+		 	        				cropped.setFileName(toPath+(i_lev+8) +"/"+ j +"_"+i+".jpg");    
 		 	        				cropped.writeImage(infoS);    
 		 	        			}
 		 	        		}
@@ -59,13 +60,13 @@ public class CutImage {
 		       
 		    }
 		public static void main(String[] arg){
-			String imgpath = "/home/hadoop/piv/pic.png";
-			String topath = "/home/hadoop/piv/";
+			String imgpath = "/home/had/43433.jpg";
+			String topath = "/home/had/zoom/";
 			String filename = "pic";
 			//System.out.println(System.getProperty("java.library.path"));
 			
 			try {
-				cutImg(imgpath,topath,filename,20,12,3,4);
+				cutImg(imgpath,topath,filename,255,255,0,3);
 			} catch (MagickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

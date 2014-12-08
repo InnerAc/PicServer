@@ -42,6 +42,7 @@ public class CropImage extends HttpServlet {
 		    	PictureUtils image = new PictureUtils(buffer);
 		    	byte [] outbuffer = image.cropImage(width, height, offsetX, offsetY);
 		    	
+		    	
 				OutputStream output = response.getOutputStream();// 得到输出流  
 	            InputStream imageIn = new ByteArrayInputStream(outbuffer); 
 	            BufferedInputStream bis = new BufferedInputStream(imageIn);// 输入缓冲流  

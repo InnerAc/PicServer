@@ -93,13 +93,13 @@ public class PictureWriter {
 			HdfsUtil hdfs = new HdfsUtil();	
 			flag = hdfs.upLoad(uploadedStream, filePath);
 			// hbase操作
-//			PictureBean image = new PictureBean(item);
-//			HbaseWriter writer = new HbaseWriter();
-//			image.setStatus("HdfsLargeFile");
-//			image.setPath(hdfsPath);
-//			image.setUsr(uid);
-//			image.setSpace(space);
-//			writer.putPictureBean(image);
+			PictureBean image = new PictureBean(item);
+			HbaseWriter writer = new HbaseWriter();
+			image.setStatus("HdfsLargeFile");
+			image.setPath(hdfsPath);
+			image.setUsr(uid);
+			image.setSpace(space);
+			writer.putPictureBean(image);
 			//TODO Hbase space操作
 			
 			update(item, "HdfsLargeFile", hdfsPath, uid, space);
@@ -277,7 +277,9 @@ public class PictureWriter {
 		SpaceBean sb = hr.getSpaceBean(space);
 		//空间图片数量增加1
 		int num = Integer.parseInt(sb.getNumber());
-		sb.setNumber(String.valueOf(num++));
+		num = num + 1;
+		sb.setNumber(String.valueOf(num));
+		
 		//空间容量增加
 		double d1 = Double.parseDouble(sb.getStorage());
 		double d2 = Double.parseDouble(image.getSize());

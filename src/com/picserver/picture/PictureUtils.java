@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Rectangle;    
 import java.text.SimpleDateFormat;    
 import java.util.Date;
+import java.util.List;
 
 import magick.CompositeOperator;    
 import magick.CompressionType;    
@@ -39,6 +40,16 @@ public class PictureUtils {
 	    	byte[] blobout = scaledImage.imageToBlob(info); 
 	    	return blobout;		
 	}
+	
+	public byte[] scaleImage (int width) throws MagickException {
+		Dimension dim = image.getDimension();
+		double wImage = dim.getWidth();
+		double hImage = dim.getHeight();
+		int height = (int) Math.floor(hImage / wImage * width);
+		MagickImage scaledImage = image.scaleImage(width, height);
+		byte[] blobout = scaledImage.imageToBlob(info);
+		return blobout;
+}
 	
 	/**
 	 * 裁剪
@@ -100,4 +111,5 @@ public class PictureUtils {
 		byte[] blobout = image.imageToBlob(info);
 		return blobout;
 	}
+	
 }

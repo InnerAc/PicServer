@@ -32,12 +32,19 @@ public class ScaleImage extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String imageName = request.getParameter("image");
 		int width = Integer.parseInt(request.getParameter("width"));
-		int height = Integer.parseInt(request.getParameter("height"));
+		String sheight = request.getParameter("height");
+		
 		PictureReader PReader = new PictureReader();
 		try{
 		    	byte [] buffer = PReader.readPicture(imageName);
 		    	PictureUtils image = new PictureUtils(buffer);
-		    	byte [] outbuffer = image.scaleImage(width, height);
+		    	byte [] outbuffer = null; 
+		    	if(sheight == null) {
+		    		outbuffer = image.scaleImage(width);
+		    	} else {
+		    		int height = Integer.parseInt(sheight);
+		    		outbuffer = image.scaleImage(width, height);
+		    	}
 		    	
 				OutputStream output = response.getOutputStream();// 得到输出流  
 	            InputStream imageIn = new ByteArrayInputStream(outbuffer); 
