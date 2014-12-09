@@ -26,16 +26,24 @@ public class ListPicture extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String uid = request.getParameter("uid");
 		uid = new String(uid.getBytes("iso-8859-1"),"utf-8");
 		String space = request.getParameter("space");
 		space = new String(space.getBytes("iso-8859-1"),"utf-8");
 		response.setCharacterEncoding("utf-8");
+		
+		HbaseReader hr = new HbaseReader();
+		List<PictureBean> list = hr.getPictureBean(uid, space);
+		String res = JsonUtil.createJsonString("Picture", list);
+		PrintWriter out = response.getWriter();
+		out.write(res);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		String uid = request.getParameter("uid");
+		String space = request.getParameter("space");
 		
 		HbaseReader hr = new HbaseReader();
 		List<PictureBean> list = hr.getPictureBean(uid, space);
