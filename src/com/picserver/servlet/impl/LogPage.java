@@ -66,6 +66,7 @@ public class LogPage extends HttpServlet {
 		
 		PageHandler ph = new PageHandler();
 		List<LogBean> list = ph.LogPage(uid, row, 2);
+		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		if(list == null){
 			out.write("no log");
