@@ -7,6 +7,7 @@ import java.util.List;
 import com.picserver.bean.MapfileBean;
 import com.picserver.bean.PictureBean;
 import com.picserver.hbase.HbaseReader;
+import com.picserver.hbase.HbaseWriter;
 import com.picserver.hdfs.MapfileUtils;
 
 public class DeleteThread extends Thread {
@@ -42,6 +43,8 @@ public class DeleteThread extends Thread {
 			
 			mapfile.setFlagNum("0");
 			mapfile.setPicNum(Integer.toString(picnum-flagnum));
+			HbaseWriter writer=new HbaseWriter();
+			writer.putMapfileBean(mapfile);
 			System.out.println("删除文件成功！");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
