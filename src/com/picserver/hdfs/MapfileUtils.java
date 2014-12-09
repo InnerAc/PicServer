@@ -146,6 +146,7 @@ public class MapfileUtils {
 			System.out.println(hdfsDir);
 			byte[] data = readFromHdfs(hdfsDir,image);
 			writer.append(new Text(image), new BytesWritable(data));
+			System.out.println("重写mapfile成功！");
 		}
 		IOUtils.closeStream(writer);// 关闭write流
 	}
