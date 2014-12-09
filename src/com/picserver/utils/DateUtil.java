@@ -50,4 +50,10 @@ public class DateUtil {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		return sdf.format(date);
 	}
+	
+	public static String getCurrentDateMS() {
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+		return sdf.format(date);
+	}
 }

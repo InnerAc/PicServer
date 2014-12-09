@@ -51,8 +51,8 @@ public class LogPage extends HttpServlet {
 		String row;
 		if(page.equals("0")){
 			//初次请求传0
-			String time = DateUtil.getCurrentDateStr();
-			String max = "99999999999999";
+			String time = DateUtil.getCurrentDateMS();
+			String max = "99999999999999999";
 			double d1 =   Double.parseDouble(max);
 			double d2 = Double.parseDouble(time);
 			row = String.valueOf(d1-d2)+uid ;
