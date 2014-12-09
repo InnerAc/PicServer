@@ -45,6 +45,7 @@ public class GetSpace extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String name = request.getParameter("name");
 		HbaseReader hr = new HbaseReader();
+		response.setCharacterEncoding("utf-8");
 		try {
 			SpaceBean sb = hr.getSpaceBean(name);
 			String res = JsonUtil.createJsonString("Space", sb);

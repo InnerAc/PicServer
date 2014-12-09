@@ -57,6 +57,7 @@ public class CreateSpace extends HttpServlet {
 		}else{
 			String res = "The space name is already existed!";
 			PrintWriter out = response.getWriter();
+
 			out.write(res);
 		}
 		

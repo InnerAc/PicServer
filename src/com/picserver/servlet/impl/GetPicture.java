@@ -40,6 +40,7 @@ public class GetPicture extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String name = request.getParameter("name");
+		response.setCharacterEncoding("utf-8");
 		
 		HbaseReader hr = new HbaseReader();
 		PictureBean pb = hr.getPictureBean(name);

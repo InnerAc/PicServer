@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.hadoop.io.SequenceFile;
 
+import com.picserver.bean.LogBean;
 import com.picserver.bean.PictureBean;
 import com.picserver.bean.SpaceBean;
 import com.picserver.config.SystemConfig;
@@ -298,6 +299,12 @@ public class PictureWriter {
 //		System.out.println(space);
 		image.setSpace(space);
 		writer.putPictureBean(image);
+		
+		String picName = item.getName();
+		String op = "上传了图片" + picName;
+		System.out.println(op);
+		LogBean lb = new LogBean(usr,op);
+		writer.putLogBean(lb);
 		
 		HbaseReader hr = new HbaseReader();
 		SpaceBean sb = hr.getSpaceBean(space);

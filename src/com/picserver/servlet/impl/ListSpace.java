@@ -33,6 +33,7 @@ public class ListSpace extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		try {
 			List<SpaceBean> list = hr.getSpaceBean("attr","uid", uid);
+			System.out.println(list.get(0).getName());
 			String res = JsonUtil.createJsonString("Spaces", list);
 			PrintWriter out = response.getWriter();
 			out.write(res);
@@ -46,9 +47,11 @@ public class ListSpace extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String uid = request.getParameter("uid");
 		HbaseReader hr = new HbaseReader();
+		response.setCharacterEncoding("utf-8");
 		try {
 			List<SpaceBean> list = hr.getSpaceBean("attr","uid", uid);
 			String res = JsonUtil.createJsonString("Spaces", list);
+			System.out.println(res);
 			PrintWriter out = response.getWriter();
 			out.write(res);
 			
