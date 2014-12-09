@@ -136,7 +136,7 @@ public class PictureUtils {
 	 * @param mas_high
 	 * 					图片初始高度
 	 * */
-	public  void cutImg(String hdfsPath,String fileName, int i_size) throws MagickException, IOException {    
+	public  boolean  cutImg(String hdfsPath,String fileName, int i_size) throws MagickException, IOException {    
 
         MagickImage cropped = null;    
         Rectangle rect = null;
@@ -196,39 +196,43 @@ public class PictureUtils {
      				cropped = scaled.cropImage(rect);    
      				byte[] blobout = cropped.imageToBlob(info); 
      				String RealPath = hdfsPath + '/'  + fileName + "_files" +  "/"+i_lev+"/"+j+"_"+i+".jpg";
-     				
-     				InputStream in = new ByteArrayInputStream(blobout); 
-     				HdfsUtil hu = new HdfsUtil();
-     				hu.upLoad(in, RealPath);
+     				try{
+         				InputStream in = new ByteArrayInputStream(blobout); 
+         				HdfsUtil hu = new HdfsUtil();
+         				hu.upLoad(in, RealPath); 					
+     				} catch (Exception e) {
+     					e.printStackTrace();
+     					return false;
+     				}				
      			}
      		}
         	now_wide /= 2;
         	now_high /= 2;		
         }
+        return true;
     }
+	
 	/*
 	 * @param	topath
 	 * 					dzi文件保存的路径和+文件名
 	 * @param	i_size
 	 * 					元图的尺寸
 	 * */
-	public  void write_dzi(String hdfsPath,int i_size) throws MagickException{
+	public  boolean write_dzi(String hdfsPath,String fileName,int i_size) throws Exception{
 		Dimension dim = image.getDimension();
 		int mas_wide = (int) dim.getWidth();
 		int mas_high = (int) dim.getHeight();
 		
-		PrintWriter writer;
+		String RealPath = hdfsPath  + '/' +fileName + ".dzi";
+		System.out.println(RealPath);
 		String str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Image TileSize=\""+i_size+"\" Overlap=\"1\" Format=\"jpg\" xmlns=\"http://schemas.microsoft.com/deepzoom/2008\"><Size Width=\""+mas_wide+"\" Height=\""+mas_high+"\"/></Image>";
 		try {
-			writer = new PrintWriter(hdfsPath, "UTF-8");
-			writer.println(str);
-			writer.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			HdfsUtil hu = new HdfsUtil();
+			hu.createFile(RealPath, str);
+		} catch (Exception  e) {
 			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			return false;
+		} 
+		return true;
 	}
 }

@@ -155,6 +155,20 @@ public class HdfsUtil {
         }
     }
 	
+    /** 
+     * create a file  创建一个文件 
+     * @param filePath 
+     * @return 
+     */  
+    public  void createFile(String filePath,String content) throws Exception{    
+          Configuration conf= new Configuration();  
+          Path path = new Path(filePath);  
+          FSDataOutputStream out = fs.create(path);  
+          out.write(content.getBytes());  
+          out.close();  
+          fs.close();  
+    }  
+    
     
     public BufferedImage readImage(String hdfsPath) throws Exception{
         Configuration conf = new Configuration();

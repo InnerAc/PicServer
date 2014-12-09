@@ -40,7 +40,6 @@ public class ReadImage extends HttpServlet {
 		String imageName = request.getParameter("image");
 		PictureReader PReader = new PictureReader();
 		byte[] buffer = null;
-		
 		try {
 			// TODO
 			buffer = PReader.readPicture(imageName);

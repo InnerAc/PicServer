@@ -1,6 +1,7 @@
 package com.picserver.servlet.io;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -53,8 +54,23 @@ public class WriteHd extends HttpServlet {
 		    	if(buffer == null) System.out.println("null");
 		    	PictureUtils image = new PictureUtils(buffer);
 
-//		    	image.cutImg(hdfsPath, imageName, i_size);
-		    	image.write_dzi(hdfsPath, i_size);
+		    	boolean flag = false;
+		    	flag = image.cutImg(hdfsPath, imageName, i_size);
+		    	if(flag)
+		    		flag = image.write_dzi(hdfsPath, imageName,i_size);
+		    	if(flag){
+					response.setContentType("text/html;charset=gb2312");
+					PrintWriter out = response.getWriter();
+					out.print("success");
+					response.setStatus(200);
+					System.out.println("hd image create success!");
+		    	} else {
+					response.setContentType("text/html;charset=gb2312");
+					PrintWriter out = response.getWriter();
+					out.print("failed");					
+					response.setStatus(302);
+					System.out.println("create  failed");
+		    	}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
