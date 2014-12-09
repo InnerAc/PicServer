@@ -2,6 +2,7 @@ package com.picserver.servlet.control;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,13 +69,14 @@ public class DeleteImage extends HttpServlet {
 		writer.putSpaceBean(space);
 		//根据图片状态的不同采取不同的方式
 		String status=pic.getStatus();
-		
+		boolean flag=true;
 
 		if(status.equals(BigFile)){
 			HdfsUtil hd=new HdfsUtil();
-			hd.deletePath(pic.getPath());
+			flag=hd.deletePath(pic.getPath());
 			writer.deletePictureBean(pic);
 			System.out.println("大文件删除成功");
+			
 		}
 		else if(status.equals(SmallFile)){
 			
@@ -87,7 +89,7 @@ public class DeleteImage extends HttpServlet {
 			mapfile.setFlagNum(Integer.toString(flagnum));
 			writer.putPictureBean(pic);
 			writer.putMapfileBean(mapfile);
-
+            flag=false;
 			System.out.println("成功对小文件进行标记！");
 			
 			//创建线程检查mapfile是否需要重写
@@ -99,12 +101,24 @@ public class DeleteImage extends HttpServlet {
 			File f=new File(pic.getPath(),pic.getName());
 			if(f.exists())
 			{
-				f.delete();
+				flag=f.delete();
 				writer.deletePictureBean(pic);
 				System.out.println("本地文件删除成功");
 			}
-				
-			
+		}
+		
+		if(flag){
+			response.setContentType("text/html;charset=gb2312");
+			PrintWriter out = response.getWriter();
+			out.println("删除成功!");
+			response.setStatus(200);
+			System.out.println("Upload success!");
+		} else {
+			response.setContentType("text/html;charset=gb2312");
+			PrintWriter out = response.getWriter();
+			out.println("删除失败!");					
+			response.setStatus(302);
+			System.out.println("Upload failed");
 		}
 	}
 

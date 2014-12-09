@@ -10,23 +10,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.picserver.bean.LogBean;
-import com.picserver.bean.LogPageBean;
+import com.picserver.bean.PicPageBean;
+import com.picserver.bean.PictureBean;
 import com.picserver.hbase.PageHandler;
 import com.picserver.utils.DateUtil;
 import com.picserver.utils.JsonUtil;
 
 /**
- * Log分页
+ *图片分页
  */
-@WebServlet("/LogPage")
-public class LogPage extends HttpServlet {
+@WebServlet("/PicPage")
+public class PicPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LogPage() {
+    public PicPage() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,7 +35,7 @@ public class LogPage extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+//		doPost(request, response);
 	}
 
 	/**
@@ -50,31 +50,27 @@ public class LogPage extends HttpServlet {
 		//每页起始row
 		String row;
 		if(page.equals("0")){
-			//初次请求传0
-			String time = DateUtil.getCurrentDateMS();
-			String max = "99999999999999999";
-			double d1 =   Double.parseDouble(max);
-			double d2 = Double.parseDouble(time);
-			row = String.valueOf(d1-d2)+uid ;
+			row = DateUtil.getCurrentDateStr();
 		}else{
 			row = request.getParameter("row");
 		}
-		LogPageBean lpb = new LogPageBean();
+		PicPageBean ppb = new PicPageBean();
 		int num = Integer.parseInt(page);
 		num = num + 1;
-		lpb.setPage(String.valueOf(num));
+		ppb.setPage(String.valueOf(num));
 		
 		PageHandler ph = new PageHandler();
-		List<LogBean> list = ph.logPage(uid, row, 2);
+		List<PictureBean> list = ph.picPage(uid, row, 10);
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		if(list == null){
-			out.write("no log");
+			out.write("no picture");
 		}else{
 			int i = list.size();
-			lpb.setRow(list.get(i-1).getLogid());
-			lpb.setList(list);
-			out.write(JsonUtil.createJsonString("page", lpb));
+			ppb.setRow(list.get(i-1).getCreateTime());
+			ppb.setList(list);
+			out.write(JsonUtil.createJsonString("page", ppb));
 		}
 	}
+
 }
