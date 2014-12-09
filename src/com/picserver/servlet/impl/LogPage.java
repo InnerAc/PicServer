@@ -51,11 +51,7 @@ public class LogPage extends HttpServlet {
 		String row;
 		if(page.equals("0")){
 			//初次请求传0
-			String time = DateUtil.getCurrentDateMS();
-			String max = "99999999999999999";
-			double d1 =   Double.parseDouble(max);
-			double d2 = Double.parseDouble(time);
-			row = String.valueOf(d1-d2)+uid ;
+			row = DateUtil.getCurrentDateStr();
 		}else{
 			row = request.getParameter("row");
 		}
@@ -72,7 +68,7 @@ public class LogPage extends HttpServlet {
 			out.write("no log");
 		}else{
 			int i = list.size();
-			lpb.setRow(list.get(i-1).getLogid());
+			lpb.setRow(list.get(i-1).getTime());
 			lpb.setList(list);
 			out.write(JsonUtil.createJsonString("page", lpb));
 		}
