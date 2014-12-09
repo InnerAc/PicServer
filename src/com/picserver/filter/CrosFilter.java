@@ -10,14 +10,14 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter("/*")
+@WebFilter("*")
 public class CrosFilter implements Filter {
 
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 		HttpServletResponse response = (HttpServletResponse) res;
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:81");
 		response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-		response.setHeader("Access-Control-Allow-Headers", "accept, cache-control, x-requested-with, content-type");
+		response.setHeader("Access-Control-Allow-Headers", "accept, cache-control, x-requested-with, content-type,X-DevTools-Emulate-Network-Conditions-Client-Id");
 		response.setHeader("Access-Control-Max-Age", "3600");
 		chain.doFilter(req, res);
 	}

@@ -22,6 +22,6 @@ public class HdfsConfig {
 	 * @return String
 	 */
 	public static String getHDFSPath() {
-		return "hdfs://localhost:9000/upload/test/LargeFile";
+		return "hdfs://localhost:9000/upload";
 	}
 }
