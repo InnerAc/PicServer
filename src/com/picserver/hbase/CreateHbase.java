@@ -21,13 +21,13 @@ public class CreateHbase {
 	public static void main(String[] args) {
 		
 		// 创建云图片表
-		String name1 = "cloud_picture";
-		String[] column = { "attr", "var" };
-		createTable(name1, column);
+//		String name1 = "cloud_picture";
+//		String[] column = { "attr", "var" };
+//		createTable(name1, column);
 
 		// 创建云空间表
-		String name2 = "cloud_space";
-		createTable(name2, column);
+//		String name2 = "cloud_space";
+//		createTable(name2, column);
 		
 		//创建用户表
 //		String name3 = "cloud_user";
@@ -35,9 +35,19 @@ public class CreateHbase {
 //		createTable(name3, column1);
 		
 		//创建日志表
-		String name4 = "cloud_log";
-		String[] coloum2 = {"attr"};
-		createTable(name4, coloum2);
+//		String name4 = "cloud_log";
+//		String[] coloum2 = {"attr"};
+//		createTable(name4, coloum2);
+		
+		//创建高清图片表
+		String name4 = "cloud_hd";
+		String[] c = {"attr"};
+		createTable(name4, c);
+		
+		//创建mapfileb表
+		String name5 = "cloud_mapfile";
+		String[] c1 = {"attr", "var"};
+		createTable(name5, c1);
 	}
 
 	/**

@@ -1,6 +1,10 @@
 package com.picserver.hbase;
 
+import org.apache.hadoop.io.MapFile;
+
+import com.picserver.bean.HdBean;
 import com.picserver.bean.LogBean;
+import com.picserver.bean.MapfileBean;
 import com.picserver.bean.PictureBean;
 import com.picserver.bean.SpaceBean;
 import com.picserver.bean.UserBean;
@@ -73,6 +77,10 @@ public class HbaseWriter {
 		ho.insertData("cloud_user", ub.getUid(), "space", "spaceNum", ub.getSpaceNum());
 	}
 	
+	/**
+	 * 将日志信息写入log表
+	 * @param lb
+	 */
 	public void putLogBean(LogBean lb){
 		if((lb == null)||(lb.getLogid().equals(""))){
 			//传值有问题，处理一下
@@ -82,8 +90,44 @@ public class HbaseWriter {
 		ho.insertData("cloud_log", lb.getLogid(), "attr", "time", lb.getTime());
 		ho.insertData("cloud_log", lb.getLogid(), "attr", "operation", lb.getOperation());
 	}
-public void deletePictureBean(PictureBean pic){
-	HbaseOperation  operation=new HbaseOperation();
-	operation.deleteRow("cloud_picture", pic.getName());
-}
+	
+	/**
+	 * 将高清图片信息写入表
+	 * @param hb
+	 */
+	public void putHdBean(HdBean hb){
+		if((hb == null)||(hb.getName().equals(""))){
+			//传值有问题，处理一下
+			return;
+		}
+		ho.insertData("cloud_hd", hb.getName(), "attr", "size", hb.getSize());
+		ho.insertData("cloud_hd", hb.getName(), "attr", "uid", hb.getUid());
+		ho.insertData("cloud_hd", hb.getName(), "attr", "createTime", hb.getCreateTime());
+		ho.insertData("cloud_hd", hb.getName(), "attr", "url", hb.getUrl());
+	}
+	
+	/**
+	 * 将mapfile信息写入表
+	 * @param mb
+	 */
+	public void putMapfileBean(MapfileBean mb){
+		if((mb == null)||(mb.getName().equals(""))){
+			//传值有问题，处理一下
+			return;
+		}
+		ho.insertData("cloud_mapfile",mb.getName(), "attr", "uid", mb.getUid());
+		ho.insertData("cloud_mapfile",mb.getName(), "var", "flagNum", mb.getFlagNum());
+		ho.insertData("cloud_mapfile",mb.getName(), "var", "picNum", mb.getPicNum());
+	}
+	
+	/**
+	 * 删除图片信息
+	 * @param pic
+	 */
+	public void deletePictureBean(PictureBean pic){
+		HbaseOperation  operation=new HbaseOperation();
+		operation.deleteRow("cloud_picture", pic.getName());
+	}
+	
+	
 }
