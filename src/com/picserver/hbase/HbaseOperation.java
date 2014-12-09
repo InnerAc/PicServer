@@ -19,9 +19,13 @@ import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.FilterList;
+import org.apache.hadoop.hbase.filter.PageFilter;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp;
+import org.apache.hadoop.hbase.filter.TimestampsFilter;
 import org.apache.hadoop.hbase.util.Bytes;
+
+import com.picserver.utils.DateUtil;
 
 /**
  * hbase的操作，一般来说，删除数据和删除表使用该类
@@ -194,6 +198,45 @@ public class HbaseOperation {
 	                     .toBytes("attr"), Bytes .toBytes("space"), 
 	                     CompareOp.EQUAL, Bytes .toBytes(space)); 
 	             filters.add(filter2); 
+	             
+	             FilterList filterList = new FilterList(filters); 
+	             Scan scan = new Scan(); 
+	             scan.setFilter(filterList); 
+	             ResultScanner rs = pool.getTable("cloud_picture").getScanner(scan); 
+	           return rs;
+	         } catch (Exception e) { 
+	             e.printStackTrace(); 
+	             return null;
+	         } 
+	     } 
+	     
+	    /**
+	     * 查询某个用户某个时间段内上传的图片
+	     * @param usr 用户id
+	     * @param sTime 起始时间
+ 	     * @param eTime 终止时间
+	     * @return
+	     */
+	     public  ResultScanner QueryLimitPic(String usr, String sTime, String eTime) { 
+	         try { 
+	             HTablePool pool = new HTablePool(configuration, 1000); 
+	             List<Filter> filters = new ArrayList<Filter>(); 
+	  
+	             Filter filter1 = new SingleColumnValueFilter(Bytes 
+	                     .toBytes("attr"), Bytes .toBytes("createTime"), 
+	                     CompareOp.GREATER_OR_EQUAL, Bytes .toBytes(sTime)); 
+	             filters.add(filter1); 
+	             
+	             Filter filter2 = new SingleColumnValueFilter(Bytes 
+	                     .toBytes("attr"), Bytes .toBytes("createTime"), 
+	                     CompareOp.LESS_OR_EQUAL, Bytes .toBytes(eTime)); 
+	             filters.add(filter2); 
+	             
+	             Filter filter3 = new SingleColumnValueFilter(Bytes 
+	                     .toBytes("attr"), Bytes .toBytes("usr"), 
+	                     CompareOp.EQUAL, Bytes .toBytes(usr)); 
+	             filters.add(filter3); 
+	             
 	             
 	             FilterList filterList = new FilterList(filters); 
 	             Scan scan = new Scan(); 

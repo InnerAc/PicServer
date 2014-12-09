@@ -27,14 +27,25 @@ public class ListSpace extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+		request.setCharacterEncoding("utf-8");
+		String uid = request.getParameter("uid");
+		HbaseReader hr = new HbaseReader();
+		response.setCharacterEncoding("utf-8");
+		try {
+			List<SpaceBean> list = hr.getSpaceBean("attr","uid", uid);
+			String res = JsonUtil.createJsonString("Spaces", list);
+			PrintWriter out = response.getWriter();
+			out.write(res);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String uid = request.getParameter("uid");
 		HbaseReader hr = new HbaseReader();
-		response.setCharacterEncoding("utf-8");
 		try {
 			List<SpaceBean> list = hr.getSpaceBean("attr","uid", uid);
 			String res = JsonUtil.createJsonString("Spaces", list);

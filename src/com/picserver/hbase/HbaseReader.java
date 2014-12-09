@@ -133,6 +133,63 @@ public class HbaseReader {
 		}
 		return list;
 	}
+	
+	
+	/**
+	 * 检索某用户某时间段上传的图片
+	 * @param uid 用户
+	 * @param sTime 起始时间
+	 * @param eTime 结束时间
+	 * @return
+	 * @throws IOException
+	 */
+	public List<PictureBean> getLimitPicture(String uid, String sTime, String eTime) throws IOException {
+		List<PictureBean> list = new ArrayList<PictureBean>();
+		ResultScanner rs = ho.QueryLimitPic(uid, sTime, eTime);
+		for (Result r : rs) {
+			PictureBean pb = new PictureBean();
+			pb.setName(new String(r.getRow()));
+			for (KeyValue keyValue : r.raw()) {
+				String v = new String(keyValue.getQualifier());
+				String val = new String(keyValue.getValue());
+				if (v.equals("size")) {
+					pb.setSize(val);
+				}
+				if (v.equals("type")) {
+					pb.setType(val);
+				}
+				if (v.equals("space")) {
+					pb.setSpace(val);
+				}
+				if (v.equals("usr")) {
+					pb.setUsr(val);
+				}
+				if (v.equals("createTime")) {
+					pb.setCreateTime(val);
+				}
+				if (v.equals("path")) {
+					pb.setPath(val);
+				}
+				if (v.equals("status")) {
+					pb.setStatus(val);
+				}
+				if (v.equals("updateTime")) {
+					pb.setUpdateTime(val);
+				}
+				if (v.equals("visitCount")) {
+					pb.setVisitCount(val);
+				}
+				if (v.equals("visitFlow")) {
+					pb.setVisitFlow(val);
+				}
+			}
+			list.add(pb);
+		}
+		if (list.size() == 0) {
+			return null;
+		}
+		return list;
+	}
 
 	/**
 	 * 根据space和usr检索表cloud_space
