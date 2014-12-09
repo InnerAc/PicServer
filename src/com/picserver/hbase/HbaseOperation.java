@@ -237,7 +237,6 @@ public class HbaseOperation {
 	                     CompareOp.EQUAL, Bytes .toBytes(usr)); 
 	             filters.add(filter3); 
 	             
-	             
 	             FilterList filterList = new FilterList(filters); 
 	             Scan scan = new Scan(); 
 	             scan.setFilter(filterList); 
