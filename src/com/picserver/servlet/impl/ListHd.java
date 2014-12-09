@@ -2,7 +2,6 @@ package com.picserver.servlet.impl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -11,60 +10,60 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.picserver.bean.SpaceBean;
+import com.picserver.bean.HdBean;
 import com.picserver.hbase.HbaseReader;
 import com.picserver.utils.JsonUtil;
 
 /**
- * 查询某uid的所有space
+ * Servlet implementation class ListHd
  */
-@WebServlet("/ListSpace")
-public class ListSpace extends HttpServlet {
+@WebServlet("/ListHd")
+public class ListHd extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public ListSpace() {
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ListHd() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		String uid = request.getParameter("uid");
-		HbaseReader hr = new HbaseReader();
 		response.setCharacterEncoding("utf-8");
-		try {
-			List<SpaceBean> list = hr.getSpaceBean("attr","uid", uid);
-			PrintWriter out = response.getWriter();
-			if(list == null){
-				out.write("no space");
-			}
-			else{
-				String res = JsonUtil.createJsonString("Spaces", list);
-				out.write(res);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		String uid = request.getParameter("uid");
+		uid = new String(uid.getBytes("iso-8859-1"),"utf-8");
+		
+		HbaseReader hr = new HbaseReader();
+		List<HdBean> list = hr.getHdList(uid);
+		PrintWriter out = response.getWriter();
+		if(list == null){
+			out.write("no hd");
+		}else{
+			out.write(JsonUtil.createJsonString("hd", list));
 		}
 	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		String uid = request.getParameter("uid");
-		HbaseReader hr = new HbaseReader();
 		response.setCharacterEncoding("utf-8");
-		try {
-			List<SpaceBean> list = hr.getSpaceBean("attr","uid", uid);
-			PrintWriter out = response.getWriter();
-			if(list == null){
-				out.write("no space");
-			}
-			else{
-				String res = JsonUtil.createJsonString("Spaces", list);
-				out.write(res);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		String uid = request.getParameter("uid");
 		
+		HbaseReader hr = new HbaseReader();
+		List<HdBean> list = hr.getHdList(uid);
+		PrintWriter out = response.getWriter();
+		if(list == null){
+			out.write("no hd");
+		}else{
+			out.write(JsonUtil.createJsonString("hd", list));
+		}
 	}
 
 }

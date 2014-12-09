@@ -10,8 +10,6 @@ public class HdBean {
 	String createTime = "";
 	//图片大小
 	String size = "";
-	//路径
-	String url  = "";
 	
 	
 	public String getName() {
@@ -38,10 +36,5 @@ public class HdBean {
 	public void setSize(String size) {
 		this.size = size;
 	}
-	public String getUrl() {
-		return url;
-	}
-	public void setUrl(String url) {
-		this.url = url;
-	}
+
 }

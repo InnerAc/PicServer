@@ -161,9 +161,6 @@ public class ListMapping {
 				if (v.equals("size")) {
 					hb.setSize(val);
 				}
-				if (v.equals("url")) {
-					hb.setUrl(val);
-				}
 			}
 			list.add(hb);
 		}

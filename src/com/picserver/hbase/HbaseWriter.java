@@ -103,7 +103,6 @@ public class HbaseWriter {
 		ho.insertData("cloud_hd", hb.getName(), "attr", "size", hb.getSize());
 		ho.insertData("cloud_hd", hb.getName(), "attr", "uid", hb.getUid());
 		ho.insertData("cloud_hd", hb.getName(), "attr", "createTime", hb.getCreateTime());
-		ho.insertData("cloud_hd", hb.getName(), "attr", "url", hb.getUrl());
 	}
 	
 	/**

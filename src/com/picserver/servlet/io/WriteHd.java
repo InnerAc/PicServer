@@ -9,9 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.picserver.bean.HdBean;
 import com.picserver.config.SystemConfig;
+import com.picserver.hbase.HbaseWriter;
 import com.picserver.picture.PictureReader;
 import com.picserver.picture.PictureUtils;
+import com.picserver.utils.DateUtil;
 
 /**
  * Servlet implementation class WriteHd
@@ -59,6 +62,15 @@ public class WriteHd extends HttpServlet {
 		    	if(flag)
 		    		flag = image.write_dzi(hdfsPath, imageName,i_size);
 		    	if(flag){
+		    		//写入数据库
+		    		HdBean hb = new HdBean();
+		    		hb.setName(imageName);
+		    		hb.setSize(String.valueOf(i_size));
+		    		hb.setUid(uid);
+		    		hb.setCreateTime(DateUtil.getCurrentDateStr());
+		    		HbaseWriter hw = new HbaseWriter();
+		    		hw.putHdBean(hb);
+		    		
 					response.setContentType("text/html;charset=gb2312");
 					PrintWriter out = response.getWriter();
 					out.print("success");
