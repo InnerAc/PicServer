@@ -45,17 +45,20 @@ public class ReadFile extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String FilePath = request.getParameter("path");
+		String uid = request.getParameter("uid");
 		HdfsUtil hdfs = new HdfsUtil();	    
 	    String hdfsPath = com.picserver.hdfs.HdfsConfig.getHDFSPath();
-	    String RealPath = hdfsPath + FilePath;
-        
+	    uid = "admin";
+	    FilePath = "HdImage/zoom.dzi";
+	    String RealPath = hdfsPath + '/' + uid + '/' +  FilePath;
 	    System.out.println(RealPath);
 	    
 	    try{
 	    		byte[] picbyte = hdfs.readFile(RealPath);
 	    		response.reset(); 
 	    		OutputStream output = response.getOutputStream();// 得到输出流  
-	    		
+	    		response.setContentType("text/xml;charset=utf-8"); 
+	    		 response.setHeader("Access-Control-Allow-Origin", "http://localhost:81");
 	        	if (RealPath.toLowerCase().endsWith(".png")){
 	        		response.setContentType(PNG);  
 	        	}
@@ -83,7 +86,7 @@ public class ReadFile extends HttpServlet {
 	              bos.close();  
 	              
 	              output.close(); 
-	    	
+	             
 	    }catch(Exception e){
 	    	PrintWriter out = response.getWriter();
 	    	out.println("cannot find the file!");
