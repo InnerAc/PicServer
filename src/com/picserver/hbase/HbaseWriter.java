@@ -128,6 +128,13 @@ public class HbaseWriter {
 		HbaseOperation  operation=new HbaseOperation();
 		operation.deleteRow("cloud_picture", pic.getName());
 	}
-	
+	/**
+	 *  删除mapfile信息
+	 * @param map mapfile
+	 */
+	public void deleteMapfileBean(MapfileBean map){
+		HbaseOperation  operation=new HbaseOperation();
+		operation.deleteRow("cloud_mapfile", map.getName());
+	}
 	
 }

@@ -22,6 +22,7 @@ import org.apache.hadoop.io.Text;
 import com.picserver.bean.MapfileBean;
 import com.picserver.bean.PictureBean;
 import com.picserver.hbase.HbaseWriter;
+import com.picserver.utils.DateUtil;
 
 public class MapfileUtils {
 	public static String hdfsUrl = "hdfs://localhost:9000";
@@ -129,26 +130,49 @@ public class MapfileUtils {
 	/**
 	 * 删除文件，代码未测试
 	 * @param hdfsDir map 文件地址
-	 * @param images 图片文件名字
+	 * @param images 图片文件
 	 * @throws IOException
 	 */
-	public void deleteImage(String hdfsDir, List<String>images) throws IOException{
+	public void deleteImage(String hdfsDir, List<PictureBean>images) throws IOException{
 		Configuration conf = new Configuration();
 		FileSystem fs = FileSystem.get(URI.create(hdfsUrl), conf);
-		Path path = new Path(fs.getHomeDirectory(), hdfsDir);
+		//重新生成mapfile的路径
+		String date=DateUtil.getCurrentDateStr();
+		String filePath = hdfsDir.substring(0, hdfsDir.length()-14) +date;
+		Path path = new Path(fs.getHomeDirectory(), filePath);
 		BytesWritable value = new BytesWritable();
 		Text key = new Text();
 		MapFile.Writer writer = new MapFile.Writer(conf, fs, path.toString(),
 				key.getClass(), value.getClass());
 		
-		for(String image:images){
-			System.out.println(image);
+		HbaseWriter hwriter = new HbaseWriter();
+		//对文件进行写入
+		for(PictureBean image:images){
+			System.out.println(image.getName());
 			System.out.println(hdfsDir);
-			byte[] data = readFromHdfs(hdfsDir,image);
-			writer.append(new Text(image), new BytesWritable(data));
+			byte[] data = readFromHdfs(hdfsDir,image.getName());
+			
+			if(data==null) System.out.println("null");
+			
+			writer.append(new Text(image.getName()), new BytesWritable(data));
 			System.out.println("重写mapfile成功！");
+			
+			//更新图片的地址
+			image.setPath(filePath);	
+			hwriter.putPictureBean(image);
+			System.out.println("更新图片的地址成功");
 		}
 		IOUtils.closeStream(writer);// 关闭write流
+		//更新mapfile数据库信息
+		MapfileBean map=new MapfileBean();
+		map.setFlagNum("0");
+		map.setName(date);
+		map.setPicNum(Integer.toString(images.size()));
+		map.setUid(images.get(0).getUsr());
+		hwriter.putMapfileBean(map);
+		System.out.println("更新mapfile成功！");
+		
+		
 	}
 }
 	

@@ -33,27 +33,29 @@ public class DeleteThread extends Thread {
 			List<PictureBean> piclist;
 			try {
 				piclist = reader.getPictureBean("attr", "path", pic.getPath());
+			   List<PictureBean>images=new ArrayList<PictureBean>();
 			
-			List<String>images=new ArrayList<String>();
 			for(PictureBean picture:piclist){
 				System.out.println(picture.getName());
+				//如果文件被标记删除则从数据库中删除文件信息，否则将文件加入到images中
 				if(picture.getStatus().equals("deleted")){
-					images.add(picture.getName());
 					System.out.println(picture.getName());
 					System.out.println(picture.getStatus());
 				   writer.deletePictureBean(picture);
 				   System.out.println("成功从数据库删除小文件！");
 				}
+				else {
+					images.add(picture);
+					System.out.println(picture.getName());
+					System.out.println(picture.getStatus());
+				}
 			}
-			
+			writer.deleteMapfileBean(mapfile);
+			System.out.println("从数据库删除mapfile文件成功！");
 			//执行重写mapfile操作
 			MapfileUtils mf=new MapfileUtils();
 			mf.deleteImage(pic.getPath(), images);
 			
-			mapfile.setFlagNum("0");
-			mapfile.setPicNum(Integer.toString(picnum-flagnum));
-			
-			writer.putMapfileBean(mapfile);
 			System.out.println("删除文件成功！");
 			
 			
