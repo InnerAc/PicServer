@@ -35,19 +35,19 @@ public class CreateHbase {
 //		createTable(name3, column1);
 		
 		//创建日志表
-//		String name4 = "cloud_log";
-//		String[] coloum2 = {"attr"};
-//		createTable(name4, coloum2);
+		String name4 = "cloud_log";
+		String[] coloum2 = {"attr"};
+		createTable(name4, coloum2);
 		
-		//创建高清图片表
-		String name4 = "cloud_hd";
-		String[] c = {"attr"};
-		createTable(name4, c);
-		
-		//创建mapfileb表
-		String name5 = "cloud_mapfile";
-		String[] c1 = {"attr", "var"};
-		createTable(name5, c1);
+//		//创建高清图片表
+//		String name4 = "cloud_hd";
+//		String[] c = {"attr"};
+//		createTable(name4, c);
+//		
+//		//创建mapfileb表
+//		String name5 = "cloud_mapfile";
+//		String[] c1 = {"attr", "var"};
+//		createTable(name5, c1);
 	}
 
 	/**
