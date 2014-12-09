@@ -25,7 +25,7 @@ import magick.PixelPacket;
 import magick.PreviewType;  
 
 public class PictureUtils {
-	private MagickImage image;
+	private  MagickImage image;
 	private ImageInfo info;
 	/**
 	 * 构造方法
@@ -136,9 +136,8 @@ public class PictureUtils {
 	 * @param mas_high
 	 * 					图片初始高度
 	 * */
-	public static void cutImg(String hdfsPath,String fileName, int i_side) throws MagickException, IOException {    
-        ImageInfo infoS = null;    
-        MagickImage image = null;    
+	public  void cutImg(String hdfsPath,String fileName, int i_size) throws MagickException, IOException {    
+
         MagickImage cropped = null;    
         Rectangle rect = null;
         MagickImage scaled  = null;
@@ -166,8 +165,8 @@ public class PictureUtils {
         		now_wide = 1;
         	if(now_high < 1)
         		now_high = 1;
-        	tmp_n = (double)now_wide/i_side;
-        	tmp_m = (double)now_high/i_side;
+        	tmp_n = (double)now_wide/i_size;
+        	tmp_m = (double)now_high/i_size;
 
         	n = (int)tmp_n;
         	m = (int)tmp_m;
@@ -180,22 +179,22 @@ public class PictureUtils {
         	if(n < 1)
         		n = 1;
         	
-        	int nf_wide = now_wide - (n-1)*i_side,nf_high = now_high-(m-1)*i_side;
-        	int cut_w = i_side,cut_h = i_side;
+        	int nf_wide = now_wide - (n-1)*i_size,nf_high = now_high-(m-1)*i_size;
+        	int cut_w = i_size,cut_h = i_size;
         	scaled = image.scaleImage(now_wide,now_high);
         	
         	for(int i=0;i<m;i++){
      			for(int j=0;j<n;j++){
-     				cut_w = i_side;
-     				cut_h = i_side;
+     				cut_w = i_size;
+     				cut_h = i_size;
      				if(i == m-1)
      					cut_h = nf_high;
      				if(j == n-1)
      					cut_w = nf_wide;
-     				rect = new Rectangle(j*i_side, i*i_side,cut_w,cut_h);
-     				System.out.println(hdfsPath+"/"+i_lev+"/"+j+"_"+i+".jpg");
+     				rect = new Rectangle(j*i_size, i*i_size,cut_w,cut_h);
+     				System.out.println( hdfsPath + '/'  + fileName + "_files" +  "/"+i_lev+"/"+j+"_"+i+".jpg");
      				cropped = scaled.cropImage(rect);    
-     				byte[] blobout = cropped.imageToBlob(infoS); 
+     				byte[] blobout = cropped.imageToBlob(info); 
      				String RealPath = hdfsPath + '/'  + fileName + "_files" +  "/"+i_lev+"/"+j+"_"+i+".jpg";
      				
      				InputStream in = new ByteArrayInputStream(blobout); 
@@ -213,11 +212,15 @@ public class PictureUtils {
 	 * @param	i_size
 	 * 					元图的尺寸
 	 * */
-	public static void write_dzi(String topath,int i_size,int wide,int high){
+	public  void write_dzi(String hdfsPath,int i_size) throws MagickException{
+		Dimension dim = image.getDimension();
+		int mas_wide = (int) dim.getWidth();
+		int mas_high = (int) dim.getHeight();
+		
 		PrintWriter writer;
-		String str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Image TileSize=\""+i_size+"\" Overlap=\"1\" Format=\"jpg\" xmlns=\"http://schemas.microsoft.com/deepzoom/2008\"><Size Width=\""+wide+"\" Height=\""+high+"\"/></Image>";
+		String str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Image TileSize=\""+i_size+"\" Overlap=\"1\" Format=\"jpg\" xmlns=\"http://schemas.microsoft.com/deepzoom/2008\"><Size Width=\""+mas_wide+"\" Height=\""+mas_high+"\"/></Image>";
 		try {
-			writer = new PrintWriter(topath, "UTF-8");
+			writer = new PrintWriter(hdfsPath, "UTF-8");
 			writer.println(str);
 			writer.close();
 		} catch (FileNotFoundException e) {
