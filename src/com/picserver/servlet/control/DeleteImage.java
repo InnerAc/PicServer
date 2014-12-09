@@ -2,6 +2,8 @@ package com.picserver.servlet.control;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,12 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.picserver.bean.MapfileBean;
 import com.picserver.bean.PictureBean;
 import com.picserver.bean.SpaceBean;
 import com.picserver.hbase.HbaseReader;
 import com.picserver.hbase.HbaseWriter;
 import com.picserver.hdfs.HdfsUtil;
 import com.picserver.hdfs.MapfileUtils;
+import com.picserver.thread.DeleteThread;
 
 /**
  * Servlet implementation class DeleteImage
@@ -25,6 +29,7 @@ public class DeleteImage extends HttpServlet {
     private static final String BigFile="HdfsLargeFile";
     private static final String SmallFile="HdfsSmallFile";
     private static final String LocalFile="LocalFile";
+    private static final String Deleted="deleted";
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -70,9 +75,21 @@ public class DeleteImage extends HttpServlet {
 			System.out.println("大文件删除成功");
 		}
 		else if(status.equals(SmallFile)){
-//			MapfileUtils mf=new MapfileUtils();
-//			mf.deleteImage(hdfsDir, images);
 			
+			//  将小文件和对应的mapfile进行标记
+			pic .setStatus(Deleted);
+			String path=pic.getPath();
+			String map_key=path.substring(path.length()-14, path.length());
+			MapfileBean mapfile=reader.getMapfileBean(map_key);
+		   int flagnum=Integer.parseInt(mapfile.getFlagNum())+1;
+			mapfile.setFlagNum(Integer.toString(flagnum));
+			writer.putPictureBean(pic);
+			writer.putMapfileBean(mapfile);
+
+			System.out.println("成功对小文件进行标记！");
+			//创建线程检查mapfile是否需要重写
+			DeleteThread dt=new DeleteThread(mapfile,pic);
+			dt.start();
 		}
 		else if(status.equals(LocalFile)){
 			File f=new File(pic.getPath(),pic.getName());
