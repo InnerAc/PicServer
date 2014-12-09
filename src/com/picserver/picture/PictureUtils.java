@@ -2,9 +2,18 @@ package com.picserver.picture;
 
 import java.awt.Dimension;    
 import java.awt.Rectangle;    
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;    
 import java.util.Date;
 import java.util.List;
+
+import com.picserver.hdfs.HdfsUtil;
 
 import magick.CompositeOperator;    
 import magick.CompressionType;    
@@ -112,4 +121,111 @@ public class PictureUtils {
 		return blobout;
 	}
 	
+	
+	/*
+	 * @param imgPath
+	 * 					所需裁剪的图片路径
+	 * @param toPath
+	 * 					裁剪后图片保存的地址
+	 * @param i_w
+	 * 					元矩形宽
+	 * @param i_h
+	 * 					元矩形高
+	 * @param mas_wide
+	 * 					图片初始宽度
+	 * @param mas_high
+	 * 					图片初始高度
+	 * */
+	public static void cutImg(String hdfsPath,String fileName, int i_side) throws MagickException, IOException {    
+        ImageInfo infoS = null;    
+        MagickImage image = null;    
+        MagickImage cropped = null;    
+        Rectangle rect = null;
+        MagickImage scaled  = null;
+   
+		Dimension dim = image.getDimension();
+		int mas_wide = (int) dim.getWidth();
+		int mas_high = (int) dim.getHeight();
+		
+		int max_lev = 0;
+        double tmp_size =  Math.log(mas_wide) / Math.log(2);
+        
+        max_lev = (int)tmp_size;
+        
+        if(tmp_size > max_lev)
+        	max_lev++;
+
+        int i_lev = max_lev +1;
+        double tmp_n,tmp_m;
+        int n,m;
+        int now_wide = mas_wide,now_high = mas_high;
+        
+        while(--i_lev >= 0){
+        	//System.out.println(i_lev);
+        	if(now_wide < 1)
+        		now_wide = 1;
+        	if(now_high < 1)
+        		now_high = 1;
+        	tmp_n = (double)now_wide/i_side;
+        	tmp_m = (double)now_high/i_side;
+
+        	n = (int)tmp_n;
+        	m = (int)tmp_m;
+     
+        	if(tmp_n > n)n++;
+        	if(tmp_m > m)m++;
+
+        	if(m < 1)
+        		m = 1;
+        	if(n < 1)
+        		n = 1;
+        	
+        	int nf_wide = now_wide - (n-1)*i_side,nf_high = now_high-(m-1)*i_side;
+        	int cut_w = i_side,cut_h = i_side;
+        	scaled = image.scaleImage(now_wide,now_high);
+        	
+        	for(int i=0;i<m;i++){
+     			for(int j=0;j<n;j++){
+     				cut_w = i_side;
+     				cut_h = i_side;
+     				if(i == m-1)
+     					cut_h = nf_high;
+     				if(j == n-1)
+     					cut_w = nf_wide;
+     				rect = new Rectangle(j*i_side, i*i_side,cut_w,cut_h);
+     				System.out.println(hdfsPath+"/"+i_lev+"/"+j+"_"+i+".jpg");
+     				cropped = scaled.cropImage(rect);    
+     				byte[] blobout = cropped.imageToBlob(infoS); 
+     				String RealPath = hdfsPath + '/'  + fileName + "_files" +  "/"+i_lev+"/"+j+"_"+i+".jpg";
+     				
+     				InputStream in = new ByteArrayInputStream(blobout); 
+     				HdfsUtil hu = new HdfsUtil();
+     				hu.upLoad(in, RealPath);
+     			}
+     		}
+        	now_wide /= 2;
+        	now_high /= 2;		
+        }
+    }
+	/*
+	 * @param	topath
+	 * 					dzi文件保存的路径和+文件名
+	 * @param	i_size
+	 * 					元图的尺寸
+	 * */
+	public static void write_dzi(String topath,int i_size,int wide,int high){
+		PrintWriter writer;
+		String str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Image TileSize=\""+i_size+"\" Overlap=\"1\" Format=\"jpg\" xmlns=\"http://schemas.microsoft.com/deepzoom/2008\"><Size Width=\""+wide+"\" Height=\""+high+"\"/></Image>";
+		try {
+			writer = new PrintWriter(topath, "UTF-8");
+			writer.println(str);
+			writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
