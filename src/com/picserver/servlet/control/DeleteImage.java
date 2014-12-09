@@ -55,6 +55,8 @@ public class DeleteImage extends HttpServlet {
 		String rowkey=request.getParameter("image");
 		HbaseReader reader=new HbaseReader();
 		PictureBean pic= reader.getPictureBean(rowkey);
+		System.out.println(pic.getName());
+		System.out.println(pic.getSpace());
 		String space_key=pic.getSpace();
 		SpaceBean space=reader.getSpaceBean(space_key);
 		int number=Integer.parseInt(space.getNumber())-1;
@@ -87,9 +89,11 @@ public class DeleteImage extends HttpServlet {
 			writer.putMapfileBean(mapfile);
 
 			System.out.println("成功对小文件进行标记！");
+			
 			//创建线程检查mapfile是否需要重写
 			DeleteThread dt=new DeleteThread(mapfile,pic);
 			dt.start();
+			
 		}
 		else if(status.equals(LocalFile)){
 			File f=new File(pic.getPath(),pic.getName());

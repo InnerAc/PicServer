@@ -35,7 +35,7 @@ public class DeleteThread extends Thread {
 			
 			List<String>images=new ArrayList<String>();
 			for(PictureBean picture:piclist){
-				images.add(picture.getName());
+				System.out.println(picture.getName());
 			}
 			//执行重写mapfile操作
 			MapfileUtils mf=new MapfileUtils();

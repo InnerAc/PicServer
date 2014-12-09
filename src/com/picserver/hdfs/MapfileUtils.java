@@ -19,6 +19,7 @@ import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.io.MapFile;
 import org.apache.hadoop.io.Text;
 
+import com.picserver.bean.MapfileBean;
 import com.picserver.bean.PictureBean;
 import com.picserver.hbase.HbaseWriter;
 
@@ -43,6 +44,7 @@ public class MapfileUtils {
 		MapFile.Writer writer = new MapFile.Writer(conf, fs, path.toString(),
 				key.getClass(), value.getClass());
 		// 通过writer向文档中写入记录
+		HbaseWriter hwriter = new HbaseWriter();
 		for (File item : items) {
 			System.out.println(item.getName());
 			try {
@@ -50,8 +52,7 @@ public class MapfileUtils {
 				byte buffer[] = getBytes(item);
 				writer.append(new Text(filename), new BytesWritable(buffer));
 				
-				PictureBean image = new PictureBean(item);
-				HbaseWriter hwriter = new HbaseWriter();
+				PictureBean image = new PictureBean(item);			
 				image.setStatus("HdfsSmallFile");
 				image.setPath(path.toString());
 				image.setUsr(uid);
@@ -61,6 +62,14 @@ public class MapfileUtils {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			MapfileBean mb = new MapfileBean();
+			mb.setUid(uid);
+			mb.setPicNum(Integer.toString(items.length));
+			mb.setFlagNum("0");
+			String name = hdfsDir.substring(hdfsDir.length()-14, hdfsDir.length());
+			System.out.println(name);
+			mb.setName(name);
+			hwriter.putMapfileBean(mb);
 		}
 		IOUtils.closeStream(writer);// 关闭write流
 	}
@@ -133,6 +142,8 @@ public class MapfileUtils {
 				key.getClass(), value.getClass());
 		
 		for(String image:images){
+			System.out.println(image);
+			System.out.println(hdfsDir);
 			byte[] data = readFromHdfs(hdfsDir,image);
 			writer.append(new Text(image), new BytesWritable(data));
 		}

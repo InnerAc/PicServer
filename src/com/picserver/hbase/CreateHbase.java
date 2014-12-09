@@ -35,7 +35,7 @@ public class CreateHbase {
 //		createTable(name3, column1);
 		
 		//创建日志表
-		String name4 = "cloud_log";
+		String name4 = "cloud_mapfile";
 		String[] coloum2 = {"attr"};
 		createTable(name4, coloum2);
 		
