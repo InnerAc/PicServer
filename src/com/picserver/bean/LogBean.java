@@ -34,8 +34,8 @@ public class LogBean {
 		this.user = user;
 		this.operation = operation;
 		try {
-			this.time = DateUtil.getCurrentDateStr();
-			String max = "99999999999999";
+			this.time = DateUtil.getCurrentDateMS();
+			String max = "99999999999999999";
 			double d1 =   Double.parseDouble(max);
 			double d2 = Double.parseDouble(this.time);
 			this.logid = String.valueOf(d1-d2)+user;

@@ -53,6 +53,7 @@ public class SetCover extends HttpServlet {
 		hw.putSpaceBean(sb);
 		
 		//没有失败的情况
+		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		out.write("success");
 	}

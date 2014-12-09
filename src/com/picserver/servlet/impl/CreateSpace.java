@@ -35,7 +35,7 @@ public class CreateSpace extends HttpServlet {
 		String uid = request.getParameter("uid");
 		String name = request.getParameter("name");
 		String desc = request.getParameter("desc");
-		
+		response.setCharacterEncoding("utf-8");
 		/*
 		 * 空间名判重
 		 */
@@ -60,8 +60,6 @@ public class CreateSpace extends HttpServlet {
 
 			out.write(res);
 		}
-		
-
 		
 	}
 
