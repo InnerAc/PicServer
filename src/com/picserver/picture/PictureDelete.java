@@ -165,6 +165,7 @@ public class PictureDelete {
 		size=Double.parseDouble(user.getTotSize())-Double.parseDouble(pic.getSize());
 		user.setTotSize(Double.toString(size));
 		
+		
 		//将修改后的spaceh和user更新到数据库
 		writer.putSpaceBean(space);
 		writer.putUserBean(user);
