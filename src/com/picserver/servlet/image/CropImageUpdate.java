@@ -40,7 +40,7 @@ public class CropImageUpdate extends HttpServlet {
 		PictureReader PReader = new PictureReader();
 	    
 		try{
-				byte [] buffer = PReader.readPicture(imageName);
+				byte [] buffer = PReader.readPicture(imageName,uid);
 		    	PictureUtils image = new PictureUtils(buffer);
 		    	byte [] outbuffer = image.cropImage(width, height, offsetX, offsetY);
 		    	

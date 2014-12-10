@@ -54,8 +54,8 @@ public class WaterMaskUpdate extends HttpServlet {
 				String LogoName = request.getParameter("logo");	
 				
 			    
-			    byte [] buffer = PReader.readPicture(imageName);
-		    	byte [] mbyte = PReader.readPicture(LogoName);
+			    byte [] buffer = PReader.readPicture(imageName,uid);
+		    	byte [] mbyte = PReader.readPicture(LogoName,uid);
 
 		    	PictureUtils image = new PictureUtils(buffer);
 		    	outbuffer  = image.imgWaterMask(mbyte,width, height, offsetX, offsetY);				
@@ -64,7 +64,7 @@ public class WaterMaskUpdate extends HttpServlet {
 			if(MaskType.equals("text")){
 				String text = request.getParameter("text");
 				int fontsize = Integer.parseInt(request.getParameter("fontsize"));
-				byte [] buffer = PReader.readPicture(imageName);
+				byte [] buffer = PReader.readPicture(imageName,uid);
 				PictureUtils image = new PictureUtils(buffer);
 				outbuffer  = image.textWaterMask(text, fontsize,offsetX, offsetY);
 			}

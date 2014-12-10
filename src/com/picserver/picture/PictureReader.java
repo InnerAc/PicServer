@@ -19,9 +19,9 @@ public class PictureReader {
 	 * @return byte[]
 	 * @throws Exception
 	 */
-	public byte[] readPicture(String imageName) throws Exception {
+	public byte[] readPicture(String imageName,String uid) throws Exception {
 		HbaseReader HReader = new HbaseReader();
-		PictureBean image = HReader.getPictureBean(imageName);
+		PictureBean image = HReader.getPictureBean(imageName+uid);
 		if(image != null) {
 			byte[] buffer = null;
 			buffer = readPicture(image);

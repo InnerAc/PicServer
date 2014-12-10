@@ -31,12 +31,13 @@ public class ScaleImage extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String imageName = request.getParameter("image");
+		String uid = request.getParameter("uid");
 		int width = Integer.parseInt(request.getParameter("width"));
 		String sheight = request.getParameter("height");
 		
 		PictureReader PReader = new PictureReader();
 		try{
-		    	byte [] buffer = PReader.readPicture(imageName);
+		    	byte [] buffer = PReader.readPicture(imageName,uid);
 		    	PictureUtils image = new PictureUtils(buffer);
 		    	byte [] outbuffer = null; 
 		    	if(sheight == null) {

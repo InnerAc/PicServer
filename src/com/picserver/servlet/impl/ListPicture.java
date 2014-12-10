@@ -51,7 +51,7 @@ public class ListPicture extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		
 		HbaseReader hr = new HbaseReader();
-		List<PictureBean> list = hr.getPictureBean(uid, space+uid);
+		List<PictureBean> list = hr.getPictureBean(uid, space);
 		PrintWriter out = response.getWriter();
 		if(list == null){
 			out.write("no picture");

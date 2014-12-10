@@ -38,6 +38,7 @@ public class WaterMask extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String imageName = request.getParameter("image");
+		String uid = request.getParameter("uid");
 		int offsetX = Integer.parseInt(request.getParameter("offsetX"));
 		int offsetY = Integer.parseInt(request.getParameter("offsetY"));			
 		String MaskType = request.getParameter("type");
@@ -51,8 +52,8 @@ public class WaterMask extends HttpServlet {
 				String LogoName = request.getParameter("logo");	
 				
 			    
-			    byte [] buffer = PReader.readPicture(imageName);
-		    	byte [] mbyte = PReader.readPicture(LogoName);
+			    byte [] buffer = PReader.readPicture(imageName,uid);
+		    	byte [] mbyte = PReader.readPicture(LogoName,uid);
 
 		    	PictureUtils image = new PictureUtils(buffer);
 		    	outbuffer  = image.imgWaterMask(mbyte,width, height, offsetX, offsetY);				
@@ -61,7 +62,7 @@ public class WaterMask extends HttpServlet {
 			if(MaskType.equals("text")){
 				String text = request.getParameter("text");
 				int fontsize = Integer.parseInt(request.getParameter("fontsize"));
-				byte [] buffer = PReader.readPicture(imageName);
+				byte [] buffer = PReader.readPicture(imageName,uid);
 				PictureUtils image = new PictureUtils(buffer);
 				outbuffer  = image.textWaterMask(text, fontsize,offsetX, offsetY);
 			}

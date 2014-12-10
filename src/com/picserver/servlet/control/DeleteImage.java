@@ -51,15 +51,19 @@ public class DeleteImage extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//获取图片信息和相对应的sapce信息，并对space进行修改
-		String rowkey=request.getParameter("image")+request.getParameter("user");//  图片的主键
-		HbaseReader reader=new HbaseReader();
-		PictureBean pic= reader.getPictureBean(rowkey);
+
+		// 获取图片信息和相对应的sapce信息，并对space进行修改
+		String pictureName = request.getParameter("image");// 图片的主键
+		String uid = request.getParameter("uid");
+		String rowkey = pictureName + uid;
+		HbaseReader reader = new HbaseReader();
+		PictureBean pic = reader.getPictureBean(rowkey);
+
 		System.out.println(pic.getName());
 		System.out.println(pic.getSpace());
-		PictureDelete pd=new PictureDelete();
-		boolean flag=pd.detelePicture(pic);
-		
+		PictureDelete pd = new PictureDelete();
+		boolean flag = pd.detelePicture(pic);
+
 		if(flag){
 			response.setContentType("text/html;charset=gb2312");
 			PrintWriter out = response.getWriter();

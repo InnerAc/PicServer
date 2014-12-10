@@ -38,7 +38,7 @@ public class ScaleImageUpdate extends HttpServlet {
 		String space=request.getParameter("space");
 		PictureReader PReader = new PictureReader();
 		try{
-		    	byte [] buffer = PReader.readPicture(imageName);
+		    	byte [] buffer = PReader.readPicture(imageName,uid);
 		    	PictureUtils image = new PictureUtils(buffer);
 		    	byte [] outbuffer = image.scaleImage(width, height);
 		    	
