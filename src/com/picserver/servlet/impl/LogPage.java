@@ -130,7 +130,7 @@ public class LogPage extends HttpServlet {
 			String r = list.get(i-1).getTime();
 			lpb.setRow(r);
 			lpb.setList(list);
-			List<LogBean> l = ph.logPage(uid, row,1);
+			List<LogBean> l = ph.logPage(uid, r,1);
 			if(l == null){
 				lpb.setIfNext("true");
 			}else{
