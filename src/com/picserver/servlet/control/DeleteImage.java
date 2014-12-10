@@ -55,6 +55,8 @@ public class DeleteImage extends HttpServlet {
 		// 获取图片信息和相对应的sapce信息，并对space进行修改
 		String pictureName = request.getParameter("image");// 图片的名字
 		String uid = request.getParameter("uid");
+		pictureName = new String(pictureName.getBytes("iso-8859-1"),"utf-8");
+		uid = new String(uid.getBytes("iso-8859-1"),"utf-8");
 		String rowkey = pictureName + uid;
 		HbaseReader reader = new HbaseReader();
 		PictureBean pic = reader.getPictureBean(rowkey);

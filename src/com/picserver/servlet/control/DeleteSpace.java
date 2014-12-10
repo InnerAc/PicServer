@@ -48,6 +48,10 @@ public class DeleteSpace extends HttpServlet {
 		
 		String space=request.getParameter("space");
 		String uid=request.getParameter("uid");
+		space = new String(space.getBytes("iso-8859-1"),"utf-8");
+		uid = new String(uid.getBytes("iso-8859-1"),"utf-8");
+
+		System.out.println(space+uid);
 		HbaseReader reader=new HbaseReader();
 		HbaseWriter writer=new HbaseWriter();
 		List<PictureBean> piclist=reader.getPictureBean(uid, space);//检索该用户该空间下的所有图片
@@ -56,11 +60,10 @@ public class DeleteSpace extends HttpServlet {
 		PictureDelete pd=new PictureDelete();
 		boolean flag=false;
 		
+		if(piclist == null) System.out.println(2);
 		//删除该空间下的所有图片
 		for(PictureBean pic:piclist){
-
 			flag=pd.deletePictures(pic);
-
 		}
 		
 		//从数据库删除空间信息，更改用户信息
