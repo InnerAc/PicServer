@@ -105,7 +105,6 @@ public class PictureDelete {
 			flag=hd.deletePath(pic.getPath());
 			writer.deletePictureBean(pic);
 			System.out.println("大文件删除成功");
-			
 		}
 		else if(status.equals(SmallFile)){
 			
@@ -123,7 +122,7 @@ public class PictureDelete {
 			   flag=true;
 			   System.out.println("mapfile已经被删除！");
 		   }
-			
+		  
 		}
 		else if(status.equals(LocalFile)){
 			File f=new File(pic.getPath(),pic.getName());
@@ -157,6 +156,7 @@ public class PictureDelete {
 		//空间和用户的图片数量减1
 		int number=Integer.parseInt(space.getNumber())-1;
 		space.setNumber(Integer.toString(number));
+		number=Integer.parseInt(user.getPicNum())-1;
 		user.setPicNum(Integer.toString(number));
 		
 		//空间和用户的容量减少
@@ -168,5 +168,6 @@ public class PictureDelete {
 		//将修改后的spaceh和user更新到数据库
 		writer.putSpaceBean(space);
 		writer.putUserBean(user);
+		System.out.println("空间和用户信息同步成功！");
 	}
 }
