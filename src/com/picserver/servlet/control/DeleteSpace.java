@@ -49,11 +49,9 @@ public class DeleteSpace extends HttpServlet {
 		SpaceBean spacebean=reader.getSpaceBean(space+uid);
 		UserBean userbean=reader.getUserBean(uid);
 		PictureDelete pd=new PictureDelete();
-		boolean flag=false;
+		boolean flag=true;
 		
-		if(piclist.size()==0) {
-			System.out.println("空间为空");
-		}else{
+		if(piclist != null){
 			System.out.println("空间不为空");
 		//删除该空间下的所有图片
 		for(PictureBean pic:piclist){
@@ -71,7 +69,7 @@ public class DeleteSpace extends HttpServlet {
 		if(flag){
 			response.setContentType("text/html;charset=gb2312");
 			PrintWriter out = response.getWriter();
-			out.println("success");
+			out.print("success");
 			response.setStatus(200);
 			System.out.println("Delete success!");
 		} else {
@@ -101,12 +99,10 @@ public class DeleteSpace extends HttpServlet {
 		SpaceBean spacebean=reader.getSpaceBean(space+uid);
 		UserBean userbean=reader.getUserBean(uid);
 		PictureDelete pd=new PictureDelete();
-		boolean flag=false;
+		boolean flag=true;
 		
-        if(piclist .size()==0) {
-			System.out.println("空间为空");
-		}else{
-			System.out.println("空间不为空");
+       if(piclist != null){
+
 		//删除该空间下的所有图片
 		for(PictureBean pic:piclist){
 			flag=pd.deletePictures(pic);
@@ -124,7 +120,7 @@ public class DeleteSpace extends HttpServlet {
 		if(flag){
 			response.setContentType("text/html;charset=gb2312");
 			PrintWriter out = response.getWriter();
-			out.println("success");
+			out.print("success");
 			response.setStatus(200);
 			System.out.println("Delete success!");
 		} else {

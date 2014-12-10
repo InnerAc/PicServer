@@ -97,7 +97,7 @@ public class DeleteImage extends HttpServlet {
 		if(flag){
 			response.setContentType("text/html;charset=gb2312");
 			PrintWriter out = response.getWriter();
-			out.println("success");
+			out.print("success");
 			response.setStatus(200);
 			System.out.println("Upload success!");
 		} else {

@@ -118,6 +118,7 @@ public class PictureDelete {
 			   HdfsUtil hu=new HdfsUtil();
 			   flag=hu.deletePath(path);
 			   System.out.println(" 删除mapfile成功！");
+			   writer.deleteMapfileBean(mapfile);
 		   }else{
 			   flag=true;
 			   System.out.println("mapfile已经被删除！");
