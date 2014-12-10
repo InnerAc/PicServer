@@ -132,9 +132,9 @@ public class LogPage extends HttpServlet {
 			lpb.setList(list);
 			List<LogBean> l = ph.logPage(uid, r,1);
 			if(l == null){
-				lpb.setIfNext("true");
-			}else{
 				lpb.setIfNext("false");
+			}else{
+				lpb.setIfNext("true");
 			}
 			out.write(JsonUtil.createJsonString("page", lpb));
 		}
