@@ -52,7 +52,7 @@ public class WriteHd extends HttpServlet {
 		
 		PictureReader PReader = new PictureReader();
 		try{
-		    	byte [] buffer = PReader.readPicture(imageName);
+		    	byte [] buffer = PReader.readPicture(imageName,uid);
 		    	imageName = imageName.substring(0, imageName.lastIndexOf("."));
 		    	if(buffer == null) System.out.println("null");
 		    	PictureUtils image = new PictureUtils(buffer);

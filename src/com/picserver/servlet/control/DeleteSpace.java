@@ -47,12 +47,12 @@ public class DeleteSpace extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		String space=request.getParameter("space");
-		String user=request.getParameter("user");
+		String uid=request.getParameter("uid");
 		HbaseReader reader=new HbaseReader();
 		HbaseWriter writer=new HbaseWriter();
-		List<PictureBean> piclist=reader.getPictureBean(user, space);//检索该用户该空间下的所有图片
-		SpaceBean spacebean=reader.getSpaceBean(space+user);
-		UserBean userbean=reader.getUserBean(user);
+		List<PictureBean> piclist=reader.getPictureBean(uid, space);//检索该用户该空间下的所有图片
+		SpaceBean spacebean=reader.getSpaceBean(space+uid);
+		UserBean userbean=reader.getUserBean(uid);
 		PictureDelete pd=new PictureDelete();
 		boolean flag=false;
 		

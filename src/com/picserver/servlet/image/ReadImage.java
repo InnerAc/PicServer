@@ -38,11 +38,12 @@ public class ReadImage extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String imageName = request.getParameter("image");
+		String uid = request.getParameter("uid");
 		PictureReader PReader = new PictureReader();
 		byte[] buffer = null;
 		try {
 			// TODO
-			buffer = PReader.readPicture(imageName);
+			buffer = PReader.readPicture(imageName,uid);
 
 			if (buffer != null) {
 				// 输出byte为图片

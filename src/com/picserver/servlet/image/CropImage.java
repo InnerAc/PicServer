@@ -30,6 +30,7 @@ public class CropImage extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String imageName = request.getParameter("image");
+		String uid = request.getParameter("uid");
 		int width = Integer.parseInt(request.getParameter("width"));
 		int height = Integer.parseInt(request.getParameter("height"));
 		int offsetX = Integer.parseInt(request.getParameter("offsetX"));
@@ -38,7 +39,7 @@ public class CropImage extends HttpServlet {
 		PictureReader PReader = new PictureReader();
 	    
 		try{
-				byte [] buffer = PReader.readPicture(imageName);
+				byte [] buffer = PReader.readPicture(imageName,uid);
 		    	PictureUtils image = new PictureUtils(buffer);
 		    	byte [] outbuffer = image.cropImage(width, height, offsetX, offsetY);
 		    	
