@@ -38,8 +38,13 @@ public class PageHandler {
 	 * @param num
 	 * @return
 	 */
-	public List<PictureBean>  picPage(String uid, String time, int num){
-		ResultScanner rs = po.picPageHandler(time, uid, num);
+	public List<PictureBean>  picPageByTime(String uid, String time, int num){
+		ResultScanner rs = po.picPageHandlerbyTime(time, uid, num);
+		return lm.pictureListMapping(rs);
+	}
+	
+	public List<PictureBean>  picPageByKey(String uid, String key, int num){
+		ResultScanner rs = po.picPageHandlerbyKey(key, uid, num);
 		return lm.pictureListMapping(rs);
 	}
 	
