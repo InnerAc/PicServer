@@ -100,7 +100,7 @@ public class LogPage extends HttpServlet {
 					int i = list.size();
 					LogPageBean lpb = new LogPageBean();
 					lpb.setSessionId(sessionId);
-					lpb.setPage(page);
+					lpb.setPage(String.valueOf(p));
 					lpb.setRow(list.get(i-1).getTime());
 					lpb.setList(list);
 					out.write(JsonUtil.createJsonString("page", lpb));
