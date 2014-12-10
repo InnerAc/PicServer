@@ -62,7 +62,8 @@ public class DeleteImage extends HttpServlet {
 		System.out.println(pic.getName());
 		System.out.println(pic.getSpace());
 		PictureDelete pd = new PictureDelete();
-		boolean flag = pd.detelePicture(pic,uid);
+
+		boolean flag = pd.deletePicture(pic);
 
 		if(flag){
 			response.setContentType("text/html;charset=gb2312");

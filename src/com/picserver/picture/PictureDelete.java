@@ -24,7 +24,8 @@ public class PictureDelete {
      * @param pic 要删除的图片
      * @return 返回成功与否的标志
      */
-	public boolean detelePicture(PictureBean pic,String uid){
+
+	public boolean deletePicture(PictureBean pic){
 		String status=pic.getStatus();
 		boolean flag=false;
 		HbaseWriter writer=new HbaseWriter();
@@ -82,7 +83,65 @@ public class PictureDelete {
 		}
 		return flag;
 	}
-	
+	/**
+	 * 直接删除图片，如果是小图片直接删掉mapfile，在删除space使用
+	 * @param pic
+	 * @return
+	 */
+	public boolean deletePictures(PictureBean pic){
+		String status=pic.getStatus();
+		boolean flag=false;
+		HbaseWriter writer=new HbaseWriter();
+		HbaseReader reader=new HbaseReader();
+
+		//根据图片状态的不同采取不同的方式
+		
+		try {
+		if(status.equals(BigFile)){
+			HdfsUtil hd;
+			
+				hd = new HdfsUtil();
+			
+			flag=hd.deletePath(pic.getPath());
+			writer.deletePictureBean(pic);
+			System.out.println("大文件删除成功");
+			
+		}
+		else if(status.equals(SmallFile)){
+			
+			//  将小文件和对应的mapfile进行标记
+			pic .setStatus(Deleted);
+			String path=pic.getPath();
+			String map_key=path.substring(path.length()-14, path.length())+pic.getUsr();
+			MapfileBean mapfile=reader.getMapfileBean(map_key);
+		   if(mapfile!=null){
+			   HdfsUtil hu=new HdfsUtil();
+			   flag=hu.deletePath(path);
+			   System.out.println(" 删除mapfile成功！");
+		   }else{
+			   flag=true;
+			   System.out.println("mapfile已经被删除！");
+		   }
+			
+		}
+		else if(status.equals(LocalFile)){
+			File f=new File(pic.getPath(),pic.getName());
+			if(f.exists())
+			{
+				flag=f.delete();
+				writer.deletePictureBean(pic);
+				System.out.println("本地文件删除成功");
+			}
+		}
+		//更新用户和空间信息
+		update(pic);
+		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return flag;
+	}
 	/**
 	 * 删除图片更新用户和空间信息
 	 * @param pic 删除的图片

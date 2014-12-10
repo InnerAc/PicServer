@@ -24,7 +24,7 @@ import com.picserver.utils.JsonUtil;
 @WebServlet("/LogPage")
 public class LogPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final int pageNum = 2;
+	private static final int pageNum = 10;
 	PageHandler ph = new PageHandler();
 
 	/**
