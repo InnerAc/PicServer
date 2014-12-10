@@ -2,16 +2,15 @@ package com.picserver.servlet.impl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.picserver.bean.LogBean;
 import com.picserver.bean.LogPageBean;
@@ -25,7 +24,7 @@ import com.picserver.utils.JsonUtil;
 @WebServlet("/LogPage")
 public class LogPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final int pageNum = 2;
+	private static final int pageNum = 10;
 	PageHandler ph = new PageHandler();
 	
        
@@ -56,9 +55,10 @@ public class LogPage extends HttpServlet {
 		//每页起始row
 		String row;
 		String dir="";
+		
 		String sessionId;
 		//使用request对象的getSession()获取session，如果session不存在则创建一个
-		HttpSession session = request.getSession();
+		ServletContext application=this.getServletContext();   
 		if(page.equals("0")){
 			//初次请求传0
 			sessionId = uid + DateUtil.getCurrentDateStr().substring(7, 13);
@@ -68,27 +68,31 @@ public class LogPage extends HttpServlet {
 			String str = "null";
 			strList.add(str);
 			strList.add(row);
-			session.setAttribute(sessionId, strList);
+			application.setAttribute(sessionId, strList);
 			//下一页
 			next(request, response, page, uid, row, sessionId);		
 		}else{	//不是第一次
 			//获取多的两个参数
 			sessionId = request.getParameter("sessionId");
 			dir = request.getParameter("dir");
+			System.out.println(sessionId);
+			System.out.println(dir);
 			/*
 			 * 判断请求
 			 */
 			if(dir.equals("next")){//下一页请求
 				//获取row参数
 				row = request.getParameter("row");
+				System.out.println(row);
 				List<String> strList = new ArrayList<String>();
-				strList = (List<String>) session.getAttribute(sessionId);
+				strList = (List<String>) application.getAttribute(sessionId);
+				if(strList == null) System.out.println("null");
 				strList.add(row);
-				session.setAttribute("rowlist", strList);
+				application.setAttribute("rowlist", strList);
 				next(request, response, page, uid, row, sessionId);
 			}else{//上一页
 				List<String> strList = new ArrayList<String>();
-				strList = (List<String>) session.getAttribute(sessionId);
+				strList = (List<String>) application.getAttribute(sessionId);
 				response.setCharacterEncoding("utf-8");
 				PrintWriter out = response.getWriter();
 				int p = Integer.parseInt(page)-1;
