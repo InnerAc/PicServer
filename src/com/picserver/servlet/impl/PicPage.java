@@ -110,7 +110,7 @@ public class PicPage extends HttpServlet {
 					out.write("fisrt page");
 				} else {
 					String preRow = strList.get(p);
-					List<PictureBean> list = ph.picPageByKey(uid, preRow, pageNum);
+					List<PictureBean> list = ph.picPageByKey(uid, preRow, pageNum-1);
 					int i = list.size();
 					PicPageBean ppb = new PicPageBean();
 					ppb.setAppId(appId);
