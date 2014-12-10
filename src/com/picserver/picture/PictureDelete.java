@@ -122,7 +122,7 @@ public class PictureDelete {
 			   flag=true;
 			   System.out.println("mapfile已经被删除！");
 		   }
-		  
+		   writer.deletePictureBean(pic);
 		}
 		else if(status.equals(LocalFile)){
 			File f=new File(pic.getPath(),pic.getName());
