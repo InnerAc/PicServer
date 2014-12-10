@@ -33,11 +33,14 @@ public class ListSpace extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		try {
 			List<SpaceBean> list = hr.getSpaceBean("attr","uid", uid);
-			System.out.println(list.get(0).getName());
-			String res = JsonUtil.createJsonString("Spaces", list);
 			PrintWriter out = response.getWriter();
-			out.write(res);
-			
+			if(list == null){
+				out.write("no space");
+			}
+			else{
+				String res = JsonUtil.createJsonString("Spaces", list);
+				out.write(res);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -50,11 +53,14 @@ public class ListSpace extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		try {
 			List<SpaceBean> list = hr.getSpaceBean("attr","uid", uid);
-			String res = JsonUtil.createJsonString("Spaces", list);
-			System.out.println(res);
 			PrintWriter out = response.getWriter();
-			out.write(res);
-			
+			if(list == null){
+				out.write("no space");
+			}
+			else{
+				String res = JsonUtil.createJsonString("Spaces", list);
+				out.write(res);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

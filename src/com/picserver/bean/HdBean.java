@@ -2,18 +2,23 @@ package com.picserver.bean;
 
 public class HdBean {
 	//主键
+	String key="";
+	//图片名称
 	String name = "";
-	
+
 	//所属用户
 	String uid = "";
 	//上传时间
 	String createTime = "";
 	//图片大小
 	String size = "";
-	//路径
-	String url  = "";
 	
-	
+	public String getKey() {
+		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
+	}
 	public String getName() {
 		return name;
 	}
@@ -38,10 +43,5 @@ public class HdBean {
 	public void setSize(String size) {
 		this.size = size;
 	}
-	public String getUrl() {
-		return url;
-	}
-	public void setUrl(String url) {
-		this.url = url;
-	}
+
 }

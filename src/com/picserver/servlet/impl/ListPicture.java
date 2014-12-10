@@ -34,10 +34,14 @@ public class ListPicture extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		
 		HbaseReader hr = new HbaseReader();
-		List<PictureBean> list = hr.getPictureBean(uid, space);
-		String res = JsonUtil.createJsonString("Picture", list);
+		List<PictureBean> list = hr.getPictureBean(uid, space+uid);
 		PrintWriter out = response.getWriter();
-		out.write(res);
+		if(list == null){
+			out.write("no picture");
+		}else{
+			String res = JsonUtil.createJsonString("Picture", list);
+			out.write(res);
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -47,10 +51,15 @@ public class ListPicture extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		
 		HbaseReader hr = new HbaseReader();
-		List<PictureBean> list = hr.getPictureBean(uid, space);
-		String res = JsonUtil.createJsonString("Picture", list);
+		List<PictureBean> list = hr.getPictureBean(uid, space+uid);
 		PrintWriter out = response.getWriter();
-		out.write(res);
+		if(list == null){
+			out.write("no picture");
+		}else{
+			String res = JsonUtil.createJsonString("Picture", list);
+			out.write(res);
+		}
+
 	}
 
 }

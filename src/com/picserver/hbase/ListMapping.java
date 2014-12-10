@@ -25,10 +25,13 @@ public class ListMapping {
 		List<PictureBean> list = new ArrayList<PictureBean>();
 		for (Result r : rs) {
 			PictureBean pb = new PictureBean();
-			pb.setName(new String(r.getRow()));
+			pb.setKey(new String(r.getRow()));
 			for (KeyValue keyValue : r.raw()) {
 				String v = new String(keyValue.getQualifier());
 				String val = new String(keyValue.getValue());
+				if (v.equals("name")) {
+					pb.setName(val);
+				}
 				if (v.equals("size")) {
 					pb.setSize(val);
 				}
@@ -56,9 +59,6 @@ public class ListMapping {
 				if (v.equals("visitCount")) {
 					pb.setVisitCount(val);
 				}
-				if (v.equals("visitFlow")) {
-					pb.setVisitFlow(val);
-				}
 			}
 			list.add(pb);
 		}
@@ -77,10 +77,13 @@ public class ListMapping {
 		List<SpaceBean> list = new ArrayList<SpaceBean>();
 		for (Result r : rs) {
 			SpaceBean sb = new SpaceBean();
-			sb.setName(new String(r.getRow()));
+			sb.setKey(new String(r.getRow()));
 			for (KeyValue keyValue : r.raw()) {
 				String v = new String(keyValue.getQualifier());
 				String val = new String(keyValue.getValue());
+				if (v.equals("name")) {
+					sb.setName(val);
+				}
 				if (v.equals("desc")) {
 					sb.setDesc(val);
 				}
@@ -95,9 +98,6 @@ public class ListMapping {
 				}
 				if (v.equals("number")) {
 					sb.setNumber(val);
-				}
-				if (v.equals("flow")) {
-					sb.setFlow(val);
 				}
 			}
 			list.add(sb);
@@ -148,10 +148,13 @@ public class ListMapping {
 		List<HdBean> list = new ArrayList<HdBean>();
 		for (Result r : rs) {
 			HdBean hb = new HdBean();
-			hb.setName(new String(r.getRow()));
+			hb.setKey(new String(r.getRow()));
 			for (KeyValue keyValue : r.raw()) {
 				String v = new String(keyValue.getQualifier());
 				String val = new String(keyValue.getValue());
+				if (v.equals("name")) {
+					hb.setName(val);
+				}
 				if (v.equals("uid")) {
 					hb.setUid(val);
 				}
@@ -160,9 +163,6 @@ public class ListMapping {
 				}
 				if (v.equals("size")) {
 					hb.setSize(val);
-				}
-				if (v.equals("url")) {
-					hb.setUrl(val);
 				}
 			}
 			list.add(hb);

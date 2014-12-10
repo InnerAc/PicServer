@@ -43,10 +43,10 @@ public class CreateSpace extends HttpServlet {
 		SpaceBean s = hr.getSpaceBean(name);
 		if(s == null){
 			SpaceBean sb= new SpaceBean();
+			sb.setKey(name+uid);
 			sb.setName(name);
 			sb.setDesc(desc);
 			sb.setUid(uid);
-			sb.setFlow("0");
 			sb.setNumber("0");
 			sb.setStorage("0");
 			HbaseWriter hw = new HbaseWriter();

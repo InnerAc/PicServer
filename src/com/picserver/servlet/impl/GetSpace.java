@@ -29,10 +29,12 @@ public class GetSpace extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String name = request.getParameter("name");
 		name = new String(name.getBytes("iso-8859-1"),"utf-8");
+		String uid = request.getParameter("uid");
+		uid = new String(uid.getBytes("iso-8859-1"),"utf-8");
 		response.setCharacterEncoding("utf-8");
 		HbaseReader hr = new HbaseReader();
 		try {
-			SpaceBean sb = hr.getSpaceBean(name);
+			SpaceBean sb = hr.getSpaceBean(name+uid);
 			String res = JsonUtil.createJsonString("Space", sb);
 			PrintWriter out = response.getWriter();
 			out.write(res);
@@ -44,10 +46,11 @@ public class GetSpace extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String name = request.getParameter("name");
+		String uid = request.getParameter("uid");
 		HbaseReader hr = new HbaseReader();
 		response.setCharacterEncoding("utf-8");
 		try {
-			SpaceBean sb = hr.getSpaceBean(name);
+			SpaceBean sb = hr.getSpaceBean(name+uid);
 			String res = JsonUtil.createJsonString("Space", sb);
 			PrintWriter out = response.getWriter();
 			out.write(res);

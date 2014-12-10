@@ -2,6 +2,7 @@ package com.picserver.servlet.impl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,47 +10,60 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.picserver.bean.PictureBean;
+import com.picserver.bean.HdBean;
 import com.picserver.hbase.HbaseReader;
 import com.picserver.utils.JsonUtil;
 
 /**
- * 根据图片名得到图片信息
+ * Servlet implementation class ListHd
  */
-@WebServlet("/GetPicture")
-public class GetPicture extends HttpServlet {
+@WebServlet("/ListHd")
+public class ListHd extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public GetPicture() {
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ListHd() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		String name = request.getParameter("name");
-		name = new String(name.getBytes("iso-8859-1"),"utf-8");
-		
+		response.setCharacterEncoding("utf-8");
 		String uid = request.getParameter("uid");
 		uid = new String(uid.getBytes("iso-8859-1"),"utf-8");
 		
 		HbaseReader hr = new HbaseReader();
-		PictureBean pb = hr.getPictureBean(name+uid);
-		String res = JsonUtil.createJsonString("Picture", pb);
-		response.setCharacterEncoding("utf-8");
+		List<HdBean> list = hr.getHdList(uid);
 		PrintWriter out = response.getWriter();
-		out.write(res);
+		if(list == null){
+			out.write("no hd");
+		}else{
+			out.write(JsonUtil.createJsonString("hd", list));
+		}
 	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		String name = request.getParameter("name");
-		String uid = request.getParameter("uid");
 		response.setCharacterEncoding("utf-8");
+		String uid = request.getParameter("uid");
 		
 		HbaseReader hr = new HbaseReader();
-		PictureBean pb = hr.getPictureBean(name+uid);
-		String res = JsonUtil.createJsonString("Picture", pb);
+		List<HdBean> list = hr.getHdList(uid);
 		PrintWriter out = response.getWriter();
-		out.write(res);
+		if(list == null){
+			out.write("no hd");
+		}else{
+			out.write(JsonUtil.createJsonString("hd", list));
+		}
 	}
+
 }
