@@ -51,17 +51,17 @@ public class DeleteSpace extends HttpServlet {
 		PictureDelete pd=new PictureDelete();
 		boolean flag=false;
 		
-		if(piclist == null) {
-			
+		if(piclist.size()==0) {
+			System.out.println("空间为空");
 		}else{
-		
+			System.out.println("空间不为空");
 		//删除该空间下的所有图片
 		for(PictureBean pic:piclist){
 			flag=pd.deletePictures(pic);
+			System.out.println(pic.getName());
 		}
 		
 		}
-		
 		//从数据库删除空间信息，更改用户信息
 		int num=Integer.parseInt(userbean.getSpaceNum())-1;
 		userbean.setSpaceNum(Integer.toString(num));
@@ -103,10 +103,16 @@ public class DeleteSpace extends HttpServlet {
 		PictureDelete pd=new PictureDelete();
 		boolean flag=false;
 		
-		if(piclist == null) System.out.println(2);
+        if(piclist .size()==0) {
+			System.out.println("空间为空");
+		}else{
+			System.out.println("空间不为空");
 		//删除该空间下的所有图片
 		for(PictureBean pic:piclist){
 			flag=pd.deletePictures(pic);
+			System.out.println(pic.getName());
+		}
+
 		}
 		
 		//从数据库删除空间信息，更改用户信息
