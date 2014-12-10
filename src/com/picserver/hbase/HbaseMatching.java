@@ -18,7 +18,6 @@ import com.picserver.bean.PictureBean;
 
 /**
  * 匹配查询
- * 
  * @author hadoop
  *
  */
@@ -26,12 +25,20 @@ public class HbaseMatching {
 	HbaseConf hbaseConf = new HbaseConf();
 	Configuration configuration = hbaseConf.hbaseConf();
 
+
+	/**
+	 * 根据名字的子串检索某用户的图片
+	 * @param subStr
+	 * @param uid
+	 * @return
+	 */
+
 	public List<PictureBean> picNameMatching(String subStr, String uid) {
 		try {
 			HTablePool pool = new HTablePool(configuration, 1000);
 			List<Filter> filters = new ArrayList<Filter>();
+			
 			SubstringComparator comp = new SubstringComparator(subStr);
-			// 当列colunm的值为val时进行查询
 			Filter filter = new SingleColumnValueFilter(Bytes.toBytes("attr"),
 					Bytes.toBytes("name"), CompareOp.EQUAL, comp);
 			filters.add(filter);
@@ -44,6 +51,10 @@ public class HbaseMatching {
 			FilterList filterList = new FilterList(filters);
 			s.setFilter(filterList);
 			ResultScanner rs = pool.getTable("cloud_picture").getScanner(s);
+			ListMapping lm = new ListMapping();
+			List<PictureBean> list = lm.pictureListMapping(rs);
+			rs.close();
+			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
