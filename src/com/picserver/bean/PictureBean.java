@@ -9,7 +9,7 @@ import com.picserver.utils.DateUtil;
 
 public class PictureBean {
 	
-	//是hbase的rowkey
+	//是hbase的rowkey，name+usr
 	String key="";
 	//图片名
 	String name = "";

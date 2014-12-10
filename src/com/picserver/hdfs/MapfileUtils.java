@@ -53,7 +53,8 @@ public class MapfileUtils {
 				byte buffer[] = getBytes(item);
 				writer.append(new Text(filename), new BytesWritable(buffer));
 				
-				PictureBean image = new PictureBean(item);			
+				PictureBean image = new PictureBean(item);
+				image.setKey(item.getName()+uid);
 				image.setStatus("HdfsSmallFile");
 				image.setPath(path.toString());
 				image.setUsr(uid);
@@ -64,11 +65,13 @@ public class MapfileUtils {
 				e.printStackTrace();
 			}
 			MapfileBean mb = new MapfileBean();
+			
 			mb.setUid(uid);
 			mb.setPicNum(Integer.toString(items.length));
 			mb.setFlagNum("0");
 			String name = hdfsDir.substring(hdfsDir.length()-14, hdfsDir.length());
 			System.out.println(name);
+			mb.setKey(name+uid);
 			mb.setName(name);
 			hwriter.putMapfileBean(mb);
 		}
@@ -165,6 +168,7 @@ public class MapfileUtils {
 		IOUtils.closeStream(writer);// 关闭write流
 		//更新mapfile数据库信息
 		MapfileBean map=new MapfileBean();
+		map.setKey(date+images.get(0).getUsr());
 		map.setFlagNum("0");
 		map.setName(date);
 		map.setPicNum(Integer.toString(images.size()));

@@ -98,6 +98,7 @@ public class PictureWriter {
 			// hbase操作
 			PictureBean image = new PictureBean(item);
 			HbaseWriter writer = new HbaseWriter();
+			image.setKey(item.getName()+uid);
 			image.setStatus("HdfsLargeFile");
 			image.setPath(hdfsPath);
 			image.setUsr(uid);
@@ -296,6 +297,7 @@ public class PictureWriter {
 		
 		
 		HbaseWriter writer = new HbaseWriter();
+		image.setKey(item.getName()+usr);
 		image.setStatus(status);
 		image.setPath(path);
 		image.setUsr(usr);
@@ -311,7 +313,7 @@ public class PictureWriter {
 		
 		HbaseReader hr = new HbaseReader();
 		UserBean user=hr.getUserBean(usr);
-		SpaceBean sb = hr.getSpaceBean(space);
+		SpaceBean sb = hr.getSpaceBean(space+usr);
 		//空间图片数量增加1
 		int num = Integer.parseInt(sb.getNumber());
 		num = num + 1;

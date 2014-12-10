@@ -127,7 +127,7 @@ public class HbaseWriter {
 	 */
 	public void deletePictureBean(PictureBean pic){
 		HbaseOperation  operation=new HbaseOperation();
-		operation.deleteRow("cloud_picture", pic.getName());
+		operation.deleteRow("cloud_picture", pic.getKey());
 	}
 	/**
 	 *  删除mapfile信息
@@ -135,7 +135,14 @@ public class HbaseWriter {
 	 */
 	public void deleteMapfileBean(MapfileBean map){
 		HbaseOperation  operation=new HbaseOperation();
-		operation.deleteRow("cloud_mapfile", map.getName());
+		operation.deleteRow("cloud_mapfile", map.getKey());
 	}
-	
+	/**
+	 * 删除空间信息
+	 * @param space space
+	 */
+	public void deleteSpaceBean(SpaceBean space){
+		HbaseOperation  operation=new HbaseOperation();
+		operation.deleteRow("cloud_space", space.getKey());
+	}
 }

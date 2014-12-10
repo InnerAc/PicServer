@@ -3,7 +3,7 @@ package com.picserver.bean;
 import java.text.DecimalFormat;
 
 public class SpaceBean {
-	//就是hbase的rowkey
+	//就是hbase的rowkey,name+uid
 	String key="";
 	//空间名称
 	String name = "";
