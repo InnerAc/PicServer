@@ -96,7 +96,6 @@ public class PicPage extends HttpServlet {
 				// 获取row参数
 				List<String> strList = new ArrayList<String>();
 				strList = (List<String>) application.getAttribute(appId);
-				// if(strList == null) System.out.println("null");
 				row = strList.get(Integer.parseInt(page) + 1);
 				next(request, response, application, page, uid, row, space,appId,	strList);
 

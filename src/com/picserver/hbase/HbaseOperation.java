@@ -256,8 +256,6 @@ public class HbaseOperation {
 	             e.printStackTrace(); 
 	             return null;
 	         } 
-	         
-	         
 	     } 
 	     public  ResultScanner QueryPicByColumn(String family, String column, String val) { 
 	         try { 
