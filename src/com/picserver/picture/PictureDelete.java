@@ -24,7 +24,7 @@ public class PictureDelete {
      * @param pic 要删除的图片
      * @return 返回成功与否的标志
      */
-	public boolean detelePicture(PictureBean pic){
+	public boolean detelePicture(PictureBean pic,String uid){
 		String status=pic.getStatus();
 		boolean flag=false;
 		HbaseWriter writer=new HbaseWriter();
@@ -50,11 +50,13 @@ public class PictureDelete {
 			String path=pic.getPath();
 			String map_key=path.substring(path.length()-14, path.length())+pic.getUsr();
 			MapfileBean mapfile=reader.getMapfileBean(map_key);
-		   int flagnum=Integer.parseInt(mapfile.getFlagNum())+1;
+		   System.out.println(mapfile.getFlagNum());
+			int flagnum=Integer.parseInt(mapfile.getFlagNum())+1;
+		   
 			mapfile.setFlagNum(Integer.toString(flagnum));
 			writer.putPictureBean(pic);
 			writer.putMapfileBean(mapfile);
-            flag=false;
+            flag=true;
 			System.out.println("成功对小文件进行标记！");
 			
 			//创建线程检查mapfile是否需要重写
@@ -89,7 +91,7 @@ public class PictureDelete {
 		
 		HbaseWriter writer=new HbaseWriter();
 		HbaseReader reader=new HbaseReader();
-		SpaceBean space=reader.getSpaceBean(pic.getSpace());
+		SpaceBean space=reader.getSpaceBean(pic.getSpace()+pic.getUsr());
 		UserBean user=reader.getUserBean(pic.getUsr());
 		
 		//空间和用户的图片数量减1

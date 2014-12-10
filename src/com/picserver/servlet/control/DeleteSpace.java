@@ -58,7 +58,7 @@ public class DeleteSpace extends HttpServlet {
 		
 		//删除该空间下的所有图片
 		for(PictureBean pic:piclist){
-			flag=pd.detelePicture(pic);
+			flag=pd.detelePicture(pic,uid);
 		}
 		
 		//从数据库删除空间信息，更改用户信息
@@ -72,13 +72,13 @@ public class DeleteSpace extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			out.println("删除成功!");
 			response.setStatus(200);
-			System.out.println("Upload success!");
+			System.out.println("Delete success!");
 		} else {
 			response.setContentType("text/html;charset=gb2312");
 			PrintWriter out = response.getWriter();
 			out.println("删除失败!");					
 			response.setStatus(302);
-			System.out.println("Upload failed");
+			System.out.println("Delete failed");
 		}
 	}
 

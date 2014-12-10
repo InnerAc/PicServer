@@ -53,7 +53,7 @@ public class DeleteImage extends HttpServlet {
 		// TODO Auto-generated method stub
 
 		// 获取图片信息和相对应的sapce信息，并对space进行修改
-		String pictureName = request.getParameter("image");// 图片的主键
+		String pictureName = request.getParameter("image");// 图片的名字
 		String uid = request.getParameter("uid");
 		String rowkey = pictureName + uid;
 		HbaseReader reader = new HbaseReader();
@@ -62,12 +62,12 @@ public class DeleteImage extends HttpServlet {
 		System.out.println(pic.getName());
 		System.out.println(pic.getSpace());
 		PictureDelete pd = new PictureDelete();
-		boolean flag = pd.detelePicture(pic);
+		boolean flag = pd.detelePicture(pic,uid);
 
 		if(flag){
 			response.setContentType("text/html;charset=gb2312");
 			PrintWriter out = response.getWriter();
-			out.println("删除成功!");
+			out.println("success");
 			response.setStatus(200);
 			System.out.println("Upload success!");
 		} else {
