@@ -61,7 +61,7 @@ public class LogPage extends HttpServlet {
 		lpb.setPage(String.valueOf(num));
 		
 		PageHandler ph = new PageHandler();
-		List<LogBean> list = ph.logPage(uid, row, 2);
+		List<LogBean> list = ph.logPage(uid, row, 10);
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		if(list == null){
