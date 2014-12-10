@@ -59,6 +59,7 @@ public class PicPage extends HttpServlet {
 		// 页码
 		String page = request.getParameter("page");
 		// 每页起始row
+		String space = request.getParameter("space");
 		String row;
 		String dir = "";
 
@@ -69,7 +70,7 @@ public class PicPage extends HttpServlet {
 			// 初次请求传0
 			appId = uid + DateUtil.getCurrentDateStr().substring(7, 13);
 			row = DateUtil.getCurrentDateStr();
-			List<PictureBean> list = ph.picPageByTime(uid, row, 1);
+			List<PictureBean> list = ph.picPageByTime(uid, row,space, 1);
 			if (list == null) {
 				response.setCharacterEncoding("utf-8");
 				PrintWriter out = response.getWriter();
@@ -82,7 +83,7 @@ public class PicPage extends HttpServlet {
 				strList.add(str);
 				strList.add(row);
 				// 下一页
-				next(request, response, application, page, uid, row, appId,strList);
+				next(request, response, application, page, uid, row, space,appId,strList);
 			}
 		} else { // 不是第一次
 			// 获取多的两个参数
@@ -97,8 +98,7 @@ public class PicPage extends HttpServlet {
 				strList = (List<String>) application.getAttribute(appId);
 				// if(strList == null) System.out.println("null");
 				row = strList.get(Integer.parseInt(page) + 1);
-				next(request, response, application, page, uid, row, appId,
-						strList);
+				next(request, response, application, page, uid, row, space,appId,	strList);
 
 			} else {// 上一页
 				List<String> strList = new ArrayList<String>();
@@ -110,7 +110,7 @@ public class PicPage extends HttpServlet {
 					out.write("fisrt page");
 				} else {
 					String preRow = strList.get(p);
-					List<PictureBean> list = ph.picPageByKey(uid, preRow, pageNum-1);
+					List<PictureBean> list = ph.picPageByKey(uid, preRow,space, pageNum-1);
 					int i = list.size();
 					PicPageBean ppb = new PicPageBean();
 					ppb.setAppId(appId);
@@ -123,14 +123,14 @@ public class PicPage extends HttpServlet {
 	}
 
 	private void next(HttpServletRequest request, HttpServletResponse response,
-			ServletContext application, String page, String uid, String row,
+			ServletContext application, String page, String uid, String row,String space,
 			String appId, List<String> strList) throws IOException {
 		PicPageBean ppb = new PicPageBean();
 		int num = Integer.parseInt(page);
 		num = num + 1;
 		ppb.setPage(String.valueOf(num));
 		ppb.setAppId(appId);
-		List<PictureBean> list = ph.picPageByKey(uid, row, pageNum);
+		List<PictureBean> list = ph.picPageByKey(uid, row, space,pageNum);
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		if (list == null) {

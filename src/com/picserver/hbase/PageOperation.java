@@ -66,7 +66,7 @@ public class PageOperation {
 	        } 
 	}
 
-	public ResultScanner picPageHandlerbyTime(String time, String uid, int num){
+	public ResultScanner picPageHandlerbyTime(String time, String uid, String space,int num){
 		 try { 
 	            HTablePool pool = new HTablePool(configuration, 1000); 
 	            List<Filter> filters = new ArrayList<Filter>(); 
@@ -80,6 +80,11 @@ public class PageOperation {
 	                    .toBytes("attr"), Bytes .toBytes("usr"), 
 	                    CompareOp.EQUAL, Bytes .toBytes(uid)); 
 	            filters.add(filter2); 
+	            
+	            Filter filter3 = new SingleColumnValueFilter(Bytes 
+	                    .toBytes("attr"), Bytes .toBytes("space"), 
+	                    CompareOp.EQUAL, Bytes .toBytes(space)); 
+	            filters.add(filter3); 
 	            
 	            PageFilter pf = new PageFilter(num);
 	            filters.add(pf);
@@ -95,12 +100,19 @@ public class PageOperation {
 	        } 
 	}
 
-	public ResultScanner picPageHandlerbyKey(String key, String uid, int num){
+	public ResultScanner picPageHandlerbyKey(String key, String uid, String space,int num){
 		 try { 
 	            HTablePool pool = new HTablePool(configuration, 1000); 
 	            List<Filter> filters = new ArrayList<Filter>(); 
+	            
 	            Filter rf = new RowFilter(CompareOp.GREATER_OR_EQUAL, new BinaryComparator(key.getBytes()));
 	            filters.add(rf);
+	            
+	            Filter filter1 = new SingleColumnValueFilter(Bytes 
+	                    .toBytes("attr"), Bytes .toBytes("space"), 
+	                    CompareOp.EQUAL, Bytes .toBytes(space)); 
+	            filters.add(filter1); 
+	            
 	            Filter filter2 = new SingleColumnValueFilter(Bytes 
 	                    .toBytes("attr"), Bytes .toBytes("usr"), 
 	                    CompareOp.EQUAL, Bytes .toBytes(uid)); 
