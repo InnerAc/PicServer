@@ -66,8 +66,8 @@ public class PicPage extends HttpServlet {
 		String appId;
 		// 使用request对象的getSession()获取session，如果session不存在则创建一个
 		ServletContext application = this.getServletContext();
-		if (page.equals("0")) {
-			// 初次请求传0
+		if (page.equals("1")) {
+			// 初次请求传1
 			appId = uid + DateUtil.getCurrentDateStr().substring(7, 13);
 			row = DateUtil.getCurrentDateStr();
 			List<PictureBean> list = ph.picPageByTime(uid, row,space, 1);
@@ -96,7 +96,7 @@ public class PicPage extends HttpServlet {
 				// 获取row参数
 				List<String> strList = new ArrayList<String>();
 				strList = (List<String>) application.getAttribute(appId);
-				row = strList.get(Integer.parseInt(page) + 1);
+				row = strList.get(Integer.parseInt(page) );
 				next(request, response, application, page, uid, row, space,appId,	strList);
 
 			} else {// 上一页
@@ -125,9 +125,7 @@ public class PicPage extends HttpServlet {
 			ServletContext application, String page, String uid, String row,String space,
 			String appId, List<String> strList) throws IOException {
 		PicPageBean ppb = new PicPageBean();
-		int num = Integer.parseInt(page);
-		num = num + 1;
-		ppb.setPage(String.valueOf(num));
+		ppb.setPage(page);
 		ppb.setAppId(appId);
 		List<PictureBean> list = ph.picPageByKey(uid, row, space,pageNum);
 		response.setCharacterEncoding("utf-8");
