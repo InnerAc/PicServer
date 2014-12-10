@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LogPageBean {
+	String sessionId = "";
 	//页码
 	String page="";
 	//起始rowkey
@@ -27,6 +28,12 @@ public class LogPageBean {
 	}
 	public void setList(List<LogBean> list) {
 		this.list = list;
+	}
+	public String getSessionId() {
+		return sessionId;
+	}
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
 	}
 	
 }
