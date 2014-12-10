@@ -43,7 +43,34 @@ public class DeleteImage extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doPost(request,response);
+		// 获取图片信息和相对应的sapce信息，并对space进行修改
+		String pictureName = request.getParameter("image");// 图片的名字
+		String uid = request.getParameter("uid");
+		pictureName = new String(pictureName.getBytes("iso-8859-1"),"utf-8");
+		uid = new String(uid.getBytes("iso-8859-1"),"utf-8");
+		String rowkey = pictureName + uid;
+		HbaseReader reader = new HbaseReader();
+		PictureBean pic = reader.getPictureBean(rowkey);
+
+		System.out.println(pic.getName());
+		System.out.println(pic.getSpace());
+		PictureDelete pd = new PictureDelete();
+
+		boolean flag = pd.deletePicture(pic);
+
+		if(flag){
+			response.setContentType("text/html;charset=gb2312");
+			PrintWriter out = response.getWriter();
+			out.println("success");
+			response.setStatus(200);
+			System.out.println("Upload success!");
+		} else {
+			response.setContentType("text/html;charset=gb2312");
+			PrintWriter out = response.getWriter();
+			out.println("删除失败!");					
+			response.setStatus(302);
+			System.out.println("Upload failed");
+		}
 	}
 
 	/**
@@ -55,8 +82,7 @@ public class DeleteImage extends HttpServlet {
 		// 获取图片信息和相对应的sapce信息，并对space进行修改
 		String pictureName = request.getParameter("image");// 图片的名字
 		String uid = request.getParameter("uid");
-		pictureName = new String(pictureName.getBytes("iso-8859-1"),"utf-8");
-		uid = new String(uid.getBytes("iso-8859-1"),"utf-8");
+
 		String rowkey = pictureName + uid;
 		HbaseReader reader = new HbaseReader();
 		PictureBean pic = reader.getPictureBean(rowkey);
