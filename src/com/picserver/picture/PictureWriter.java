@@ -33,7 +33,7 @@ public class PictureWriter {
 	//TODO 全局变量设置
 	
 	public boolean writePicture(FileItem item,  String uid ,String space) {
-		PictureBean image = searchFile(item);
+		PictureBean image = searchFile(item,uid);
 		boolean flag;
 		if (image != null) {
 			System.out.println("文件已存在(hbase)");
@@ -49,10 +49,10 @@ public class PictureWriter {
 		return flag;
 	}
 	
-	public static PictureBean searchFile(FileItem item) {
+	public static PictureBean searchFile(FileItem item,String uid) {
 		HbaseReader hr = new HbaseReader();
 		String imageName = item.getName();
-		PictureBean image = hr.getPictureBean(imageName);
+		PictureBean image = hr.getPictureBean(imageName+uid);
 		if(image != null){
 			return image;
 		} else {
@@ -96,14 +96,14 @@ public class PictureWriter {
 			HdfsUtil hdfs = new HdfsUtil();	
 			flag = hdfs.upLoad(uploadedStream, filePath);
 			// hbase操作
-			PictureBean image = new PictureBean(item);
-			HbaseWriter writer = new HbaseWriter();
-			image.setKey(item.getName()+uid);
-			image.setStatus("HdfsLargeFile");
-			image.setPath(hdfsPath);
-			image.setUsr(uid);
-			image.setSpace(space);
-			writer.putPictureBean(image);
+//			PictureBean image = new PictureBean(item);
+//			HbaseWriter writer = new HbaseWriter();
+//			image.setKey(item.getName()+uid);
+//			image.setStatus("HdfsLargeFile");
+//			image.setPath(hdfsPath);
+//			image.setUsr(uid);
+//			image.setSpace(space);
+//			writer.putPictureBean(image);
 			//TODO Hbase space操作
 			
 			update(item, "HdfsLargeFile", hdfsPath, uid, space);
