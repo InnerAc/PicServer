@@ -56,7 +56,6 @@ public class WriteHd extends HttpServlet {
 		    	imageName = imageName.substring(0, imageName.lastIndexOf("."));
 		    	if(buffer == null) System.out.println("null");
 		    	PictureUtils image = new PictureUtils(buffer);
-
 		    	boolean flag = false;
 		    	flag = image.cutImg(hdfsPath, imageName, i_size);
 		    	if(flag)

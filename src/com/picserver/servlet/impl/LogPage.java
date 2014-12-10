@@ -2,16 +2,15 @@ package com.picserver.servlet.impl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.picserver.bean.LogBean;
 import com.picserver.bean.LogPageBean;
@@ -25,7 +24,7 @@ import com.picserver.utils.JsonUtil;
 @WebServlet("/LogPage")
 public class LogPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final int pageNum = 2;
+	private static final int pageNum = 10;
 	PageHandler ph = new PageHandler();
 	
        
@@ -56,42 +55,47 @@ public class LogPage extends HttpServlet {
 		//每页起始row
 		String row;
 		String dir="";
-		String sessionId;
+		
+		String appId;
 		//使用request对象的getSession()获取session，如果session不存在则创建一个
-		HttpSession session = request.getSession();
+		ServletContext application=this.getServletContext();   
 		if(page.equals("0")){
 			//初次请求传0
-			sessionId = uid + DateUtil.getCurrentDateStr().substring(7, 13);
+			appId = uid + DateUtil.getCurrentDateStr().substring(7, 13);
 			row = DateUtil.getCurrentDateStr();
 			
 			List<String> strList = new ArrayList<String>();
 			String str = "null";
 			strList.add(str);
 			strList.add(row);
-			session.setAttribute(sessionId, strList);
+			application.setAttribute(appId, strList);
 			//下一页
-			next(request, response, page, uid, row, sessionId);		
+			next(request, response, page, uid, row, appId);		
 		}else{	//不是第一次
 			//获取多的两个参数
-			sessionId = request.getParameter("sessionId");
+			appId = request.getParameter("sessionId");
 			dir = request.getParameter("dir");
+			System.out.println(appId);
+			System.out.println(dir);
 			/*
 			 * 判断请求
 			 */
 			if(dir.equals("next")){//下一页请求
 				//获取row参数
 				row = request.getParameter("row");
+				System.out.println(row);
 				List<String> strList = new ArrayList<String>();
-				strList = (List<String>) session.getAttribute(sessionId);
+				strList = (List<String>) application.getAttribute(appId);
+//				if(strList == null) System.out.println("null");
 				strList.add(row);
-				session.setAttribute("rowlist", strList);
-				next(request, response, page, uid, row, sessionId);
+				application.setAttribute("rowlist", strList);
+				next(request, response, page, uid, row, appId);
 			}else{//上一页
 				List<String> strList = new ArrayList<String>();
-				strList = (List<String>) session.getAttribute(sessionId);
+				strList = (List<String>) application.getAttribute(appId);
 				response.setCharacterEncoding("utf-8");
 				PrintWriter out = response.getWriter();
-				int p = Integer.parseInt(page)-1;
+				int p = Integer.parseInt(page);
 				if(p==0){
 					out.write("fisrt page");
 				}else{
@@ -99,7 +103,7 @@ public class LogPage extends HttpServlet {
 					List<LogBean> list = ph.logPage(uid, preRow, pageNum);
 					int i = list.size();
 					LogPageBean lpb = new LogPageBean();
-					lpb.setSessionId(sessionId);
+					lpb.setSessionId(appId);
 					lpb.setPage(String.valueOf(p));
 					lpb.setRow(list.get(i-1).getTime());
 					lpb.setList(list);
@@ -114,6 +118,7 @@ public class LogPage extends HttpServlet {
 		int num = Integer.parseInt(page);
 		num = num + 1;
 		lpb.setPage(String.valueOf(num));
+
 		lpb.setSessionId(sessionId);
 		List<LogBean> list = ph.logPage(uid, row, pageNum);
 		response.setCharacterEncoding("utf-8");
@@ -122,8 +127,15 @@ public class LogPage extends HttpServlet {
 			out.write("no log");
 		}else{
 			int i = list.size();
-			lpb.setRow(list.get(i-1).getTime());
+			String r = list.get(i-1).getTime();
+			lpb.setRow(r);
 			lpb.setList(list);
+			List<LogBean> l = ph.logPage(uid, r,1);
+			if(l == null){
+				lpb.setIfNext("false");
+			}else{
+				lpb.setIfNext("true");
+			}
 			out.write(JsonUtil.createJsonString("page", lpb));
 		}
 	}
