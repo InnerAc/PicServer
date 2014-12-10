@@ -56,26 +56,26 @@ public class LogPage extends HttpServlet {
 		String row;
 		String dir="";
 		
-		String sessionId;
+		String appId;
 		//使用request对象的getSession()获取session，如果session不存在则创建一个
 		ServletContext application=this.getServletContext();   
 		if(page.equals("0")){
 			//初次请求传0
-			sessionId = uid + DateUtil.getCurrentDateStr().substring(7, 13);
+			appId = uid + DateUtil.getCurrentDateStr().substring(7, 13);
 			row = DateUtil.getCurrentDateStr();
 			
 			List<String> strList = new ArrayList<String>();
 			String str = "null";
 			strList.add(str);
 			strList.add(row);
-			application.setAttribute(sessionId, strList);
+			application.setAttribute(appId, strList);
 			//下一页
-			next(request, response, page, uid, row, sessionId);		
+			next(request, response, page, uid, row, appId);		
 		}else{	//不是第一次
 			//获取多的两个参数
-			sessionId = request.getParameter("sessionId");
+			appId = request.getParameter("sessionId");
 			dir = request.getParameter("dir");
-			System.out.println(sessionId);
+			System.out.println(appId);
 			System.out.println(dir);
 			/*
 			 * 判断请求
@@ -85,17 +85,17 @@ public class LogPage extends HttpServlet {
 				row = request.getParameter("row");
 				System.out.println(row);
 				List<String> strList = new ArrayList<String>();
-				strList = (List<String>) application.getAttribute(sessionId);
-				if(strList == null) System.out.println("null");
+				strList = (List<String>) application.getAttribute(appId);
+//				if(strList == null) System.out.println("null");
 				strList.add(row);
 				application.setAttribute("rowlist", strList);
-				next(request, response, page, uid, row, sessionId);
+				next(request, response, page, uid, row, appId);
 			}else{//上一页
 				List<String> strList = new ArrayList<String>();
-				strList = (List<String>) application.getAttribute(sessionId);
+				strList = (List<String>) application.getAttribute(appId);
 				response.setCharacterEncoding("utf-8");
 				PrintWriter out = response.getWriter();
-				int p = Integer.parseInt(page)-1;
+				int p = Integer.parseInt(page);
 				if(p==0){
 					out.write("fisrt page");
 				}else{
@@ -103,7 +103,7 @@ public class LogPage extends HttpServlet {
 					List<LogBean> list = ph.logPage(uid, preRow, pageNum);
 					int i = list.size();
 					LogPageBean lpb = new LogPageBean();
-					lpb.setSessionId(sessionId);
+					lpb.setSessionId(appId);
 					lpb.setPage(String.valueOf(p));
 					lpb.setRow(list.get(i-1).getTime());
 					lpb.setList(list);
