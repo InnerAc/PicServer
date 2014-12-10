@@ -1,12 +1,19 @@
 package com.picserver.bean;
 
 public class MapfileBean {
-	//主键，用时间表示
+	//主键，用时间加用户表示
+	String key="";
+	//名称
 	String name = "";
-	
 	//用户
 	String uid = "";
 	
+	public String getKey() {
+		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
+	}
 	//总标记数
 	String  flagNum = "";
 	//总图片数

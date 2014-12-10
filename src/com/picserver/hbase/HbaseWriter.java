@@ -27,16 +27,16 @@ public class HbaseWriter {
 			//传值有问题，处理一下
 			return ;	
 		}
-		ho.insertData("cloud_picture", pb.getName(), "attr", "size", pb.getSize());
-		ho.insertData("cloud_picture", pb.getName(), "attr", "type", pb.getType());
-		ho.insertData("cloud_picture", pb.getName(), "attr", "space", pb.getSpace());
-		ho.insertData("cloud_picture", pb.getName(), "attr", "createTime", pb.getCreateTime());
-		ho.insertData("cloud_picture", pb.getName(), "attr", "usr", pb.getUsr());
-		ho.insertData("cloud_picture", pb.getName(), "attr", "path", pb.getPath());
-		ho.insertData("cloud_picture", pb.getName(), "var", "status", pb.getStatus());
-		ho.insertData("cloud_picture", pb.getName(), "var", "updateTime", pb.getUpdateTime());
-		ho.insertData("cloud_picture", pb.getName(), "var", "visitCount", pb.getVisitCount());
-		ho.insertData("cloud_picture", pb.getName(), "var", "visitFlow", pb.getVisitFlow());
+		ho.insertData("cloud_picture", pb.getKey(), "attr", "name", pb.getName());
+		ho.insertData("cloud_picture", pb.getKey(), "attr", "size", pb.getSize());
+		ho.insertData("cloud_picture", pb.getKey(), "attr", "type", pb.getType());
+		ho.insertData("cloud_picture", pb.getKey(), "attr", "space", pb.getSpace());
+		ho.insertData("cloud_picture", pb.getKey(), "attr", "createTime", pb.getCreateTime());
+		ho.insertData("cloud_picture", pb.getKey(), "attr", "usr", pb.getUsr());
+		ho.insertData("cloud_picture", pb.getKey(), "attr", "path", pb.getPath());
+		ho.insertData("cloud_picture", pb.getKey(), "var", "status", pb.getStatus());
+		ho.insertData("cloud_picture", pb.getKey(), "var", "updateTime", pb.getUpdateTime());
+		ho.insertData("cloud_picture", pb.getKey(), "var", "visitCount", pb.getVisitCount());
 		
 	}
 	
@@ -49,12 +49,12 @@ public class HbaseWriter {
 			//传值有问题，处理一下
 			return ;	
 		}
-		ho.insertData("cloud_space",sb.getName(), "attr", "desc", sb.getDesc());
-		ho.insertData("cloud_space",sb.getName(), "attr", "cover", sb.getCover());
-		ho.insertData("cloud_space",sb.getName(), "attr", "uid", sb.getUid());
-		ho.insertData("cloud_space",sb.getName(), "var", "storage", sb.getStorage());
-		ho.insertData("cloud_space",sb.getName(), "var", "number", sb.getNumber());
-		ho.insertData("cloud_space",sb.getName(), "var", "flow", sb.getFlow());
+		ho.insertData("cloud_space",sb.getKey(), "attr", "name", sb.getName());
+		ho.insertData("cloud_space",sb.getKey(), "attr", "desc", sb.getDesc());
+		ho.insertData("cloud_space",sb.getKey(), "attr", "cover", sb.getCover());
+		ho.insertData("cloud_space",sb.getKey(), "attr", "uid", sb.getUid());
+		ho.insertData("cloud_space",sb.getKey(), "var", "storage", sb.getStorage());
+		ho.insertData("cloud_space",sb.getKey(), "var", "number", sb.getNumber());
 	}
 	
 	/**
@@ -100,9 +100,10 @@ public class HbaseWriter {
 			//传值有问题，处理一下
 			return;
 		}
-		ho.insertData("cloud_hd", hb.getName(), "attr", "size", hb.getSize());
-		ho.insertData("cloud_hd", hb.getName(), "attr", "uid", hb.getUid());
-		ho.insertData("cloud_hd", hb.getName(), "attr", "createTime", hb.getCreateTime());
+		ho.insertData("cloud_hd", hb.getKey(), "attr", "name", hb.getName());
+		ho.insertData("cloud_hd", hb.getKey(), "attr", "size", hb.getSize());
+		ho.insertData("cloud_hd", hb.getKey(), "attr", "uid", hb.getUid());
+		ho.insertData("cloud_hd", hb.getKey(), "attr", "createTime", hb.getCreateTime());
 	}
 	
 	/**
@@ -114,9 +115,10 @@ public class HbaseWriter {
 			//传值有问题，处理一下
 			return;
 		}
-		ho.insertData("cloud_mapfile",mb.getName(), "attr", "uid", mb.getUid());
-		ho.insertData("cloud_mapfile",mb.getName(), "var", "flagNum", mb.getFlagNum());
-		ho.insertData("cloud_mapfile",mb.getName(), "var", "picNum", mb.getPicNum());
+		ho.insertData("cloud_mapfile",mb.getKey(), "attr", "name", mb.getName());
+		ho.insertData("cloud_mapfile",mb.getKey(), "attr", "uid", mb.getUid());
+		ho.insertData("cloud_mapfile",mb.getKey(), "var", "flagNum", mb.getFlagNum());
+		ho.insertData("cloud_mapfile",mb.getKey(), "var", "picNum", mb.getPicNum());
 	}
 	
 	/**

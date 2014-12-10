@@ -2,8 +2,10 @@ package com.picserver.bean;
 
 public class HdBean {
 	//主键
+	String key="";
+	//图片名称
 	String name = "";
-	
+
 	//所属用户
 	String uid = "";
 	//上传时间
@@ -11,7 +13,12 @@ public class HdBean {
 	//图片大小
 	String size = "";
 	
-	
+	public String getKey() {
+		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
+	}
 	public String getName() {
 		return name;
 	}

@@ -8,7 +8,10 @@ import org.apache.commons.fileupload.FileItem;
 import com.picserver.utils.DateUtil;
 
 public class PictureBean {
-	//图片名称，也就是hbase的rowkey
+	
+	//是hbase的rowkey
+	String key="";
+	//图片名
 	String name = "";
 	//图片尺寸
 	String size = "";
@@ -30,8 +33,6 @@ public class PictureBean {
 	String updateTime = "";
 	//访问次数
 	String visitCount = "";
-	//访问流量
-	String visitFlow = "";
 	
 	public PictureBean() {
 		
@@ -54,6 +55,14 @@ public class PictureBean {
 		this.createTime = DateUtil.getCurrentDateStr();
 	}
 	
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -109,12 +118,6 @@ public class PictureBean {
 	}
 	public void setVisitCount(String visitCount) {
 		this.visitCount = visitCount;
-	}
-	public String getVisitFlow() {
-		return visitFlow;
-	}
-	public void setVisitFlow(String visitFlow) {
-		this.visitFlow = visitFlow;
 	}
 	public String getPath() {
 		return path;
