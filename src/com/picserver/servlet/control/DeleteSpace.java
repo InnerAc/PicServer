@@ -1,5 +1,6 @@
 package com.picserver.servlet.control;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -13,9 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.picserver.bean.PictureBean;
 import com.picserver.bean.SpaceBean;
 import com.picserver.bean.UserBean;
+import com.picserver.config.SystemConfig;
 import com.picserver.hbase.HbaseReader;
 import com.picserver.hbase.HbaseWriter;
 import com.picserver.picture.PictureDelete;
+import com.picserver.picture.PictureWriter;
 
 /**
  * Servlet implementation class DeleteSpace
@@ -23,7 +26,7 @@ import com.picserver.picture.PictureDelete;
 @WebServlet("/DeleteSpace")
 public class DeleteSpace extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private static final String LOCAL_UPLOAD_ROOT  =  "/upload";
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -69,6 +72,9 @@ public class DeleteSpace extends HttpServlet {
 		}
 
 		}
+//       File f=new File(SystemConfig.getSystemPath()
+//				+ LOCAL_UPLOAD_ROOT + "/" + uid, space);
+//       PictureWriter pw=new PictureWriter();
 		
 		//从数据库删除空间信息，更改用户信息
 		int num=Integer.parseInt(userbean.getSpaceNum())-1;
