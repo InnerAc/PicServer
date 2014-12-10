@@ -51,10 +51,15 @@ public class DeleteSpace extends HttpServlet {
 		PictureDelete pd=new PictureDelete();
 		boolean flag=false;
 		
-		if(piclist == null) System.out.println(2);
+		if(piclist == null) {
+			
+		}else{
+		
 		//删除该空间下的所有图片
 		for(PictureBean pic:piclist){
 			flag=pd.deletePictures(pic);
+		}
+		
 		}
 		
 		//从数据库删除空间信息，更改用户信息
