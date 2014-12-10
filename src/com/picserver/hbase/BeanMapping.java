@@ -27,10 +27,13 @@ public class BeanMapping {
 			// 没有检索到，说明数据库中没有该图片，返回错误信息
 			return null;
 		} else {
-			pb.setName(rowkey);
+			pb.setKey(rowkey);
 			for (KeyValue keyValue : rs.raw()) {
 				String v = new String(keyValue.getQualifier());
 				String val = new String(keyValue.getValue());
+				if (v.equals("name")) {
+					pb.setName(val);
+				}
 				if (v.equals("size")) {
 					pb.setSize(val);
 				}
@@ -58,9 +61,6 @@ public class BeanMapping {
 				if (v.equals("visitCount")) {
 					pb.setVisitCount(val);
 				}
-				if (v.equals("visitFlow")) {
-					pb.setVisitFlow(val);
-				}
 			}
 		}
 		return pb;
@@ -78,10 +78,13 @@ public class BeanMapping {
 			// 没有检索到，说明数据库中没有该图片，返回错误信息
 			return null;
 		} else {
-			sb.setName(rowkey);
+			sb.setKey(rowkey);
 			for (KeyValue keyValue : rs.raw()) {
 				String v = new String(keyValue.getQualifier());
 				String val = new String(keyValue.getValue());
+				if (v.equals("name")) {
+					sb.setName(val);
+				}
 				if (v.equals("desc")) {
 					sb.setDesc(val);
 				}
@@ -96,9 +99,6 @@ public class BeanMapping {
 				}
 				if (v.equals("number")) {
 					sb.setNumber(val);
-				}
-				if (v.equals("flow")) {
-					sb.setFlow(val);
 				}
 			}
 		}
@@ -166,10 +166,13 @@ public class BeanMapping {
 			// 没有检索到，说明数据库中没有该图片，返回错误信息
 			return null;
 		} else {
-			mb.setName(rowkey);
+			mb.setKey(rowkey);
 			for (KeyValue keyValue : rs.raw()) {
 				String v = new String(keyValue.getQualifier());
 				String val = new String(keyValue.getValue());
+				if (v.equals("name")) {
+					mb.setName(val);
+				}
 				if (v.equals("uid")) {
 					mb.setUid(val);
 				}

@@ -29,8 +29,11 @@ public class GetPicture extends HttpServlet {
 		String name = request.getParameter("name");
 		name = new String(name.getBytes("iso-8859-1"),"utf-8");
 		
+		String uid = request.getParameter("uid");
+		uid = new String(uid.getBytes("iso-8859-1"),"utf-8");
+		
 		HbaseReader hr = new HbaseReader();
-		PictureBean pb = hr.getPictureBean(name);
+		PictureBean pb = hr.getPictureBean(name+uid);
 		String res = JsonUtil.createJsonString("Picture", pb);
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
@@ -40,10 +43,11 @@ public class GetPicture extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String name = request.getParameter("name");
+		String uid = request.getParameter("uid");
 		response.setCharacterEncoding("utf-8");
 		
 		HbaseReader hr = new HbaseReader();
-		PictureBean pb = hr.getPictureBean(name);
+		PictureBean pb = hr.getPictureBean(name+uid);
 		String res = JsonUtil.createJsonString("Picture", pb);
 		PrintWriter out = response.getWriter();
 		out.write(res);

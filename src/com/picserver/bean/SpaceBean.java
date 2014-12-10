@@ -3,7 +3,9 @@ package com.picserver.bean;
 import java.text.DecimalFormat;
 
 public class SpaceBean {
-	//空间名称，也就是hbase的rowkey
+	//就是hbase的rowkey
+	String key="";
+	//空间名称
 	String name = "";
 	//空间描述
 	String desc = "";
@@ -12,12 +14,16 @@ public class SpaceBean {
 	//所属用户
 	String uid = "";
 	
+	public String getKey() {
+		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
+	}
 	//已用容量
 	String storage  = "";
 	//图片数量
 	String number = "";
-	//访问流量
-	String flow = "";
 	
 	public String getUid() {
 		return uid;
@@ -56,11 +62,5 @@ public class SpaceBean {
 	}
 	public void setNumber(String number) {
 		this.number = number;
-	}
-	public String getFlow() {
-		return flow;
-	}
-	public void setFlow(String flow) {
-		this.flow = flow;
 	}
 }
