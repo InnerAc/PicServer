@@ -48,7 +48,7 @@ public class HbaseReader {
 	 */
 	public List<PictureBean> getPictureBean(String family, String column,
 			String value) throws IOException {
-		ResultScanner rs = ho.QueryByColumn("cloud_picture", family, column,value);
+		ResultScanner rs = ho.QueryPicByColumn( family, column,value);
 		return lm.pictureListMapping(rs);
 	}
 

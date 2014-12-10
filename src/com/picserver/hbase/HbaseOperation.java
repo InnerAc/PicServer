@@ -199,6 +199,11 @@ public class HbaseOperation {
 	                     CompareOp.EQUAL, Bytes .toBytes(space)); 
 	             filters.add(filter2); 
 	             
+	             Filter filter3 = new SingleColumnValueFilter(Bytes 
+	                     .toBytes("var"), Bytes .toBytes("status"), 
+	                     CompareOp.NOT_EQUAL, Bytes .toBytes("deleted")); 
+	             filters.add(filter3); 
+	             
 	             FilterList filterList = new FilterList(filters); 
 	             Scan scan = new Scan(); 
 	             scan.setFilter(filterList); 
@@ -237,6 +242,11 @@ public class HbaseOperation {
 	                     CompareOp.EQUAL, Bytes .toBytes(usr)); 
 	             filters.add(filter3); 
 	             
+	             Filter filter4 = new SingleColumnValueFilter(Bytes 
+	                     .toBytes("var"), Bytes .toBytes("status"), 
+	                     CompareOp.NOT_EQUAL, Bytes .toBytes("deleted")); 
+	             filters.add(filter4); 
+	             
 	             FilterList filterList = new FilterList(filters); 
 	             Scan scan = new Scan(); 
 	             scan.setFilter(filterList); 
@@ -246,7 +256,33 @@ public class HbaseOperation {
 	             e.printStackTrace(); 
 	             return null;
 	         } 
+	         
+	         
 	     } 
-	     
+	     public  ResultScanner QueryPicByColumn(String family, String column, String val) { 
+	         try { 
+	             HTablePool pool = new HTablePool(configuration, 1000); 
+	             List<Filter> filters = new ArrayList<Filter>(); 
+	            // 当列colunm的值为val时进行查询 
+	             Filter filter = new SingleColumnValueFilter(Bytes.toBytes(family),Bytes 
+	                     .toBytes(column), CompareOp.EQUAL, Bytes 
+	                     .toBytes(val)); 
+	             filters.add(filter); 
+	             
+	             Filter filter1 = new SingleColumnValueFilter(Bytes 
+	                     .toBytes("var"), Bytes .toBytes("status"), 
+	                     CompareOp.NOT_EQUAL, Bytes .toBytes("deleted")); 
+	             filters.add(filter1); 
+	             
+	             Scan s = new Scan(); 
+	             FilterList filterList = new FilterList(filters); 
+	             s.setFilter(filterList); 
+	             ResultScanner rs = pool.getTable("cloud_picture").getScanner(s); 
+	             return rs;
+	         } catch (Exception e) { 
+	             e.printStackTrace(); 
+	             return null;
+	         } 
+	     } 
 
 }

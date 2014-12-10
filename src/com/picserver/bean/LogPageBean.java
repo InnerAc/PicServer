@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LogPageBean {
-	String sessionId = "";
+	String appId = "";
 	//页码
 	String page="";
-	//起始rowkey
-	String row="";
 	//是否下一页
 	String ifNext="";
 	//Log List
@@ -26,23 +24,18 @@ public class LogPageBean {
 	public void setPage(String page) {
 		this.page = page;
 	}
-	public String getRow() {
-		return row;
-	}
-	public void setRow(String row) {
-		this.row = row;
-	}
+
 	public List<LogBean> getList() {
 		return list;
 	}
 	public void setList(List<LogBean> list) {
 		this.list = list;
 	}
-	public String getSessionId() {
-		return sessionId;
+	public String getAppId() {
+		return appId;
 	}
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
+	public void setAppId(String appId) {
+		this.appId = appId;
 	}
 	
 }
