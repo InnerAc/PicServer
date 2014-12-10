@@ -14,6 +14,8 @@ import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp;
 import org.apache.hadoop.hbase.filter.SubstringComparator;
 import org.apache.hadoop.hbase.util.Bytes;
 
+import com.picserver.bean.PictureBean;
+
 /**
  * 匹配查询
  * 
@@ -24,7 +26,7 @@ public class HbaseMatching {
 	HbaseConf hbaseConf = new HbaseConf();
 	Configuration configuration = hbaseConf.hbaseConf();
 
-	public List<Picture> picNameMatching(String subStr, String uid) {
+	public List<PictureBean> picNameMatching(String subStr, String uid) {
 		try {
 			HTablePool pool = new HTablePool(configuration, 1000);
 			List<Filter> filters = new ArrayList<Filter>();

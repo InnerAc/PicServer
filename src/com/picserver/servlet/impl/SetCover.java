@@ -42,13 +42,14 @@ public class SetCover extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		request.setCharacterEncoding("utf-8");
-		String pickey = request.getParameter("pickey");
-		String uid = request.getParameter("pickey");
-		String spacekey = request.getParameter("spacekey");
+		String pickey = request.getParameter("image");
+		String uid = request.getParameter("uid");
+		String spacekey = request.getParameter("space");
 		
 		HbaseReader  hr = new HbaseReader();
 		SpaceBean sb = hr.getSpaceBean(spacekey+uid);
-		sb.setCover(pickey+uid);
+		
+		sb.setCover(pickey);
 		
 		HbaseWriter hw = new HbaseWriter();
 		hw.putSpaceBean(sb);
