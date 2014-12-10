@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.picserver.bean.SpaceBean;
+import com.picserver.bean.UserBean;
 import com.picserver.hbase.HbaseReader;
 import com.picserver.hbase.HbaseWriter;
 import com.picserver.utils.JsonUtil;
@@ -40,6 +41,7 @@ public class CreateSpace extends HttpServlet {
 		 * 空间名判重
 		 */
 		HbaseReader hr = new HbaseReader();
+		
 		SpaceBean s = hr.getSpaceBean(name);
 		if(s == null){
 			SpaceBean sb= new SpaceBean();
@@ -49,8 +51,14 @@ public class CreateSpace extends HttpServlet {
 			sb.setUid(uid);
 			sb.setNumber("0");
 			sb.setStorage("0");
+			//更新用户的空间数量
+			UserBean user=hr.getUserBean(uid);
+			int number=Integer.parseInt(user.getSpaceNum()+1);
+			user.setSpaceNum(Integer.toString(number));
 			HbaseWriter hw = new HbaseWriter();
 			hw.putSpaceBean(sb);
+			hw.putUserBean(user);
+			
 			String res = "success";
 			PrintWriter out = response.getWriter();
 			out.write(res);

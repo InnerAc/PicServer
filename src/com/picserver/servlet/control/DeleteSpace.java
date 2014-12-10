@@ -37,48 +37,7 @@ public class DeleteSpace extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String space=request.getParameter("space");
-		String uid=request.getParameter("uid");
-		space = new String(space.getBytes("iso-8859-1"),"utf-8");
-		uid = new String(uid.getBytes("iso-8859-1"),"utf-8");
-
-		System.out.println(space+uid);
-		HbaseReader reader=new HbaseReader();
-		HbaseWriter writer=new HbaseWriter();
-		List<PictureBean> piclist=reader.getPictureBean(uid, space);//检索该用户该空间下的所有图片
-		SpaceBean spacebean=reader.getSpaceBean(space+uid);
-		UserBean userbean=reader.getUserBean(uid);
-		PictureDelete pd=new PictureDelete();
-		boolean flag=true;
-		
-		if(piclist != null){
-			System.out.println("空间不为空");
-		//删除该空间下的所有图片
-		for(PictureBean pic:piclist){
-			flag=pd.deletePictures(pic);
-			System.out.println(pic.getName());
-		}
-		
-		}
-		//从数据库删除空间信息，更改用户信息
-		int num=Integer.parseInt(userbean.getSpaceNum())-1;
-		userbean.setSpaceNum(Integer.toString(num));
-		writer.putUserBean(userbean);
-		writer.deleteSpaceBean(spacebean);
-		
-		if(flag){
-			response.setContentType("text/html;charset=gb2312");
-			PrintWriter out = response.getWriter();
-			out.print("success");
-			response.setStatus(200);
-			System.out.println("Delete success!");
-		} else {
-			response.setContentType("text/html;charset=gb2312");
-			PrintWriter out = response.getWriter();
-			out.println("删除失败!");					
-			response.setStatus(302);
-			System.out.println("Delete failed");
-		}
+		doPost(request,response);
 	}
 
 	/**
@@ -116,6 +75,7 @@ public class DeleteSpace extends HttpServlet {
 		userbean.setSpaceNum(Integer.toString(num));
 		writer.putUserBean(userbean);
 		writer.deleteSpaceBean(spacebean);
+		System.out.println("用户空间数减1");
 		
 		if(flag){
 			response.setContentType("text/html;charset=gb2312");
