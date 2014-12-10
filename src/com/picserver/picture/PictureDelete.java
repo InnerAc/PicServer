@@ -89,7 +89,7 @@ public class PictureDelete {
 		
 		HbaseWriter writer=new HbaseWriter();
 		HbaseReader reader=new HbaseReader();
-		SpaceBean space=reader.getSpaceBean(pic.getSpace());
+		SpaceBean space=reader.getSpaceBean(pic.getSpace()+pic.getUsr());
 		UserBean user=reader.getUserBean(pic.getUsr());
 		
 		//空间和用户的图片数量减1
