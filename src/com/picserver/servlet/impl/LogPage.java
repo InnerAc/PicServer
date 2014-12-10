@@ -121,15 +121,21 @@ public class LogPage extends HttpServlet {
 
 		lpb.setSessionId(sessionId);
 		List<LogBean> list = ph.logPage(uid, row, pageNum);
-
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		if(list == null){
 			out.write("no log");
 		}else{
 			int i = list.size();
-			lpb.setRow(list.get(i-1).getTime());
+			String r = list.get(i-1).getTime();
+			lpb.setRow(r);
 			lpb.setList(list);
+			List<LogBean> l = ph.logPage(uid, row,1);
+			if(l == null){
+				lpb.setIfNext("true");
+			}else{
+				lpb.setIfNext("false");
+			}
 			out.write(JsonUtil.createJsonString("page", lpb));
 		}
 	}

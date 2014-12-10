@@ -9,8 +9,17 @@ public class LogPageBean {
 	String page="";
 	//起始rowkey
 	String row="";
+	//是否下一页
+	String ifNext="";
 	//Log List
 	List<LogBean> list = new ArrayList<LogBean>();
+	
+	public String getIfNext() {
+		return ifNext;
+	}
+	public void setIfNext(String ifNext) {
+		this.ifNext = ifNext;
+	}
 	public String getPage() {
 		return page;
 	}
