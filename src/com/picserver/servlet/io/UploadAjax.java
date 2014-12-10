@@ -19,7 +19,9 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.picserver.bean.PictureBean;
+import com.picserver.bean.UserBean;
 import com.picserver.config.SystemConfig;
+import com.picserver.hbase.HbaseWriter;
 import com.picserver.hdfs.HdfsUtil;
 import com.picserver.picture.PictureWriter;
 import com.picserver.thread.SyncThread;
@@ -55,6 +57,7 @@ public class UploadAjax extends HttpServlet {
 				PictureWriter PWriter = new PictureWriter();
 				String uid = null;
 				String space = null;
+
 				//TODO 获取图片空间
 					
 	            boolean flag = false;
@@ -66,6 +69,7 @@ public class UploadAjax extends HttpServlet {
 						String name = item.getFieldName();
 						if(name.equals("uid")) {
 							uid = item.getString();
+							
 							System.out.println(uid);
 						} else if(name.equals("space")) {
 							space = item.getString();

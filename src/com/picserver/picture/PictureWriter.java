@@ -16,6 +16,7 @@ import org.apache.hadoop.io.SequenceFile;
 import com.picserver.bean.LogBean;
 import com.picserver.bean.PictureBean;
 import com.picserver.bean.SpaceBean;
+import com.picserver.bean.UserBean;
 import com.picserver.config.SystemConfig;
 import com.picserver.hbase.HbaseReader;
 import com.picserver.hbase.HbaseWriter;
@@ -282,7 +283,7 @@ public class PictureWriter {
 	}
 	
 	/**
-	 * 写入图片信息，更新空间信息
+	 * 写入图片信息，更新空间和用户的信息
 	 * @param item
 	 * @param status
 	 * @param path
@@ -292,6 +293,8 @@ public class PictureWriter {
 	 */
 	public void update(FileItem item,String status, String path, String usr, String space ) throws Exception{
 		PictureBean image = new PictureBean(item);
+		
+		
 		HbaseWriter writer = new HbaseWriter();
 		image.setStatus(status);
 		image.setPath(path);
@@ -307,18 +310,30 @@ public class PictureWriter {
 		writer.putLogBean(lb);
 		
 		HbaseReader hr = new HbaseReader();
+		UserBean user=hr.getUserBean(usr);
 		SpaceBean sb = hr.getSpaceBean(space);
 		//空间图片数量增加1
 		int num = Integer.parseInt(sb.getNumber());
 		num = num + 1;
 		sb.setNumber(String.valueOf(num));
 		
+		// 用户的图片数量加1
+		num=Integer.parseInt(user.getPicNum());
+		num=num+1;
+		user.setPicNum(Integer.toString(num));
+		
 		//空间容量增加
 		double d1 = Double.parseDouble(sb.getStorage());
 		double d2 = Double.parseDouble(image.getSize());
 		sb.setStorage(String.valueOf(d1+d2));
 		
+		//用户的容量增加
+		d1=Double.parseDouble(user.getTotSize());
+	    user.setTotSize(Double.toString(d1+d2));
+		
+	    //更新空间和用户信息
 		writer.putSpaceBean(sb);
+		writer.putUserBean(user);
 		
 	}
 }
