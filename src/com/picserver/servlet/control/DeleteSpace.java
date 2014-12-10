@@ -71,7 +71,7 @@ public class DeleteSpace extends HttpServlet {
 		if(flag){
 			response.setContentType("text/html;charset=gb2312");
 			PrintWriter out = response.getWriter();
-			out.println("删除成功!");
+			out.println("success");
 			response.setStatus(200);
 			System.out.println("Delete success!");
 		} else {
@@ -91,8 +91,10 @@ public class DeleteSpace extends HttpServlet {
 		
 		String space=request.getParameter("space");
 		String uid=request.getParameter("uid");
-
-		System.out.println(space+uid);
+		space = new String(space.getBytes("iso-8859-1"),"utf-8");
+		uid = new String(uid.getBytes("iso-8859-1"),"utf-8");
+		
+		System.out.println(space);
 		HbaseReader reader=new HbaseReader();
 		HbaseWriter writer=new HbaseWriter();
 		List<PictureBean> piclist=reader.getPictureBean(uid, space);//检索该用户该空间下的所有图片
@@ -116,7 +118,7 @@ public class DeleteSpace extends HttpServlet {
 		if(flag){
 			response.setContentType("text/html;charset=gb2312");
 			PrintWriter out = response.getWriter();
-			out.println("删除成功!");
+			out.println("success");
 			response.setStatus(200);
 			System.out.println("Delete success!");
 		} else {
