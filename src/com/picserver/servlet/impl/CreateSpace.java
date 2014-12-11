@@ -53,7 +53,7 @@ public class CreateSpace extends HttpServlet {
 			sb.setStorage("0");
 			//更新用户的空间数量
 			UserBean user=hr.getUserBean(uid);
-			int number=Integer.parseInt(user.getSpaceNum()+1);
+			int number=Integer.parseInt(user.getSpaceNum())+1;
 			user.setSpaceNum(Integer.toString(number));
 			HbaseWriter hw = new HbaseWriter();
 			hw.putSpaceBean(sb);
