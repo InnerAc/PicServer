@@ -353,8 +353,9 @@ public class PictureWriter {
 		HbaseReader reader=new HbaseReader();
 		HbaseWriter writer=new HbaseWriter();
 		PictureBean pic=reader.getPictureBean(name+uid);
-		//只对图片的路径进行修改，其他保持不变
+		//对图片的路径和状态进行修改，其他保持不变
 		pic.setPath(hdfsPath);
+		pic.setStatus("HdfsLargeFile");
 		writer.putPictureBean(pic);
 		System.out.println("更新图片信息成功！");
 		return true;
