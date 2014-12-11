@@ -117,6 +117,7 @@ public class ListMapping {
 	 * @return
 	 */
 	public List<LogBean> logListMapping(ResultScanner rs){
+		System.out.println(rs);
 		List<LogBean> list = new ArrayList<LogBean>();
 		for (Result r : rs) {
 			LogBean lb = new LogBean();

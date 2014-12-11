@@ -51,8 +51,8 @@ public class HbaseOperation {
 			    		// 本行数据的第一列 
 			    		put.add(rowfamily.getBytes(), row.getBytes(), data.getBytes());
 			    		table.put(put);
-			    		table.close();
-			    		admin.close();
+//			    		table.close();
+//			    		admin.close();
 					}
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -71,8 +71,8 @@ public class HbaseOperation {
 						HTable table=new HTable(configuration, tablename);
 						Delete delete = new Delete(Bytes.toBytes(rowkey));
 			    		table.delete(delete);
-			    		table.close();
-			    		admin.close();
+//			    		table.close();
+//			    		admin.close();
 					}
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -90,7 +90,7 @@ public class HbaseOperation {
 					HTable table=new HTable(configuration, tableName);
 					Get scan = new Get(rowkey.getBytes());
 					Result r = table.get(scan);
-					table.close();
+//					table.close();
 					return r;
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -116,7 +116,7 @@ public class HbaseOperation {
 	             Scan s = new Scan(); 
 	             s.setFilter(filter); 
 	             ResultScanner rs = table.getScanner(s); 
-	             table.close();
+//	             table.close();
 	             return rs;
 	         } catch (Exception e) { 
 	             e.printStackTrace(); 
@@ -133,7 +133,7 @@ public class HbaseOperation {
 	             HBaseAdmin admin = new HBaseAdmin(configuration); 
 	             admin.disableTable(tableName); 
 	             admin.deleteTable(tableName); 
-	             admin.close();
+//	             admin.close();
 	         } catch (MasterNotRunningException e) { 
 	             e.printStackTrace(); 
 	         } catch (ZooKeeperConnectionException e) { 
@@ -174,7 +174,7 @@ public class HbaseOperation {
 	             Scan scan = new Scan(); 
 	             scan.setFilter(filterList); 
 	             ResultScanner rs = table.getScanner(scan); 
-	             table.close();
+//	             table.close();
 	             return rs;
 	         } catch (Exception e) { 
 	             e.printStackTrace(); 
@@ -212,7 +212,7 @@ public class HbaseOperation {
 	             Scan scan = new Scan(); 
 	             scan.setFilter(filterList); 
 	             ResultScanner rs = table.getScanner(scan);
-	             table.close();
+//	             table.close();
 	             return rs;
 	         } catch (Exception e) { 
 	             e.printStackTrace(); 
@@ -256,7 +256,7 @@ public class HbaseOperation {
 	             Scan scan = new Scan(); 
 	             scan.setFilter(filterList); 
 	             ResultScanner rs = table.getScanner(scan); 
-	             table.close();
+//	             table.close();
 	             return rs;
 	         } catch (Exception e) { 
 	             e.printStackTrace(); 
@@ -282,7 +282,7 @@ public class HbaseOperation {
 	             FilterList filterList = new FilterList(filters); 
 	             s.setFilter(filterList); 
 	             ResultScanner rs = table.getScanner(s); 
-	             table.close();
+//	             table.close();
 	             return rs;
 	         } catch (Exception e) { 
 	             e.printStackTrace(); 
