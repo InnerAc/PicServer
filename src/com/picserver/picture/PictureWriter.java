@@ -115,6 +115,46 @@ public class PictureWriter {
 		}
 	}
 	/**
+	 *  重写方法直接将文件集合传到HDFS
+	 * 
+	 * @author Jet-Muffin
+	 * @param hdfsPath 文件路径
+	 * @param List
+	 * @param items 文件集合
+	 * @param fileName
+	 *            HDFS中文件夹名
+	 * @return
+	 */
+	public  boolean uploadToHdfs(String hdfsPath,FileItem item, String uid) {
+		try {
+			boolean flag;
+			
+			//HDFS文件名
+
+			String filePath = hdfsPath +item.getName() ;
+			InputStream uploadedStream = item.getInputStream();
+			HdfsUtil hdfs = new HdfsUtil();	
+			flag = hdfs.upLoad(uploadedStream, filePath);
+			// hbase操作
+//			PictureBean image = new PictureBean(item);
+//			HbaseWriter writer = new HbaseWriter();
+//			image.setKey(item.getName()+uid);
+//			image.setStatus("HdfsLargeFile");
+//			image.setPath(hdfsPath);
+//			image.setUsr(uid);
+//			image.setSpace(space);
+//			writer.putPictureBean(image);
+			//TODO Hbase space操作
+			
+			//update(item, "HdfsLargeFile", hdfsPath, uid, space);
+			
+			return flag;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	/**
 	 * 将byte型文件写入hdfs中, 代码未测试
 	 * @author mpj
 	 * @param buffer byte数组文件
