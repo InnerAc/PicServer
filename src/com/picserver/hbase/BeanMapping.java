@@ -1,6 +1,7 @@
 package com.picserver.hbase;
 
-import org.apache.hadoop.hbase.KeyValue;
+import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.client.Result;
 
 import com.picserver.bean.MapfileBean;
@@ -28,9 +29,9 @@ public class BeanMapping {
 			return null;
 		} else {
 			pb.setKey(rowkey);
-			for (KeyValue keyValue : rs.raw()) {
-				String v = new String(keyValue.getQualifier());
-				String val = new String(keyValue.getValue());
+			for(Cell cell:rs.rawCells()){
+				String v = new String(CellUtil.cloneQualifier(cell));
+				String val = new String(CellUtil.cloneValue(cell));
 				if (v.equals("name")) {
 					pb.setName(val);
 				}
@@ -79,9 +80,9 @@ public class BeanMapping {
 			return null;
 		} else {
 			sb.setKey(rowkey);
-			for (KeyValue keyValue : rs.raw()) {
-				String v = new String(keyValue.getQualifier());
-				String val = new String(keyValue.getValue());
+			for(Cell cell:rs.rawCells()){
+				String v = new String(CellUtil.cloneQualifier(cell));
+				String val = new String(CellUtil.cloneValue(cell));
 				if (v.equals("name")) {
 					sb.setName(val);
 				}
@@ -118,9 +119,9 @@ public class BeanMapping {
 			return null;
 		} else {
 			ub.setUid(rowkey);
-			for (KeyValue keyValue : rs.raw()) {
-				String v = new String(keyValue.getQualifier());
-				String val = new String(keyValue.getValue());
+			for(Cell cell:rs.rawCells()){
+				String v = new String(CellUtil.cloneQualifier(cell));
+				String val = new String(CellUtil.cloneValue(cell));
 				if (v.equals("accType")) {
 					ub.setAccType(val);
 				}
@@ -167,9 +168,9 @@ public class BeanMapping {
 			return null;
 		} else {
 			mb.setKey(rowkey);
-			for (KeyValue keyValue : rs.raw()) {
-				String v = new String(keyValue.getQualifier());
-				String val = new String(keyValue.getValue());
+			for(Cell cell:rs.rawCells()){
+				String v = new String(CellUtil.cloneQualifier(cell));
+				String val = new String(CellUtil.cloneValue(cell));
 				if (v.equals("name")) {
 					mb.setName(val);
 				}

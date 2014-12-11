@@ -13,7 +13,6 @@ import com.picserver.bean.SpaceBean;
 import com.picserver.bean.UserBean;
 import com.picserver.hbase.HbaseReader;
 import com.picserver.hbase.HbaseWriter;
-import com.picserver.utils.JsonUtil;
 
 /**
  * Servlet implementation class CreateSpace

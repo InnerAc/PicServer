@@ -6,6 +6,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.MasterNotRunningException;
+import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.ZooKeeperConnectionException;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 
@@ -63,13 +64,14 @@ public class CreateHbase {
 				//System.out.println(tableName + " is exist....");
 			} else {
 				// 建列族
-				HTableDescriptor tableDescriptor = new HTableDescriptor(tableName);
+				HTableDescriptor tableDescriptor = new HTableDescriptor(TableName.valueOf(tableName));
 				int num = column.length;
 				for (int i = 0; i < num; i++) {
 					//添加列族
 					tableDescriptor.addFamily(new HColumnDescriptor(column[i]));
 				}
 				hBaseAdmin.createTable(tableDescriptor);
+				hBaseAdmin.close();
 			}
 		} catch (MasterNotRunningException e) {
 			e.printStackTrace();

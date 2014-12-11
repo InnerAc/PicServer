@@ -3,7 +3,8 @@ package com.picserver.hbase;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.hadoop.hbase.KeyValue;
+import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 
@@ -26,9 +27,9 @@ public class ListMapping {
 		for (Result r : rs) {
 			PictureBean pb = new PictureBean();
 			pb.setKey(new String(r.getRow()));
-			for (KeyValue keyValue : r.raw()) {
-				String v = new String(keyValue.getQualifier());
-				String val = new String(keyValue.getValue());
+			for(Cell cell:r.rawCells()){
+				String v = new String(CellUtil.cloneQualifier(cell));
+				String val = new String(CellUtil.cloneValue(cell));
 				if (v.equals("name")) {
 					pb.setName(val);
 				}
@@ -62,6 +63,7 @@ public class ListMapping {
 			}
 			list.add(pb);
 		}
+		rs.close();
 		if (list.size() == 0) {
 			return null;
 		}
@@ -78,9 +80,9 @@ public class ListMapping {
 		for (Result r : rs) {
 			SpaceBean sb = new SpaceBean();
 			sb.setKey(new String(r.getRow()));
-			for (KeyValue keyValue : r.raw()) {
-				String v = new String(keyValue.getQualifier());
-				String val = new String(keyValue.getValue());
+			for(Cell cell:r.rawCells()){
+				String v = new String(CellUtil.cloneQualifier(cell));
+				String val = new String(CellUtil.cloneValue(cell));
 				if (v.equals("name")) {
 					sb.setName(val);
 				}
@@ -102,6 +104,7 @@ public class ListMapping {
 			}
 			list.add(sb);
 		}
+		rs.close();
 		if (list.size() == 0) {
 			return null;
 		}
@@ -118,9 +121,9 @@ public class ListMapping {
 		for (Result r : rs) {
 			LogBean lb = new LogBean();
 			lb.setLogid(new String(r.getRow()));
-			for (KeyValue keyValue : r.raw()) {
-				String v = new String(keyValue.getQualifier());
-				String val = new String(keyValue.getValue());
+			for(Cell cell:r.rawCells()){
+				String v = new String(CellUtil.cloneQualifier(cell));
+				String val = new String(CellUtil.cloneValue(cell));
 				if (v.equals("user")) {
 					lb.setUser(val);
 				}
@@ -133,6 +136,7 @@ public class ListMapping {
 			}
 			list.add(lb);
 		}
+		rs.close();
 		if (list.size() == 0) {
 			return null;
 		}
@@ -149,9 +153,9 @@ public class ListMapping {
 		for (Result r : rs) {
 			HdBean hb = new HdBean();
 			hb.setKey(new String(r.getRow()));
-			for (KeyValue keyValue : r.raw()) {
-				String v = new String(keyValue.getQualifier());
-				String val = new String(keyValue.getValue());
+			for(Cell cell:r.rawCells()){
+				String v = new String(CellUtil.cloneQualifier(cell));
+				String val = new String(CellUtil.cloneValue(cell));
 				if (v.equals("name")) {
 					hb.setName(val);
 				}
@@ -167,6 +171,7 @@ public class ListMapping {
 			}
 			list.add(hb);
 		}
+		rs.close();
 		if (list.size() == 0) {
 			return null;
 		}

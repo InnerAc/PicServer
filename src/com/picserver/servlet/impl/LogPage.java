@@ -84,7 +84,6 @@ public class LogPage extends HttpServlet {
 				// 获取row参数
 				List<String> strList = new ArrayList<String>();
 				strList = (List<String>) application.getAttribute(appId);
-				// if(strList == null) System.out.println("null");
 				row = strList.get(Integer.parseInt(page)+1);
 				next(request, response, application,page, uid, row, appId,strList);
 
@@ -99,7 +98,6 @@ public class LogPage extends HttpServlet {
 				} else {
 					String preRow = strList.get(p);
 					List<LogBean> list = ph.logPage(uid, preRow, pageNum);
-					int i = list.size();
 					LogPageBean lpb = new LogPageBean();
 					lpb.setAppId(appId);
 					lpb.setPage(String.valueOf(p));

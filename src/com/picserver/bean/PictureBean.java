@@ -1,10 +1,7 @@
 package com.picserver.bean;
 
 import java.io.File;
-import java.util.Date;
-
 import org.apache.commons.fileupload.FileItem;
-
 import com.picserver.utils.DateUtil;
 
 public class PictureBean {

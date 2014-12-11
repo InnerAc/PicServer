@@ -1,10 +1,7 @@
 package com.picserver.hbase;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.hadoop.hbase.KeyValue;
-import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 
 import com.picserver.bean.LogBean;

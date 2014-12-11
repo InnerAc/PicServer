@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.client.HTablePool;
+import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.filter.BinaryComparator;
-import org.apache.hadoop.hbase.filter.ByteArrayComparable;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.FilterList;
 import org.apache.hadoop.hbase.filter.PageFilter;
@@ -39,7 +38,7 @@ public class PageOperation {
 	 */
 	public ResultScanner logPageHandler( String rowkey, String uid, int num){
 		 try { 
-	            HTablePool pool = new HTablePool(configuration, 1000); 
+			 HTable table=new HTable(configuration, "cloud_log");
 	            List<Filter> filters = new ArrayList<Filter>(); 
 	 
 	            Filter filter1 = new SingleColumnValueFilter(Bytes 
@@ -58,7 +57,8 @@ public class PageOperation {
 	            FilterList filterList = new FilterList(filters); 
 	            Scan scan = new Scan(); 
 	            scan.setFilter(filterList); 
-	            ResultScanner rs = pool.getTable("cloud_log").getScanner(scan); 
+	            ResultScanner rs = table.getScanner(scan); 
+	            table.close();
 	            return rs;
 	        } catch (Exception e) { 
 	            e.printStackTrace(); 
@@ -68,7 +68,7 @@ public class PageOperation {
 
 	public ResultScanner picPageHandlerbyTime(String time, String uid, String space,int num){
 		 try { 
-	            HTablePool pool = new HTablePool(configuration, 1000); 
+		        HTable table=new HTable(configuration, "cloud_picture"); 
 	            List<Filter> filters = new ArrayList<Filter>(); 
 	 
 	            Filter filter1 = new SingleColumnValueFilter(Bytes 
@@ -92,7 +92,8 @@ public class PageOperation {
 	            FilterList filterList = new FilterList(filters); 
 	            Scan scan = new Scan(); 
 	            scan.setFilter(filterList); 
-	            ResultScanner rs = pool.getTable("cloud_picture").getScanner(scan); 
+	            ResultScanner rs =table.getScanner(scan); 
+	            table.close();
 	            return rs;
 	        } catch (Exception e) { 
 	            e.printStackTrace(); 
@@ -102,7 +103,7 @@ public class PageOperation {
 
 	public ResultScanner picPageHandlerbyKey(String key, String uid, String space,int num){
 		 try { 
-	            HTablePool pool = new HTablePool(configuration, 1000); 
+		        HTable table=new HTable(configuration, "cloud_picture"); 
 	            List<Filter> filters = new ArrayList<Filter>(); 
 	            
 	            Filter rf = new RowFilter(CompareOp.GREATER_OR_EQUAL, new BinaryComparator(key.getBytes()));
@@ -124,7 +125,8 @@ public class PageOperation {
 	            FilterList filterList = new FilterList(filters); 
 	            Scan scan = new Scan(); 
 	            scan.setFilter(filterList); 
-	            ResultScanner rs = pool.getTable("cloud_picture").getScanner(scan); 
+	            ResultScanner rs = table.getScanner(scan); 
+	            table.close();
 	            return rs;
 	        } catch (Exception e) { 
 	            e.printStackTrace(); 

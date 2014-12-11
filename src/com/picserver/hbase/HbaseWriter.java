@@ -1,7 +1,5 @@
 package com.picserver.hbase;
 
-import org.apache.hadoop.io.MapFile;
-
 import com.picserver.bean.HdBean;
 import com.picserver.bean.LogBean;
 import com.picserver.bean.MapfileBean;

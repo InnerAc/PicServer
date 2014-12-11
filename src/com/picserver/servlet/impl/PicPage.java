@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.picserver.bean.LogBean;
-import com.picserver.bean.LogPageBean;
 import com.picserver.bean.PicPageBean;
 import com.picserver.bean.PictureBean;
 import com.picserver.hbase.PageHandler;
