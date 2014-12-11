@@ -178,5 +178,76 @@ public class ListMapping {
 		}
 		return list;
 	}
+	
+	/**
+	 * 将数据库读出的数据映射到Pic3DBean的List
+	 * @param rs
+	 * @return
+	 */
+	public List<Pic3DBean> pic3DListMapping(ResultScanner rs){
+		List<Pic3DBean> list = new ArrayList<Pic3DBean>();
+		for (Result r : rs) {
+			Pic3DBean pbd = new Pic3DBean();
+			pbd.setKey(new String(r.getRow()));
+			for(Cell cell:r.rawCells()){
+				String v = new String(CellUtil.cloneQualifier(cell));
+				String val = new String(CellUtil.cloneValue(cell));
+				if (v.equals("name")) {
+					pbd.setName(val);
+				}
+				if (v.equals("uid")) {
+					pbd.setUid(val);
+				}
+				if (v.equals("createTime")) {
+					pbd.setCreateTime(val);
+				}
+				if (v.equals("size")) {
+					pbd.setSize(val);
+				}
+			}
+			list.add(pbd);
+		}
+		rs.close();
+		if (list.size() == 0) {
+			return null;
+		}
+		return list;
+	}
+	
+	/**
+	 * 将数据库读出的数据映射到PanoBean的List
+	 * @param rs
+	 * @return
+	 */
+	public List<PanoBean> panoListMapping(ResultScanner rs){
+		List<PanoBean> list = new ArrayList<PanoBean>();
+		for (Result r : rs) {
+			PanoBean pb = new PanoBean();
+			pb.setKey(new String(r.getRow()));
+			for(Cell cell:r.rawCells()){
+				String v = new String(CellUtil.cloneQualifier(cell));
+				String val = new String(CellUtil.cloneValue(cell));
+				if (v.equals("name")) {
+					pb.setName(val);
+				}
+				if (v.equals("uid")) {
+					pb.setUid(val);
+				}
+				if (v.equals("createTime")) {
+					pb.setCreateTime(val);
+				}
+				if (v.equals("size")) {
+					pb.setSize(val);
+				}
+			}
+			list.add(pb);
+		}
+		rs.close();
+		if (list.size() == 0) {
+			return null;
+		}
+		return list;
+	}
+
 
 }

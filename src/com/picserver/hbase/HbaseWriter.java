@@ -3,6 +3,8 @@ package com.picserver.hbase;
 import com.picserver.bean.HdBean;
 import com.picserver.bean.LogBean;
 import com.picserver.bean.MapfileBean;
+import com.picserver.bean.PanoBean;
+import com.picserver.bean.Pic3DBean;
 import com.picserver.bean.PictureBean;
 import com.picserver.bean.SpaceBean;
 import com.picserver.bean.UserBean;
@@ -103,6 +105,36 @@ public class HbaseWriter {
 		ho.insertData("cloud_hd", hb.getKey(), "attr", "size", hb.getSize());
 		ho.insertData("cloud_hd", hb.getKey(), "attr", "uid", hb.getUid());
 		ho.insertData("cloud_hd", hb.getKey(), "attr", "createTime", hb.getCreateTime());
+	}
+	
+	/**
+	 * 将3D图片信息写入数据库
+	 * @param pdb
+	 */
+	public void put3DBean(Pic3DBean pdb){
+		if((pdb == null)||(pdb.getName().equals(""))){
+			//传值有问题，处理一下
+			return;
+		}
+		ho.insertData("cloud_3d", pdb.getKey(), "attr", "name", pdb.getName());
+		ho.insertData("cloud_3d", pdb.getKey(), "attr", "size", pdb.getSize());
+		ho.insertData("cloud_3d", pdb.getKey(), "attr", "uid", pdb.getUid());
+		ho.insertData("cloud_3d", pdb.getKey(), "attr", "createTime", pdb.getCreateTime());
+	}
+	
+	/**
+	 * 将pano图片信息写入数据库
+	 * @param pb
+	 */
+	public void putPanoBean(PanoBean pb){
+		if((pb == null)||(pb.getName().equals(""))){
+			//传值有问题，处理一下
+			return;
+		}
+		ho.insertData("cloud_pano", pb.getKey(), "attr", "name", pb.getName());
+		ho.insertData("cloud_pano", pb.getKey(), "attr", "size", pb.getSize());
+		ho.insertData("cloud_pano", pb.getKey(), "attr", "uid", pb.getUid());
+		ho.insertData("cloud_pano", pb.getKey(), "attr", "createTime", pb.getCreateTime());
 	}
 	
 	/**

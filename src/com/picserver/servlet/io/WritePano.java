@@ -16,9 +16,12 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.picserver.bean.PanoBean;
 import com.picserver.config.SystemConfig;
+import com.picserver.hbase.HbaseWriter;
 import com.picserver.picture.PictureWriter;
 import com.picserver.thread.SyncThread;
+import com.picserver.utils.DateUtil;
 
 /**
  * Servlet implementation class WritePano
@@ -79,10 +82,19 @@ public class WritePano extends HttpServlet {
 						String hdfsPath = HDFS_UPLOAD_ROOT + "/" + uid + "/Pano/" ;
 						
 						flag = PWriter.uploadToHdfs(hdfsPath,item, uid);
-					}
+						
+						HbaseWriter writer=new HbaseWriter();
+					    PanoBean pano=new PanoBean();
+					    pano.setKey(item.getName()+uid);
+					    pano.setName(item.getName());
+					    pano.setSize(String.valueOf(item.getSize()));
+					    pano.setUid(uid);
+					    pano.setCreateTime(DateUtil.getCurrentDateStr());
+					    writer.putPanoBean(pano);
+					    System.out.println("更新数据库成功！");
+				}
 				}
 				
-			    
 			    
 				if(flag){
 					response.setContentType("text/html;charset=gb2312");

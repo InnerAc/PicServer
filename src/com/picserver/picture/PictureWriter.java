@@ -135,18 +135,7 @@ public class PictureWriter {
 			InputStream uploadedStream = item.getInputStream();
 			HdfsUtil hdfs = new HdfsUtil();	
 			flag = hdfs.upLoad(uploadedStream, filePath);
-			// hbase操作
-//			PictureBean image = new PictureBean(item);
-//			HbaseWriter writer = new HbaseWriter();
-//			image.setKey(item.getName()+uid);
-//			image.setStatus("HdfsLargeFile");
-//			image.setPath(hdfsPath);
-//			image.setUsr(uid);
-//			image.setSpace(space);
-//			writer.putPictureBean(image);
-			//TODO Hbase space操作
-			
-			//update(item, "HdfsLargeFile", hdfsPath, uid, space);
+
 			
 			return flag;
 		} catch (Exception e) {

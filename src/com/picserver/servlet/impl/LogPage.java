@@ -133,7 +133,6 @@ public class LogPage extends HttpServlet {
 			} else {
 				lpb.setIfNext("true");
 			}
-			System.out.println(1);
 			out.write(JsonUtil.createJsonString("page", lpb));
 		}
 	}

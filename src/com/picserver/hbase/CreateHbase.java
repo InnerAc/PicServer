@@ -44,6 +44,17 @@ public class CreateHbase {
 		String name6 = "cloud_hd";
 		String[] c = {"attr"};
 		createTable(name6, c);
+		
+//		//创建3D图片表
+		String name7= "cloud_3d";
+		String[] c1 = {"attr"};
+		createTable(name7, c1);
+//		//创建pano图片表
+		String name8= "cloud_pano";
+		String[] c2 = {"attr"};
+		createTable(name8, c2);		
+		
+		
 ////		
 ////		//创建mapfileb表
 //		String name5 = "cloud_mapfile";

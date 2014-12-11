@@ -10,22 +10,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.picserver.bean.HdBean;
 import com.picserver.bean.PanoBean;
+import com.picserver.bean.Pic3DBean;
 import com.picserver.hbase.HbaseReader;
 import com.picserver.utils.JsonUtil;
 
 /**
- * Servlet implementation class ListPano
+ * Servlet implementation class List3D
  */
-@WebServlet("/ListPano")
-public class ListPano extends HttpServlet {
+@WebServlet("/List3D")
+public class List3D extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ListPano() {
+    public List3D() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,14 +42,15 @@ public class ListPano extends HttpServlet {
 		uid = new String(uid.getBytes("iso-8859-1"),"utf-8");
 		
 		HbaseReader hr = new HbaseReader();
-		List<PanoBean> list = hr.getPanoList(uid);
+		List<Pic3DBean> list = hr.get3DList(uid);
 		PrintWriter out = response.getWriter();
 		if(list == null){
-			out.write("no pano");
+			out.write("no 3D");
 		}else{
-			out.write(JsonUtil.createJsonString("pano", list));
+			out.write(JsonUtil.createJsonString("3D", list));
 		}
 	}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -61,12 +62,12 @@ public class ListPano extends HttpServlet {
 		String uid = request.getParameter("uid");
 		
 		HbaseReader hr = new HbaseReader();
-		List<PanoBean> list = hr.getPanoList(uid);
+		List<Pic3DBean> list = hr.get3DList(uid);
 		PrintWriter out = response.getWriter();
 		if(list == null){
-			out.write("no pano");
+			out.write("no 3D");
 		}else{
-			out.write(JsonUtil.createJsonString("pano", list));
+			out.write(JsonUtil.createJsonString("3D", list));
 		}
 	}
 
