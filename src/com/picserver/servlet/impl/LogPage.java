@@ -62,15 +62,17 @@ public class LogPage extends HttpServlet {
 		String appId;
 		// 使用request对象的getSession()获取session，如果session不存在则创建一个
 		ServletContext application = this.getServletContext();
-		if (page.equals("0")) {
+		if (page.equals("1")) {
 			// 初次请求传0
 			appId = uid + DateUtil.getCurrentDateStr().substring(7, 13);
 			row = DateUtil.getCurrentDateStr();
-
+			
 			List<String> strList = new ArrayList<String>();
 			String str = "null";
 			strList.add(str);
 			strList.add(row);
+			
+			
 			// 下一页
 			next(request, response,application, page, uid, row, appId,strList);
 		} else { // 不是第一次
@@ -84,7 +86,7 @@ public class LogPage extends HttpServlet {
 				// 获取row参数
 				List<String> strList = new ArrayList<String>();
 				strList = (List<String>) application.getAttribute(appId);
-				row = strList.get(Integer.parseInt(page)+1);
+				row = strList.get(Integer.parseInt(page));
 				next(request, response, application,page, uid, row, appId,strList);
 
 			} else {// 上一页
@@ -112,9 +114,7 @@ public class LogPage extends HttpServlet {
 			String page, String uid, String row, String appId,List<String> strList)
 			throws IOException {
 		LogPageBean lpb = new LogPageBean();
-		int num = Integer.parseInt(page);
-		num = num + 1;
-		lpb.setPage(String.valueOf(num));
+		lpb.setPage(page);
 		lpb.setAppId(appId);
 		List<LogBean> list = ph.logPage(uid, row, pageNum);
 		response.setCharacterEncoding("utf-8");
@@ -133,6 +133,7 @@ public class LogPage extends HttpServlet {
 			} else {
 				lpb.setIfNext("true");
 			}
+			System.out.println(1);
 			out.write(JsonUtil.createJsonString("page", lpb));
 		}
 	}

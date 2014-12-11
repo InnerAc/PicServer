@@ -153,8 +153,15 @@ public class PictureWriter {
 		try {		
 				
 				//本地目录为“根目录/用户名/时间戳"
-			final String LocalPath = SystemConfig.getSystemPath()
-					+ LOCAL_UPLOAD_ROOT + "/" + uid + '/' + space + '/';
+			final String LocalUidPath = SystemConfig.getSystemPath()
+					+ LOCAL_UPLOAD_ROOT + "/" + uid + '/';
+			final String LocalPath = LocalUidPath + '/' + space + '/' ;
+
+			//文件是否存在
+		    File LocalUidDir = new File(LocalUidPath);
+            if(!LocalUidDir.exists()){
+            	LocalUidDir.mkdir();
+            }	 
 				
 				//文件是否存在
 			    File LocalDir = new File(LocalPath);

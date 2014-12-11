@@ -44,8 +44,9 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String user = request.getParameter("uid");
-		String psw = request.getParameter("psw");
-		psw = MD5Util.getAllMD5(psw);
+		String pwd = request.getParameter("pwd");
+
+		pwd = MD5Util.getAllMD5(pwd);
 		
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
@@ -55,7 +56,7 @@ public class Login extends HttpServlet {
 		if(ub == null){
 			out.write("no such user");
 		}else{
-			if(ub.getPwd().equals(psw)){
+			if(ub.getPwd().equals(pwd)){
 				//更新上次登录时间
 				ub.setLastLogin(DateUtil.getCurrentDateStr());
 				HbaseWriter hw = new HbaseWriter();

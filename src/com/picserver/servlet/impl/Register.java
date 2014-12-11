@@ -43,13 +43,14 @@ public class Register extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
+		String uid = request.getParameter("uid");
 		UserBean ub = new UserBean();
 		ub.setUid(request.getParameter("uid"));
-		ub.setEmail(request.getParameter("email"));
+		ub.setEmail("");
 		ub.setNickname(request.getParameter("nickname"));
 		ub.setPwd(MD5Util.getAllMD5(request.getParameter("pwd")));
-		ub.setAccType(request.getParameter("accType"));
-		ub.setWebsite(request.getParameter("website"));
+		ub.setAccType("");
+		ub.setWebsite("");
 		
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
