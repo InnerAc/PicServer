@@ -59,7 +59,7 @@ public class DeleteSpace extends HttpServlet {
 		HbaseWriter writer=new HbaseWriter();
 		List<PictureBean> piclist=reader.getPictureBean(uid, space);//检索该用户该空间下的所有图片
 		SpaceBean spacebean=reader.getSpaceBean(space+uid);
-		UserBean userbean=reader.getUserBean(uid);
+		
 		PictureDelete pd=new PictureDelete();
 		boolean flag=true;
 		
@@ -72,11 +72,12 @@ public class DeleteSpace extends HttpServlet {
 		}
 
 		}
-//       File f=new File(SystemConfig.getSystemPath()
-//				+ LOCAL_UPLOAD_ROOT + "/" + uid, space);
-//       PictureWriter pw=new PictureWriter();
+       File f=new File(SystemConfig.getSystemPath()
+				+ LOCAL_UPLOAD_ROOT + "/" + uid, space);
+       f.delete();
 		
 		//从数据库删除空间信息，更改用户信息
+       UserBean userbean=reader.getUserBean(uid);
 		int num=Integer.parseInt(userbean.getSpaceNum())-1;
 		userbean.setSpaceNum(Integer.toString(num));
 		writer.putUserBean(userbean);
