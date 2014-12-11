@@ -35,7 +35,7 @@ public class ReadHd extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+		HttpServletResponse response) throws ServletException, IOException {
 		String FilePath = request.getParameter("path");
 		String uid = request.getParameter("uid");
 		HdfsUtil hdfs = new HdfsUtil();

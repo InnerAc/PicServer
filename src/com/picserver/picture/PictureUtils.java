@@ -235,4 +235,50 @@ public class PictureUtils {
 		} 
 		return true;
 	}
+	
+
+		public static void cutpanoImae(String imgPath,String toPath) throws MagickException{
+			 ImageInfo infoS = null;    
+		     MagickImage image = null;    
+		     MagickImage cropped = null;    
+		     MagickImage scaled  = null;
+		     Rectangle rect = null;
+		     Dimension dim = null;
+		     char[] pname = {'l','f','r','b'};
+		     try {
+				infoS = new ImageInfo(imgPath);
+				image = new MagickImage(infoS);
+				dim = image.getDimension();
+			} catch (MagickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		     int wide = (int) dim.getWidth();
+		     int high = (int) dim.getHeight();
+		     
+		     int side_lang = wide/4;;
+		     if(high > wide/4){
+		    	 for(int i=0;i<4;i++){
+		    		rect = new Rectangle(i*side_lang, 0,side_lang,side_lang);
+	  				cropped = image.cropImage(rect);    
+	  				cropped.setFileName(toPath+"/"+pname[i]+".jpg");    
+	  				cropped.writeImage(infoS);
+		    	 }
+		     }else{
+		    	 scaled = image.scaleImage(wide, side_lang);
+		    	 for(int i=0;i<4;i++){
+			    		rect = new Rectangle(i*side_lang, 0,side_lang,side_lang);
+		  				cropped = scaled.cropImage(rect);    
+		  				cropped.setFileName(toPath+pname[i]+".jpg");    
+		  				cropped.writeImage(infoS);
+		    	 }
+		     }
+		}
+		public static void main(String[] arg) throws MagickException{
+			String imgpath = "/home/had/w.jpg";
+			String topath = "/home/had/pano/";
+			cutpanoImae(imgpath,topath);
+		}
+	
+
 }
