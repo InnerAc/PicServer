@@ -8,11 +8,11 @@
 </head>
 <body>
 	<h1>File Upload </h1>
-	<form action="UploadAjax" method="POST" enctype="multipart/form-data">
-			<input name="space"  value="space1" />
+	<form action="WritePano" method="POST" enctype="multipart/form-data">
+			
 		<input name="uid" value="admin"/> 
 		<div align="left">
-			<pre>Ñ¡ÔñÉÏ´«µÄÎÄ¼þ:<input type="file" size="40" name="upl-file"> </BR>
+			<pre>浏览:<input type="file" size="40" name="upl-file"> </BR>
 			<input type="submit" value="submit"> <input type="reset" value="reset"></pre>
 		</div>
 

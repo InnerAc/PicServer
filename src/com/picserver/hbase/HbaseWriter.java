@@ -62,10 +62,9 @@ public class HbaseWriter {
 	public void putUserBean(UserBean ub){
 		if((ub == null)||(ub.getUid().equals(""))){
 			//传值有问题，处理一下
-			System.out.println("空");
 			return ;
 		}
-		System.out.println("User picture:"+ub.getPicNum());
+
 		ho.insertData("cloud_user", ub.getUid(), "attr", "accType", ub.getAccType());
 		ho.insertData("cloud_user", ub.getUid(), "attr", "email", ub.getEmail());
 		ho.insertData("cloud_user", ub.getUid(), "attr", "lastLogin", ub.getLastLogin());
