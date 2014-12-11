@@ -130,9 +130,12 @@ public class PictureWriter {
 		System.out.println(hdfsPath);
 		String filePath = hdfsPath +name;
 		System.out.println(name);
-		ByteArrayInputStream in = new ByteArrayInputStream(buffer);  
+		ByteArrayInputStream in = new ByteArrayInputStream(buffer); 
 		HdfsUtil hdfs = new HdfsUtil();	
 		flag = hdfs.upLoad(in, filePath);
+		System.out.println("成功将byte数组写入hafs中");
+		// 更新图片相关信息
+		updateImage(uid,name,hdfsPath);
 		return flag;
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -337,6 +340,24 @@ public class PictureWriter {
 		writer.putSpaceBean(sb);
 		writer.putUserBean(user);
 		
+	}
+	
+	/**
+	 * 图片修改后在hbase对图片信息进行修改，现在只是更改图片的路径信息
+	 * @param user 用户
+	 * @param name 图片名字 
+	 * @param hdfsPath 图片的路径
+	 * @return
+	 */
+	public boolean updateImage(String uid,String name,String hdfsPath){
+		HbaseReader reader=new HbaseReader();
+		HbaseWriter writer=new HbaseWriter();
+		PictureBean pic=reader.getPictureBean(name+uid);
+		//只对图片的路径进行修改，其他保持不变
+		pic.setPath(hdfsPath);
+		writer.putPictureBean(pic);
+		System.out.println("更新图片信息成功！");
+		return true;
 	}
 }
 

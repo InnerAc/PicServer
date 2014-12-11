@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -70,7 +71,22 @@ public class WaterMaskUpdate extends HttpServlet {
 			}
 	    	
 			PictureWriter writer=new PictureWriter();
-            writer.uploadToHdfs(outbuffer, uid, space, imageName);
+			boolean flag=writer.uploadToHdfs(outbuffer, uid, space, imageName);
+	          System.out.println("修改后的图片成功保存（hdfs和hbase）");
+	            
+	            if(flag){
+	    			response.setContentType("text/html;charset=gb2312");
+	    			PrintWriter out = response.getWriter();
+	    			out.print("success");
+	    			response.setStatus(200);
+	    			System.out.println("Upload success!");
+	    		} else {
+	    			response.setContentType("text/html;charset=gb2312");
+	    			PrintWriter out = response.getWriter();
+	    			out.println("更改失败!");					
+	    			response.setStatus(302);
+	    			System.out.println("Upload failed");
+	    		}
             
 	    } catch(Exception e) {
 	    	e.printStackTrace();
