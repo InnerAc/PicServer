@@ -239,6 +239,9 @@ public class ListMapping {
 				if (v.equals("size")) {
 					pb.setSize(val);
 				}
+				if(v.equals("path")){
+					pb.setPath(val);
+				}
 			}
 			list.add(pb);
 		}

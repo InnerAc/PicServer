@@ -13,7 +13,14 @@ public class PanoBean {
 	String createTime = "";
 	//图片大小
 	String size = "";
+	String path="";
 	
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
 	public String getKey() {
 		return key;
 	}

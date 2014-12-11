@@ -71,11 +71,9 @@ public class WritePano extends HttpServlet {
 					FileItem item = (FileItem)iter.next();			
 					
 					if (item.isFormField()) {  		//若为普通表单
-					
 						String name = item.getFieldName();
 						if(name.equals("uid")) {
 							uid = item.getString();
-							uid = new String(uid.getBytes("iso-8859-1"),"utf-8");
 						} 
 
 					} else {
@@ -89,6 +87,7 @@ public class WritePano extends HttpServlet {
 					    pano.setName(item.getName());
 					    pano.setSize(String.valueOf(item.getSize()));
 					    pano.setUid(uid);
+					    pano.setPath(hdfsPath);
 					    pano.setCreateTime(DateUtil.getCurrentDateStr());
 					    writer.putPanoBean(pano);
 					    System.out.println("更新数据库成功！");
@@ -99,7 +98,7 @@ public class WritePano extends HttpServlet {
 				if(flag){
 					response.setContentType("text/html;charset=gb2312");
 					PrintWriter out = response.getWriter();
-					out.println("上传成功!");
+					out.print("success");
 					response.setStatus(200);
 					System.out.println("Upload success!");
 				} else {

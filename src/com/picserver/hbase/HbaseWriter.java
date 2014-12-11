@@ -135,6 +135,7 @@ public class HbaseWriter {
 		ho.insertData("cloud_pano", pb.getKey(), "attr", "size", pb.getSize());
 		ho.insertData("cloud_pano", pb.getKey(), "attr", "uid", pb.getUid());
 		ho.insertData("cloud_pano", pb.getKey(), "attr", "createTime", pb.getCreateTime());
+		ho.insertData("cloud_pano", pb.getKey(), "attr", "path", pb.getPath());
 	}
 	
 	/**

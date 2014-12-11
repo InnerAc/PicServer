@@ -25,7 +25,7 @@ import com.picserver.utils.JsonUtil;
 public class PicPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	//数+1
-	private static final int pageNum = 3;
+	private static final int pageNum = 7;
 	PageHandler ph = new PageHandler();
 
 	/**

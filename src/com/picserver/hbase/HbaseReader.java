@@ -171,6 +171,14 @@ public class HbaseReader {
 		ResultScanner rs = ho.QueryByColumn("cloud_pano", "attr", "uid", uid);
 		return lm.panoListMapping(rs);
 	}
+	
+	public PanoBean getPanoBean(String key) throws IOException {
+		if (key == null)
+			return null;
+		Result rs = ho.QueryByRowKey("cloud_pano", key);
+		return bm.panoBeanMapping(rs, key);
+	}
+
 
 	/**
 	 * 根据主键获取mapfile

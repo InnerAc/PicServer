@@ -5,6 +5,7 @@ import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.client.Result;
 
 import com.picserver.bean.MapfileBean;
+import com.picserver.bean.PanoBean;
 import com.picserver.bean.PictureBean;
 import com.picserver.bean.SpaceBean;
 import com.picserver.bean.UserBean;
@@ -186,5 +187,35 @@ public class BeanMapping {
 			}
 			return mb;
 		}
+	}
+	
+	public PanoBean panoBeanMapping(Result rs, String rowkey){
+		PanoBean pb = new PanoBean();
+		if (rs.isEmpty()) {
+			// 没有检索到，说明数据库中没有该图片，返回错误信息
+			return null;
+		} else {
+			pb.setKey(rowkey);
+			for(Cell cell:rs.rawCells()){
+				String v = new String(CellUtil.cloneQualifier(cell));
+				String val = new String(CellUtil.cloneValue(cell));
+				if (v.equals("name")) {
+					pb.setName(val);
+				}
+				if (v.equals("uid")) {
+					pb.setUid(val);
+				}
+				if (v.equals("createTime")) {
+					pb.setCreateTime(val);
+				}
+				if (v.equals("size")) {
+					pb.setSize(val);
+				}
+				if(v.equals("path")){
+					pb.setPath(val);
+				}
+			}
+		}
+		return pb;
 	}
 }
