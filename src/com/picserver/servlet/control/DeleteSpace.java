@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.picserver.bean.LogBean;
 import com.picserver.bean.PictureBean;
 import com.picserver.bean.SpaceBean;
 import com.picserver.bean.UserBean;
@@ -85,6 +86,10 @@ public class DeleteSpace extends HttpServlet {
 		System.out.println("用户空间数减1");
 		
 		if(flag){
+			//写入日志
+			LogBean lb = new LogBean(uid, "删除空间"+space);
+			HbaseWriter hw = new HbaseWriter();
+			hw.putLogBean(lb);
 			response.setContentType("text/html;charset=gb2312");
 			PrintWriter out = response.getWriter();
 			out.print("success");

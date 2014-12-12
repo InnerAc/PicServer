@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.picserver.bean.LogBean;
 import com.picserver.bean.MapfileBean;
 import com.picserver.bean.PictureBean;
 import com.picserver.bean.SpaceBean;
@@ -69,6 +70,10 @@ public class DeleteImage extends HttpServlet {
 		boolean flag = pd.deletePicture(pic);
 
 		if(flag){
+			//写入日志
+			LogBean lb = new LogBean(uid, "删除图片"+pictureName);
+			HbaseWriter hw = new HbaseWriter();
+			hw.putLogBean(lb);
 			response.setContentType("text/html;charset=gb2312");
 			PrintWriter out = response.getWriter();
 			out.print("success");

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.picserver.bean.LogBean;
 import com.picserver.bean.UserBean;
 import com.picserver.hbase.HbaseReader;
 import com.picserver.hbase.HbaseWriter;
@@ -61,6 +62,11 @@ public class Login extends HttpServlet {
 				ub.setLastLogin(DateUtil.getCurrentDateStr());
 				HbaseWriter hw = new HbaseWriter();
 				hw.putUserBean(ub);
+				
+				//写入日志
+				LogBean lb = new LogBean(user, "登录系统");
+				hw.putLogBean(lb);
+				
 				out.write(JsonUtil.createJsonString("user", ub));
 			}else{
 				out.write("error psw");

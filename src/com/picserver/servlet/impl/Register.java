@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.picserver.bean.LogBean;
 import com.picserver.bean.UserBean;
 import com.picserver.hbase.HbaseReader;
 import com.picserver.hbase.HbaseWriter;
@@ -67,6 +68,11 @@ public class Register extends HttpServlet {
 			
 			HbaseWriter hw = new HbaseWriter();
 			hw.putUserBean(ub);
+			
+			//写入日志
+			LogBean lb = new LogBean(uid, "注册了帐号");
+			hw.putLogBean(lb);
+			
 			out.write("success");
 		}else{
 			out.write("uid is aleady exited");
