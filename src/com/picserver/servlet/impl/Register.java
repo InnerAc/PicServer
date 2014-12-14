@@ -35,7 +35,7 @@ public class Register extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		doPost(request, response);
 	}
 
 	/**
@@ -44,7 +44,6 @@ public class Register extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		String uid = request.getParameter("uid");
 		UserBean ub = new UserBean();
 		ub.setUid(request.getParameter("uid"));
 		ub.setEmail("");
@@ -70,7 +69,7 @@ public class Register extends HttpServlet {
 			hw.putUserBean(ub);
 			
 			//写入日志
-			LogBean lb = new LogBean(uid, "注册了帐号");
+			LogBean lb = new LogBean(ub.getUid(),"注册了帐号");
 			hw.putLogBean(lb);
 			
 			out.write("success");

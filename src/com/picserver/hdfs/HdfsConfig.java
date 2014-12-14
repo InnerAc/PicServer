@@ -14,7 +14,7 @@ public class HdfsConfig {
 	 * @return String
 	 */
 	public static String getHDFSUrl() {
-		return "hdfs://localhost:9000";
+		return "hdfs://innerpeace-PC:9000";
 	}
 
 	/**
@@ -22,6 +22,6 @@ public class HdfsConfig {
 	 * @return String
 	 */
 	public static String getHDFSPath() {
-		return "hdfs://localhost:9000/upload";
+		return "hdfs://innerpeace-PC:9000/upload";
 	}
 }

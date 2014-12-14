@@ -51,7 +51,7 @@ public class ReadHd extends HttpServlet {
 				OutputStream output = response.getOutputStream();// 得到输出流
 				response.setContentType("text/xml;charset=utf-8");
 				response.setHeader("Access-Control-Allow-Origin",
-						"http://localhost:81");
+						"http://innerac");
 
 				InputStream imageIn = new ByteArrayInputStream(picbyte);
 				BufferedInputStream bis = new BufferedInputStream(imageIn);// 输入缓冲流

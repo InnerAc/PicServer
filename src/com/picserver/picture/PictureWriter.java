@@ -184,6 +184,7 @@ public class PictureWriter {
 				//本地目录为“根目录/用户名/时间戳"
 			final String LocalUidPath = SystemConfig.getSystemPath()
 					+ LOCAL_UPLOAD_ROOT + "/" + uid + '/';
+			System.out.println(LocalUidPath);
 			final String LocalPath = LocalUidPath + '/' + space + '/' ;
 
 			//文件是否存在

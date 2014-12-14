@@ -63,6 +63,7 @@ public class WriteHd extends HttpServlet {
 		    	if(flag){
 		    		//写入数据库
 		    		HdBean hb = new HdBean();
+		    		hb.setKey(imageName+uid);
 		    		hb.setName(imageName);
 		    		hb.setSize(String.valueOf(i_size));
 		    		hb.setUid(uid);

@@ -16,8 +16,8 @@ public class HbaseConf {
 		public Configuration hbaseConf(){
 			Configuration configuration  = HBaseConfiguration.create(); 
 	        configuration.set("hbase.zookeeper.property.clientPort", "2181"); 
-	        configuration.set("hbase.zookeeper.quorum", "localhost:2181 "); 
-	        configuration.set("hbase.master", "localhost"); 
+	        configuration.set("hbase.zookeeper.quorum", "innerpeace-PC,jeff-ubuntu,sun"); 
+	        configuration.set("hbase.master", "innerpeace-PC:60000"); 
 	        return configuration;
 		}
 }
