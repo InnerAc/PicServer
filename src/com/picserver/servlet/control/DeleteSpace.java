@@ -69,7 +69,6 @@ public class DeleteSpace extends HttpServlet {
 		//删除该空间下的所有图片
 		for(PictureBean pic:piclist){
 			flag=pd.deletePictures(pic);
-			System.out.println(pic.getName());
 		}
 
 		}

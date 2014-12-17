@@ -20,42 +20,51 @@ public class CreateHbase {
 	static Configuration configuration = hbaseConf.hbaseConf();
 
 	public static void main(String[] args) {
-		
-//		// 创建云图片表
-//		System.out.println("2");
-//		String name1 = "cloud_picture";
-//		String[] column = { "attr", "var" };
+//		
+//		HbaseOperation ho= new HbaseOperation();
+//		ho.dropTable("cloud_picture");
+//		ho.dropTable("cloud_space");
+//		ho.dropTable("cloud_user");
+//		ho.dropTable("cloud_log");
+//		ho.dropTable("cloud_hd");
+//		ho.dropTable("cloud_3d");
+//		ho.dropTable("cloud_mapfile");
+//		ho.dropTable("cloud_pano");
+		// 创建云图片表
+		String name1 = "cloud_picture";
+		String[] column = { "attr", "var" };
 
-//		createTable(name1, column);
-//		System.out.println("1");
-////
+		createTable(name1, column);
 ////		// 创建云空间表
-//		String name2 = "cloud_s";
-//		createTable(name2, column);
+		String name2 = "cloud_space";
+		createTable(name2, column);
 //		
 //		//创建用户表
-//		String name3 = "cloud_user";
-//		String[] column1 = {"attr", "vldt", "pic", "space"};
-//		createTable(name3, column1);
+		String name3 = "cloud_user";
+		String[] column1 = {"attr", "vldt", "pic", "space"};
+		createTable(name3, column1);
 //		
-//		//创建日志表
-//		String name4 = "cloud_mapfile";
-//		String[] coloum2 = {"attr"};
-//		createTable(name4, coloum2);
+//		
+		String name4 = "cloud_mapfile";
+		String[] coloum2 = {"attr","var"};
+		createTable(name4, coloum2);
 //		
 ////		//创建高清图片表
-//		String name6 = "cloud_hd";
-//		String[] c = {"attr"};
-//		createTable(name6, c);
+		String name6 = "cloud_hd";
+		String[] c = {"attr"};
+		createTable(name6, c);
 //		
 ////		//创建3D图片表
-//		String name7= "cloud_3d";
-//		String[] c1 = {"attr"};
-//		createTable(name7, c1);
+		String name7= "cloud_3d";
+		String[] c1 = {"attr"};
+		createTable(name7, c1);
 ////		//创建pano图片表
-//		String name8= "cloud_log";
-//		String[] c2 = {"attr"};
-//		createTable(name8, c2);		
+		String name8= "cloud_pano";
+		String[] c2 = {"attr"};
+		createTable(name8, c2);		
+	
+		
+		createTable("cloud_log", c2);		
 		
 	
 	}

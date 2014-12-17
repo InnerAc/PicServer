@@ -61,8 +61,8 @@ public class HbaseReader {
 	 * @throws IOException
 	 */
 	public List<PictureBean> getLimitPicture(String uid, String sTime,
-			String eTime) throws IOException {
-		ResultScanner rs = ho.QueryLimitPic(uid, sTime, eTime);
+			String eTime, int num) throws IOException {
+		ResultScanner rs = ho.QueryLimitPic(uid, sTime, eTime,num);
 		return lm.pictureListMapping(rs);
 	}
 
@@ -188,6 +188,11 @@ public class HbaseReader {
 	public MapfileBean getMapfileBean(String rowkey) {
 		Result rs = ho.QueryByRowKey("cloud_mapfile", rowkey);
 		return bm.mapfileMapping(rs, rowkey);
+	}
+	
+	public Pic3DBean get3D(String uid, String name){
+		Result rs = ho.QueryByRowKey("cloud_3d", name+uid);
+		return bm.Pic3DMapping(rs, name+uid);
 	}
 
 }

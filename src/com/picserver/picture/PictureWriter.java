@@ -26,7 +26,7 @@ import com.picserver.hdfs.SequencefileUtils;
 import com.picserver.utils.DateUtil;
 
 public class PictureWriter {
-	private static final double MAX_SYNC_SIZE = 1.0;
+	private static final double MAX_SYNC_SIZE = 2.0;
 	private static final double MAX_FILE_SIZE = 2.0;     
 	private static final String LOCAL_UPLOAD_ROOT  =  "/upload";
 	private static final String HDFS_UPLOAD_ROOT = "/upload";
@@ -91,7 +91,6 @@ public class PictureWriter {
 			//HDFS文件名
 			final String hdfsPath = HDFS_UPLOAD_ROOT + "/" + uid + "/LargeFile/" + space + '/';
 			String filePath = hdfsPath + item.getName();
-			System.out.println(item.getName());
 			InputStream uploadedStream = item.getInputStream();
 			HdfsUtil hdfs = new HdfsUtil();	
 			flag = hdfs.upLoad(uploadedStream, filePath);
@@ -132,6 +131,7 @@ public class PictureWriter {
 			//HDFS文件名
 
 			String filePath = hdfsPath +item.getName() ;
+			System.out.println(filePath);
 			InputStream uploadedStream = item.getInputStream();
 			HdfsUtil hdfs = new HdfsUtil();	
 			flag = hdfs.upLoad(uploadedStream, filePath);
@@ -156,9 +156,7 @@ public class PictureWriter {
 		try {
 		boolean flag;
 		final String hdfsPath = HDFS_UPLOAD_ROOT + "/" + uid + "/LargeFile/" + space + '/';
-		System.out.println(hdfsPath);
 		String filePath = hdfsPath +name;
-		System.out.println(name);
 		ByteArrayInputStream in = new ByteArrayInputStream(buffer); 
 		HdfsUtil hdfs = new HdfsUtil();	
 		flag = hdfs.upLoad(in, filePath);
@@ -184,7 +182,6 @@ public class PictureWriter {
 				//本地目录为“根目录/用户名/时间戳"
 			final String LocalUidPath = SystemConfig.getSystemPath()
 					+ LOCAL_UPLOAD_ROOT + "/" + uid + '/';
-			System.out.println(LocalUidPath);
 			final String LocalPath = LocalUidPath + '/' + space + '/' ;
 
 			//文件是否存在
@@ -201,7 +198,6 @@ public class PictureWriter {
 	            
 				String fileName = item.getName();
 				File file = new File(LocalPath, fileName);
-				System.out.println(file.getPath());
 				if (file.exists()) {
 					System.out.println("Local file exists!");
 					return false;
@@ -209,16 +205,6 @@ public class PictureWriter {
 					item.write(file);
 				}
 				
-				// Hbase操作
-//				PictureBean image = new PictureBean(item);
-//				HbaseWriter writer = new HbaseWriter();
-//				image.setStatus("LocalFile");
-//				image.setPath(LocalPath);
-//				image.setUsr(uid);
-//				System.out.println(space);
-//				image.setSpace(space);
-//				writer.putPictureBean(image);
-				//TODO Hbase space操作
 				
 				update(item, "LocalFile", LocalPath, uid, space);
 				
@@ -341,13 +327,11 @@ public class PictureWriter {
 		image.setStatus(status);
 		image.setPath(path);
 		image.setUsr(usr);
-//		System.out.println(space);
 		image.setSpace(space);
 		writer.putPictureBean(image);
 		
 		String picName = item.getName();
 		String op = "上传了图片" + picName;
-		System.out.println(op);
 		LogBean lb = new LogBean(usr,op);
 		writer.putLogBean(lb);
 		

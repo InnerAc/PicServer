@@ -42,7 +42,6 @@ public class ReadHd extends HttpServlet {
 		String hdfsPath = com.picserver.hdfs.HdfsConfig.getHDFSPath();
 		String RealPath = hdfsPath + '/' + uid + '/' + FilePath;
 
-		System.out.println(RealPath);
 
 		try {
 			if (RealPath.toLowerCase().endsWith(".dzi")) {
@@ -51,7 +50,7 @@ public class ReadHd extends HttpServlet {
 				OutputStream output = response.getOutputStream();// 得到输出流
 				response.setContentType("text/xml;charset=utf-8");
 				response.setHeader("Access-Control-Allow-Origin",
-						"http://innerac");
+						"http://192.168.1.101");
 
 				InputStream imageIn = new ByteArrayInputStream(picbyte);
 				BufferedInputStream bis = new BufferedInputStream(imageIn);// 输入缓冲流

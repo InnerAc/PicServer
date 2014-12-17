@@ -204,6 +204,9 @@ public class ListMapping {
 				if (v.equals("size")) {
 					pbd.setSize(val);
 				}
+				if (v.equals("num")) {
+					pbd.setNum(val);;
+				}
 			}
 			list.add(pbd);
 		}

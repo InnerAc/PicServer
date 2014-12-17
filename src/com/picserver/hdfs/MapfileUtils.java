@@ -25,7 +25,7 @@ import com.picserver.hbase.HbaseWriter;
 import com.picserver.utils.DateUtil;
 
 public class MapfileUtils {
-	public static String hdfsUrl = "hdfs://localhost:9000";
+	public static String hdfsUrl = "hdfs://innerpeace-PC:9000";
 	
 	/**
 	 * 将小图片打包成mapfile进行存储
@@ -47,7 +47,6 @@ public class MapfileUtils {
 		// 通过writer向文档中写入记录
 		HbaseWriter hwriter = new HbaseWriter();
 		for (File item : items) {
-			System.out.println(item.getName());
 			try {
 				String filename = item.getName();
 				byte buffer[] = getBytes(item);
@@ -70,7 +69,6 @@ public class MapfileUtils {
 			mb.setPicNum(Integer.toString(items.length));
 			mb.setFlagNum("0");
 			String name = hdfsDir.substring(hdfsDir.length()-14, hdfsDir.length());
-			System.out.println(name);
 			mb.setKey(name+uid);
 			mb.setName(name);
 			hwriter.putMapfileBean(mb);
@@ -151,8 +149,6 @@ public class MapfileUtils {
 		HbaseWriter hwriter = new HbaseWriter();
 		//对文件进行写入
 		for(PictureBean image:images){
-			System.out.println(image.getName());
-			System.out.println(hdfsDir);
 			byte[] data = readFromHdfs(hdfsDir,image.getName());
 			
 			if(data==null) System.out.println("null");

@@ -17,7 +17,15 @@ public class Pic3DBean {
 	String createTime = "";
 	//图片大小
 	String size = "";
+	//图片数量
+	String num="";
 	
+	public String getNum() {
+		return num;
+	}
+	public void setNum(String num) {
+		this.num = num;
+	}
 	public String getKey() {
 		return key;
 	}

@@ -98,8 +98,9 @@ public class WritePano extends HttpServlet {
 				if(flag){
 					response.setContentType("text/html;charset=gb2312");
 					PrintWriter out = response.getWriter();
-					out.print("success");
+//					out.print("success");
 					response.setStatus(200);
+					response.sendRedirect("http://192.168.1.101/picloud/index.php/Appcenter/overallview.html");
 					System.out.println("Upload success!");
 				} else {
 					response.setContentType("text/html;charset=gb2312");

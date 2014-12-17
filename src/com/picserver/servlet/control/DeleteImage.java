@@ -63,8 +63,6 @@ public class DeleteImage extends HttpServlet {
 		HbaseReader reader = new HbaseReader();
 		PictureBean pic = reader.getPictureBean(rowkey);
 
-		System.out.println(pic.getName());
-		System.out.println(pic.getSpace());
 		PictureDelete pd = new PictureDelete();
 
 		boolean flag = pd.deletePicture(pic);

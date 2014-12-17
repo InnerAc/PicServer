@@ -120,6 +120,7 @@ public class HbaseWriter {
 		ho.insertData("cloud_3d", pdb.getKey(), "attr", "size", pdb.getSize());
 		ho.insertData("cloud_3d", pdb.getKey(), "attr", "uid", pdb.getUid());
 		ho.insertData("cloud_3d", pdb.getKey(), "attr", "createTime", pdb.getCreateTime());
+		ho.insertData("cloud_3d", pdb.getKey(), "attr", "num", pdb.getNum());
 	}
 	
 	/**

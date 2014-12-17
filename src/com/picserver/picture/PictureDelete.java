@@ -51,7 +51,6 @@ public class PictureDelete {
 			String path=pic.getPath();
 			String map_key=path.substring(path.length()-14, path.length())+pic.getUsr();
 			MapfileBean mapfile=reader.getMapfileBean(map_key);
-		   System.out.println(mapfile.getFlagNum());
 			int flagnum=Integer.parseInt(mapfile.getFlagNum())+1;
 		   
 			mapfile.setFlagNum(Integer.toString(flagnum));

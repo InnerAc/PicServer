@@ -91,7 +91,6 @@ public class CutImage {
      				if(j == n-1)
      					cut_w = nf_wide;
      				rect = new Rectangle(j*i_side, i*i_side,cut_w,cut_h);
-     				System.out.println(toPath+"/"+i_lev+"/"+j+"_"+i+".jpg");
      				cropped = scaled.cropImage(rect);    
      				byte[] blobout = cropped.imageToBlob(infoS); 
      				String fileName = toPath+"/"+i_lev+"/"+j+"_"+i+".jpg";    
@@ -132,7 +131,6 @@ public class CutImage {
 		high = 768;
 		i_size = 512;
 		topath += filename;
-		//System.out.println(System.getProperty("java.library.path"));
 		write_dzi(topath+".dzi",i_size,wide,high);
 		try {
 			cutImg(imgpath,topath+"_files",i_size,wide,high);

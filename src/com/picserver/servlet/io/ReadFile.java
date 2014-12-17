@@ -51,7 +51,6 @@ public class ReadFile extends HttpServlet {
 	    uid = "admin";
 	    FilePath = "HdImage/zoom.dzi";
 	    String RealPath = hdfsPath + '/' + uid + '/' +  FilePath;
-	    System.out.println(RealPath);
 	    
 	    try{
 	    		byte[] picbyte = hdfs.readFile(RealPath);

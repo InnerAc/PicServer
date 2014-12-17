@@ -192,7 +192,6 @@ public class PictureUtils {
      				if(j == n-1)
      					cut_w = nf_wide;
      				rect = new Rectangle(j*i_size, i*i_size,cut_w,cut_h);
-     				System.out.println( hdfsPath + '/'  + fileName + "_files" +  "/"+i_lev+"/"+j+"_"+i+".jpg");
      				cropped = scaled.cropImage(rect);    
      				byte[] blobout = cropped.imageToBlob(info); 
      				String RealPath = hdfsPath + '/'  + fileName + "_files" +  "/"+i_lev+"/"+j+"_"+i+".jpg";
@@ -224,7 +223,6 @@ public class PictureUtils {
 		int mas_high = (int) dim.getHeight();
 		
 		String RealPath = hdfsPath  + '/' +fileName + ".dzi";
-		System.out.println(RealPath);
 		String str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Image TileSize=\""+i_size+"\" Overlap=\"1\" Format=\"jpg\" xmlns=\"http://schemas.microsoft.com/deepzoom/2008\"><Size Width=\""+mas_wide+"\" Height=\""+mas_high+"\"/></Image>";
 		try {
 			HdfsUtil hu = new HdfsUtil();

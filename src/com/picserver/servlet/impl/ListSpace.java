@@ -50,6 +50,7 @@ public class ListSpace extends HttpServlet {
 		String uid = request.getParameter("uid");
 		HbaseReader hr = new HbaseReader();
 		response.setCharacterEncoding("utf-8");
+		response.setHeader("Access-Control-Allow-Origin", "http://192.168.1.101");
 		try {
 			List<SpaceBean> list = hr.getSpaceBean("attr","uid", uid);
 			PrintWriter out = response.getWriter();

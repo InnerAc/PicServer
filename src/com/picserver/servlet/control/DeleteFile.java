@@ -38,7 +38,6 @@ public class DeleteFile extends HttpServlet {
 		String image = request.getParameter("image");
 		String fileDir = "/home/had/jspworkspace/tmp/test";
 		String filePath = fileDir + '/' + image;
-		System.out.println(filePath);
 		File file = new File(filePath);
 		boolean flag = false;
 

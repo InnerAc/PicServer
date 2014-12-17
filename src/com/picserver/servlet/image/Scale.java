@@ -35,7 +35,6 @@ public static void main(String[] arg){
 	String imgpath = "/home/had/43433.jpg";
 	String topath = "/home/had/zoom/";
 	String filename = "pic";
-	//System.out.println(System.getProperty("java.library.path"));
 	
 	try {
 		cutImg(imgpath,topath,filename,255,255,0,7);

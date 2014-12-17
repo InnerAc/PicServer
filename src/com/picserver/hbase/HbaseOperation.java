@@ -17,6 +17,7 @@ import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.FilterList;
+import org.apache.hadoop.hbase.filter.PageFilter;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -227,7 +228,7 @@ public class HbaseOperation {
  	     * @param eTime 终止时间
 	     * @return
 	     */
-	     public  ResultScanner QueryLimitPic(String usr, String sTime, String eTime) { 
+	     public  ResultScanner QueryLimitPic(String usr, String sTime, String eTime, int num) { 
 	         try { 
 	        	 HTable table=new HTable(configuration, "cloud_picture");
 	             List<Filter> filters = new ArrayList<Filter>(); 
@@ -251,6 +252,9 @@ public class HbaseOperation {
 	                     .toBytes("var"), Bytes .toBytes("status"), 
 	                     CompareOp.NOT_EQUAL, Bytes .toBytes("deleted")); 
 	             filters.add(filter4); 
+	             
+	             PageFilter pf = new PageFilter(num);
+	             filters.add(pf);
 	             
 	             FilterList filterList = new FilterList(filters); 
 	             Scan scan = new Scan(); 

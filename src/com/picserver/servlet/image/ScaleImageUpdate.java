@@ -52,6 +52,7 @@ public class ScaleImageUpdate extends HttpServlet {
 		    			PrintWriter out = response.getWriter();
 		    			out.print("success");
 		    			response.setStatus(200);
+		    			response.sendRedirect("http://192.168.1.101/picloud/index.php/Picserver/picspace.html");
 		    			System.out.println("Upload success!");
 		    		} else {
 		    			response.setContentType("text/html;charset=gb2312");
