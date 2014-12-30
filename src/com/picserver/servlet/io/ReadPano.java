@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,10 +44,14 @@ public class ReadPano extends HttpServlet {
 		HbaseReader HReader = new HbaseReader();
 		PanoBean pb = HReader.getPanoBean(image+uid);
 		PictureReader PReader = new PictureReader();
-		
+	
 		byte[] buffer = PReader.readHdfsPicture(pb.getPath(), image);
 		
 		if (buffer != null) {
+			ServletContext application=request.getServletContext();   
+			String ip = (String) application.getAttribute("ip");
+			response.setHeader("Access-Control-Allow-Origin", "http://"+ip);
+			
 			// 输出byte为图片
 			InputStream imageIn = new ByteArrayInputStream(buffer);
 			BufferedInputStream bis = new BufferedInputStream(imageIn);// 输入缓冲流

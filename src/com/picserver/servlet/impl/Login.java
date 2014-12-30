@@ -46,7 +46,8 @@ public class Login extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String user = request.getParameter("uid");
 		String pwd = request.getParameter("pwd");
-
+		
+		//System.out.println(user);
 		pwd = MD5Util.getAllMD5(pwd);
 		
 		response.setCharacterEncoding("utf-8");

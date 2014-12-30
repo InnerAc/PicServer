@@ -8,12 +8,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.picserver.bean.LogBean;
+import com.picserver.hbase.HbaseWriter;
 import com.picserver.hdfs.HdfsUtil;
 import com.picserver.hdfs.MapfileUtils;
 import com.picserver.picture.PictureReader;
@@ -75,10 +78,16 @@ public class WaterMaskUpdate extends HttpServlet {
 	          System.out.println("修改后的图片成功保存（hdfs和hbase）");
 	            
 	            if(flag){
+	    			LogBean lb = new LogBean(uid, "图片水印"+imageName);
+	    			HbaseWriter hw = new HbaseWriter();
+	    			hw.putLogBean(lb);
 	    			response.setContentType("text/html;charset=gb2312");
 	    			PrintWriter out = response.getWriter();
 	    			out.print("success");
 	    			response.setStatus(200);
+  				ServletContext application=request.getServletContext();   
+				String ip = (String) application.getAttribute("ip");
+	    			response.sendRedirect("http://"+ip+"/picloud/index.php/Picserver/view/" + imageName + ".html");
 	    			System.out.println("Upload success!");
 	    		} else {
 	    			response.setContentType("text/html;charset=gb2312");

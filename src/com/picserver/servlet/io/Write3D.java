@@ -16,6 +16,7 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.picserver.bean.LogBean;
 import com.picserver.bean.PanoBean;
 import com.picserver.bean.Pic3DBean;
 import com.picserver.hbase.HbaseWriter;
@@ -97,6 +98,8 @@ public class Write3D extends HttpServlet {
 			    System.out.println("更新数据库成功！");
 			    
 				if(flag){
+	    			LogBean lb = new LogBean(uid, "制作3D物品"+good_name);
+	    			writer.putLogBean(lb);
 					response.setContentType("text/html;charset=gb2312");
 					PrintWriter out = response.getWriter();
 					response.setStatus(200);

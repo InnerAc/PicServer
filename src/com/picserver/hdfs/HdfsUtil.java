@@ -54,10 +54,10 @@ public class HdfsUtil {
 	public boolean upLoad(InputStream in, String hdfsPath){
 		Path p = new Path(hdfsPath);
 		try{
-			if(fs.exists(p)){
-				System.out.println("文件已存在！(HDFS LargeFile)");
-				return false;
-			}
+//			if(fs.exists(p)){
+//				System.out.println("文件已存在！(HDFS LargeFile)");
+//				return false;
+//			}
 
 			Progressable progress = new Progressable(){
 				public void progress() {					

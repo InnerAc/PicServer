@@ -9,12 +9,15 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.picserver.bean.LogBean;
+import com.picserver.hbase.HbaseWriter;
 import com.picserver.hdfs.HdfsUtil;
 import com.picserver.picture.PictureReader;
 import com.picserver.picture.PictureUtils;
@@ -48,11 +51,16 @@ public class ScaleImageUpdate extends HttpServlet {
 		          System.out.println("修改后的图片成功保存（hdfs和hbase）");
 		            
 		            if(flag){
+		    			LogBean lb = new LogBean(uid, "压缩图片"+image);
+		    			HbaseWriter hw = new HbaseWriter();
+		    			hw.putLogBean(lb);
 		    			response.setContentType("text/html;charset=gb2312");
 		    			PrintWriter out = response.getWriter();
 		    			out.print("success");
 		    			response.setStatus(200);
-		    			response.sendRedirect("http://192.168.1.101/picloud/index.php/Picserver/picspace.html");
+		    			ServletContext application=request.getServletContext(); 
+		    			String ip = (String) application.getAttribute("ip");
+		    			response.sendRedirect("http://"+ip+"/picloud/index.php/Picserver/view/" + imageName + ".html");
 		    			System.out.println("Upload success!");
 		    		} else {
 		    			response.setContentType("text/html;charset=gb2312");

@@ -1,9 +1,11 @@
 package com.picserver.filter;
 import java.io.IOException;
+import java.net.InetAddress;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -15,10 +17,15 @@ public class CrosFilter implements Filter {
 
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 		HttpServletResponse response = (HttpServletResponse) res;
-		response.setHeader("Access-Control-Allow-Origin", "http://192.168.1.101");
+		String ip = "121.248.199.23"; 
+		ServletContext application=req.getServletContext();   
+		application.setAttribute("ip", ip);
+		response.setHeader("Access-Control-Allow-Origin", "http://"+ip);
 		response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 		response.setHeader("Access-Control-Allow-Headers", "accept, cache-control, x-requested-with, content-type,X-DevTools-Emulate-Network-Conditions-Client-Id");
 		response.setHeader("Access-Control-Max-Age", "3600");
+		
+		
 		chain.doFilter(req, res);
 	}
 

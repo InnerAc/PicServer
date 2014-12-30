@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -50,7 +51,9 @@ public class ListSpace extends HttpServlet {
 		String uid = request.getParameter("uid");
 		HbaseReader hr = new HbaseReader();
 		response.setCharacterEncoding("utf-8");
-		response.setHeader("Access-Control-Allow-Origin", "http://192.168.1.101");
+		ServletContext application=request.getServletContext();   
+		String ip = (String) application.getAttribute("ip");
+		response.setHeader("Access-Control-Allow-Origin", "http://"+ip);
 		try {
 			List<SpaceBean> list = hr.getSpaceBean("attr","uid", uid);
 			PrintWriter out = response.getWriter();

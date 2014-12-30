@@ -13,6 +13,10 @@ public class SpaceBean {
 	String cover = "";
 	//所属用户
 	String uid = "";
+	//已用容量
+	String storage  = "";
+	//图片数量
+	String number = "";
 	
 	public String getKey() {
 		return key;
@@ -20,10 +24,6 @@ public class SpaceBean {
 	public void setKey(String key) {
 		this.key = key;
 	}
-	//已用容量
-	String storage  = "";
-	//图片数量
-	String number = "";
 	
 	public String getUid() {
 		return uid;

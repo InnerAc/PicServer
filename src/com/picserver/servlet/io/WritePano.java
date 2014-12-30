@@ -16,6 +16,7 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.picserver.bean.LogBean;
 import com.picserver.bean.PanoBean;
 import com.picserver.config.SystemConfig;
 import com.picserver.hbase.HbaseWriter;
@@ -91,16 +92,21 @@ public class WritePano extends HttpServlet {
 					    pano.setCreateTime(DateUtil.getCurrentDateStr());
 					    writer.putPanoBean(pano);
 					    System.out.println("更新数据库成功！");
+					    
+					    //写入日志
+		    			LogBean lb = new LogBean(uid, "制作全景图片"+pano.getName());
+		    			writer.putLogBean(lb);
 				}
 				}
 				
 			    
 				if(flag){
+					String ip=request.getRemoteAddr();
 					response.setContentType("text/html;charset=gb2312");
 					PrintWriter out = response.getWriter();
 //					out.print("success");
 					response.setStatus(200);
-					response.sendRedirect("http://192.168.1.101/picloud/index.php/Appcenter/overallview.html");
+					response.sendRedirect("http://"+ip+"/picloud/index.php/Appcenter/overallview.html");
 					System.out.println("Upload success!");
 				} else {
 					response.setContentType("text/html;charset=gb2312");

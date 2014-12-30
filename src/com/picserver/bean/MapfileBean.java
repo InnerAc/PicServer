@@ -7,6 +7,12 @@ public class MapfileBean {
 	String name = "";
 	//用户
 	String uid = "";
+
+	//总标记数
+	String  flagNum = "";
+	//总图片数
+	String picNum = "";
+	
 	
 	public String getKey() {
 		return key;
@@ -14,11 +20,6 @@ public class MapfileBean {
 	public void setKey(String key) {
 		this.key = key;
 	}
-	//总标记数
-	String  flagNum = "";
-	//总图片数
-	String picNum = "";
-	
 	public String getName() {
 		return name;
 	}

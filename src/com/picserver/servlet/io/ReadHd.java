@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,10 +48,12 @@ public class ReadHd extends HttpServlet {
 			if (RealPath.toLowerCase().endsWith(".dzi")) {
 				byte[] picbyte = hdfs.readFile(RealPath);
 				response.reset();
+  				ServletContext application=request.getServletContext();   
+  				String ip = (String) application.getAttribute("ip");
 				OutputStream output = response.getOutputStream();// 得到输出流
 				response.setContentType("text/xml;charset=utf-8");
 				response.setHeader("Access-Control-Allow-Origin",
-						"http://192.168.1.101");
+						"http://"+ip);
 
 				InputStream imageIn = new ByteArrayInputStream(picbyte);
 				BufferedInputStream bis = new BufferedInputStream(imageIn);// 输入缓冲流
@@ -72,8 +75,7 @@ public class ReadHd extends HttpServlet {
 				response.reset();
 				OutputStream output = response.getOutputStream();// 得到输出流
 				response.setContentType("image/jpeg;charset=GB2312");  
-				response.setHeader("Access-Control-Allow-Origin",
-						"http://localhost:81");
+				
 
 				InputStream imageIn = new ByteArrayInputStream(picbyte);
 				BufferedInputStream bis = new BufferedInputStream(imageIn);// 输入缓冲流

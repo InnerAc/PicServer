@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.picserver.bean.HdBean;
+import com.picserver.bean.LogBean;
 import com.picserver.config.SystemConfig;
 import com.picserver.hbase.HbaseWriter;
 import com.picserver.picture.PictureReader;
@@ -70,7 +71,10 @@ public class WriteHd extends HttpServlet {
 		    		hb.setCreateTime(DateUtil.getCurrentDateStr());
 		    		HbaseWriter hw = new HbaseWriter();
 		    		hw.putHdBean(hb);
-		    		
+		    		//写入日志
+	    			LogBean lb = new LogBean(uid, "制作高清图片"+imageName);
+	    			hw.putLogBean(lb);
+	    			
 					response.setContentType("text/html;charset=gb2312");
 					PrintWriter out = response.getWriter();
 					out.print("success");
