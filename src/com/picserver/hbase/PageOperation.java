@@ -58,7 +58,6 @@ public class PageOperation {
 	            Scan scan = new Scan(); 
 	            scan.setFilter(filterList); 
 	            ResultScanner rs = table.getScanner(scan); 
-//	            table.close();
 	            return rs;
 	        } catch (Exception e) { 
 	            e.printStackTrace(); 
@@ -93,7 +92,7 @@ public class PageOperation {
 	            Scan scan = new Scan(); 
 	            scan.setFilter(filterList); 
 	            ResultScanner rs =table.getScanner(scan); 
-//	            table.close();
+
 	            return rs;
 	        } catch (Exception e) { 
 	            e.printStackTrace(); 
@@ -126,7 +125,7 @@ public class PageOperation {
 	            Scan scan = new Scan(); 
 	            scan.setFilter(filterList); 
 	            ResultScanner rs = table.getScanner(scan); 
-//	            table.close();
+
 	            return rs;
 	        } catch (Exception e) { 
 	            e.printStackTrace(); 

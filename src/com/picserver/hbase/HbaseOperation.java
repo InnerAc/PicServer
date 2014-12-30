@@ -52,8 +52,6 @@ public class HbaseOperation {
 			    		// 本行数据的第一列 
 			    		put.add(rowfamily.getBytes(), row.getBytes(), data.getBytes());
 			    		table.put(put);
-//			    		table.close();
-//			    		admin.close();
 					}
 				} catch (IOException e1) {
 					e1.printStackTrace();

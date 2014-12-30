@@ -32,8 +32,6 @@ public class Download extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		String hdfsPath = request.getParameter("hdfsPath");
 		String	localPath = request.getParameter("localPath");
-	//	hdfsPath = new String(hdfsPath.getBytes("ISO-8859-1"),"utf-8");
-		//localPath = new String(localPath.getBytes("ISO-8859-1"),"utf-8");
 		HdfsUtil hdfsOperation = new HdfsUtil();	
 		boolean flag =  hdfsOperation.downLoad(hdfsPath, localPath);
 	    if(flag){

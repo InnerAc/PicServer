@@ -24,7 +24,7 @@ public class HbaseWriter {
 	 */
 	public void putPictureBean(PictureBean pb){
 		if((pb == null)||(pb.getName().equals(""))){
-			//传值有问题，处理一下
+
 			return ;	
 		}
 		ho.insertData("cloud_picture", pb.getKey(), "attr", "name", pb.getName());
@@ -46,7 +46,7 @@ public class HbaseWriter {
 	 */
 	public void putSpaceBean(SpaceBean sb){
 		if((sb == null)||(sb.getName().equals(""))){
-			//传值有问题，处理一下
+
 			return ;	
 		}
 		ho.insertData("cloud_space",sb.getKey(), "attr", "name", sb.getName());
@@ -84,7 +84,7 @@ public class HbaseWriter {
 	 */
 	public void putLogBean(LogBean lb){
 		if((lb == null)||(lb.getLogid().equals(""))){
-			//传值有问题，处理一下
+		
 			return ;
 		}
 		ho.insertData("cloud_log", lb.getLogid(), "attr", "user", lb.getUser());
@@ -98,7 +98,7 @@ public class HbaseWriter {
 	 */
 	public void putHdBean(HdBean hb){
 		if((hb == null)||(hb.getName().equals(""))){
-			//传值有问题，处理一下
+
 			return;
 		}
 		ho.insertData("cloud_hd", hb.getKey(), "attr", "name", hb.getName());
@@ -113,7 +113,7 @@ public class HbaseWriter {
 	 */
 	public void put3DBean(Pic3DBean pdb){
 		if((pdb == null)||(pdb.getName().equals(""))){
-			//传值有问题，处理一下
+
 			return;
 		}
 		ho.insertData("cloud_3d", pdb.getKey(), "attr", "name", pdb.getName());
@@ -129,7 +129,7 @@ public class HbaseWriter {
 	 */
 	public void putPanoBean(PanoBean pb){
 		if((pb == null)||(pb.getName().equals(""))){
-			//传值有问题，处理一下
+
 			return;
 		}
 		ho.insertData("cloud_pano", pb.getKey(), "attr", "name", pb.getName());
@@ -145,7 +145,7 @@ public class HbaseWriter {
 	 */
 	public void putMapfileBean(MapfileBean mb){
 		if((mb == null)||(mb.getName().equals(""))){
-			//传值有问题，处理一下
+			
 			return;
 		}
 		ho.insertData("cloud_mapfile",mb.getKey(), "attr", "name", mb.getName());

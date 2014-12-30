@@ -129,7 +129,7 @@ public class MapfileUtils {
         return buffer;  
     }
 	/**
-	 * 删除文件，代码未测试
+	 * 删除文件
 	 * @param hdfsDir map 文件地址
 	 * @param images 图片文件
 	 * @throws IOException

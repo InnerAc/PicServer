@@ -54,10 +54,6 @@ public class HdfsUtil {
 	public boolean upLoad(InputStream in, String hdfsPath){
 		Path p = new Path(hdfsPath);
 		try{
-//			if(fs.exists(p)){
-//				System.out.println("文件已存在！(HDFS LargeFile)");
-//				return false;
-//			}
 
 			Progressable progress = new Progressable(){
 				public void progress() {					
@@ -67,11 +63,6 @@ public class HdfsUtil {
 			FSDataOutputStream out = fs.create(p,progress);
 			IOUtils.copyBytes(in, out, conf);
 			
-//			byte[] buffer = new byte[400];
-//			int length = 0;
-//			while ((length = in.read(buffer)) > 0) {
-//				out.write(buffer, 0, length);
-//			}
 			out.flush();
 			out.close();
 			in.close();		

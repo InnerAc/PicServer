@@ -22,7 +22,6 @@ import com.picserver.hbase.HbaseReader;
 import com.picserver.hbase.HbaseWriter;
 import com.picserver.hdfs.HdfsUtil;
 import com.picserver.hdfs.MapfileUtils;
-import com.picserver.hdfs.SequencefileUtils;
 import com.picserver.utils.DateUtil;
 
 public class PictureWriter {
@@ -93,18 +92,7 @@ public class PictureWriter {
 			String filePath = hdfsPath + item.getName();
 			InputStream uploadedStream = item.getInputStream();
 			HdfsUtil hdfs = new HdfsUtil();	
-			flag = hdfs.upLoad(uploadedStream, filePath);
-			// hbase操作
-//			PictureBean image = new PictureBean(item);
-//			HbaseWriter writer = new HbaseWriter();
-//			image.setKey(item.getName()+uid);
-//			image.setStatus("HdfsLargeFile");
-//			image.setPath(hdfsPath);
-//			image.setUsr(uid);
-//			image.setSpace(space);
-//			writer.putPictureBean(image);
-			//TODO Hbase space操作
-			
+			flag = hdfs.upLoad(uploadedStream, filePath);		
 			update(item, "HdfsLargeFile", hdfsPath, uid, space);
 			
 			return flag;

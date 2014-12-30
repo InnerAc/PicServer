@@ -19,7 +19,7 @@ import com.picserver.config.SystemConfig;
 import com.picserver.hbase.HbaseReader;
 import com.picserver.hbase.HbaseWriter;
 import com.picserver.picture.PictureDelete;
-import com.picserver.picture.PictureWriter;
+
 
 /**
  * Servlet implementation class DeleteSpace

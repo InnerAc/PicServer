@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.jasper.tagplugins.jstl.core.Out;
 
 import com.picserver.hdfs.MapfileUtils;
-import com.picserver.hdfs.SequencefileUtils;
+
 
 /**
  * Servlet implementation class ReadFromMap

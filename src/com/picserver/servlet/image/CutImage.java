@@ -44,7 +44,6 @@ public class CutImage {
         if(tmp_size > max_lev)
         	max_lev++;
         
-       // System.out.println(max_lev);
 		infoS = new ImageInfo(imgPath);
 		image = new MagickImage(infoS);
 		
@@ -57,7 +56,6 @@ public class CutImage {
         int now_wide = mas_wide,now_high = mas_high;
         
         while(--i_lev >= 0){
-        	//System.out.println(i_lev);
         	file = new File(toPath+"/"+i_lev);
         	file.mkdirs();
         	if(now_wide < 1)
@@ -115,10 +113,8 @@ public class CutImage {
 			writer.println(str);
 			writer.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -135,7 +131,6 @@ public class CutImage {
 		try {
 			cutImg(imgpath,topath+"_files",i_size,wide,high);
 		} catch (MagickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
